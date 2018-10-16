@@ -1,6 +1,6 @@
-package com.eci.arsw.project.Unite.services;
+package com.eci.arsw.project.unite.services;
 
-import com.eci.arsw.project.Unite.model.Event;
+import com.eci.arsw.project.unite.model.Event;
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package com.eci.arsw.project.Unite;
+package com.eci.arsw.project.unite;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

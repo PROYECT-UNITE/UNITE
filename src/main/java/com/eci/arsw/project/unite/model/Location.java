@@ -1,4 +1,4 @@
-package com.eci.arsw.project.Unite.model;
+package com.eci.arsw.project.unite.model;
 
 /**
  *
