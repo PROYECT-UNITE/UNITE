@@ -82,4 +82,17 @@ public class APIController {
         }
     }
     
+    @PutMapping("/{id}/{username}")
+    public ResponseEntity<?> putJoinToEventHandler(@PathVariable("id") int id, @PathVariable("username") String username) {
+        try {
+            service.joinToEvent(id, username);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    
+    
 }

@@ -10,15 +10,17 @@ import java.util.List;
 public interface UniteServices {
 
     List<Event> getEvents() throws UniteException;
-    
+
     Event getEvent(int id) throws UniteException;
 
     List<Event> getEventsByUser(String username) throws UniteException;
-    
-    void createAccount(String username,String mail, String name,String password)throws UniteException;
-    
-    void createEvent(Event event)throws UniteException;
-    
+
+    void createAccount(String username, String mail, String name, String password) throws UniteException;
+
+    void createEvent(Event event) throws UniteException;
+
     void changeEventName(int id, String name) throws UniteException;
-    
+
+    public void joinToEvent(int id, String username) throws UniteException;
+
 }

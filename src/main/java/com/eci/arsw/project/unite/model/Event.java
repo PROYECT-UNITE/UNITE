@@ -1,7 +1,8 @@
 package com.eci.arsw.project.unite.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+
+import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,7 +22,7 @@ public class Event {
     private List<User> assistants;
     private List<User> confirmedAssistants;
     private List<Date> possibleDates;
-    private Map<String, String> assistantsState;
+    private Map<String, Integer> assistantsState;
     private Chat chat;
     private Poll poll;
     private Gather gather;
@@ -49,7 +50,8 @@ public class Event {
     }
 
     public void addMember(User member) {
-
+        assistants.add(member);
+        assistantsState.put(member.getUsername(), User.INDETERMINATE);
     }
 
     public void removeMember(User memeber) {
@@ -68,8 +70,12 @@ public class Event {
 
     }
 
-    public void changeStateOfUser(String username, String state) {
-
+    public void changeStateOfUser(String username, int state) throws UniteException {
+        if(assistantsState.containsKey(username)){
+            assistantsState.put(username, state);
+        }else{
+            throw new UniteException("User not assist to this event.");
+        }
     }
 
     public void setId(int id) {

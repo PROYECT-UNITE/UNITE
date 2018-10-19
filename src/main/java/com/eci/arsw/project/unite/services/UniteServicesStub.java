@@ -45,5 +45,10 @@ public class UniteServicesStub implements UniteServices{
     public void changeEventName(int id, String name) throws UniteException {
         persistence.changeEventName(id, name);
     }
+
+    @Override
+    public void joinToEvent(int id, String username) throws UniteException {
+        persistence.joinToEvent(id,username);
+    }
     
 }

@@ -73,4 +73,10 @@ public class InMemoryPersistence implements UnitePersitence {
         this.getEvent(id).changeName(name);
     }
 
+    @Override
+    public void joinToEvent(int id, String username) throws UniteException {
+        Event event = events.get(id);
+        event.addMember(this.getUser(username));
+    }
+
 }
