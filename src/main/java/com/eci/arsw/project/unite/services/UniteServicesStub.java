@@ -1,7 +1,9 @@
 package com.eci.arsw.project.unite.services;
 
+import com.eci.arsw.project.unite.beans.impl.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -9,19 +11,22 @@ import java.util.List;
  */
 public class UniteServicesStub implements UniteServices{
 
+    @Autowired
+    UnitePersitence persistence;
+    
     @Override
     public List<Event> getEvents() throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return persistence.getEvents();
     }
 
     @Override
-    public Event getEvent(String username, String eventName) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Event getEvent(int id) throws UniteException {
+        return persistence.getEvent(id);
     }
 
     @Override
     public List<Event> getEventsByUser(String username) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return persistence.getEventsByUser(username);
     }
 
     @Override
@@ -30,8 +35,13 @@ public class UniteServicesStub implements UniteServices{
     }
 
     @Override
-    public void createEvent(String owner) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void createEvent(Event event) throws UniteException {
+        persistence.createEvent(event);
+    }
+
+    @Override
+    public void changeEventName(int id, String name) throws UniteException {
+        persistence.changeEventName(id, name);
     }
     
 }
