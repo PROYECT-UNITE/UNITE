@@ -72,7 +72,7 @@ public class APIController {
     }
     
     @PutMapping("/{id}/{name}")
-    public ResponseEntity<?> putBlueprintHandler(@PathVariable("id") int id, @PathVariable("name") String name) {
+    public ResponseEntity<?> putChangeEventNameHandler(@PathVariable("id") int id, @PathVariable("name") String name) {
         try {
             service.changeEventName(id, name);
             return new ResponseEntity<>(HttpStatus.CREATED);

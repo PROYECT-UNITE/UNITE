@@ -4,11 +4,13 @@ import com.eci.arsw.project.unite.beans.impl.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author sergio
  */
+@Service
 public class UniteServicesStub implements UniteServices{
 
     @Autowired
