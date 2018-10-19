@@ -25,4 +25,6 @@ public interface UnitePersitence {
 
     public void changeEventName(int id, String name) throws UniteException;
 
+    public void joinToEvent(int id, String username) throws UniteException;
+
 }
