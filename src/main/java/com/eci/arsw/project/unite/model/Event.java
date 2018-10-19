@@ -1,6 +1,5 @@
 package com.eci.arsw.project.unite.model;
 
-
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Map;

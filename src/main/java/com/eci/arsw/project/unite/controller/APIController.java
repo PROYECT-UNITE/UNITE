@@ -105,7 +105,7 @@ public class APIController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
-    
+   
     @PutMapping("/{username}")
     public ResponseEntity<?> putUpdateUserHandler(@PathVariable("username") String username, @RequestBody User user) {
         try {
