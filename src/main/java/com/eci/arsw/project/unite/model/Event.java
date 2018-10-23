@@ -26,6 +26,7 @@ public class Event {
     private Location location;
     private Date date;
     
+    
     public Event(User owner, String name, String type, int budget){
         this.owner = owner;
         this.name = name;

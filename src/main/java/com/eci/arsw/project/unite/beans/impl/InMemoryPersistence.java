@@ -22,6 +22,11 @@ public class InMemoryPersistence implements UnitePersitence {
     public InMemoryPersistence() {
         eventCounter = 0;
         events = new ConcurrentHashMap<>();
+        try {
+            createEvent(new Event(new User(),"PEventoPrueba","PARTY",100000));
+        } catch (UniteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
