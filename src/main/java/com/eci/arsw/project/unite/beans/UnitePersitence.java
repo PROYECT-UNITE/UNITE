@@ -28,12 +28,12 @@ public interface UnitePersitence {
 
     public void changeEventName(int id, String name) throws UniteException;
 
-    public void joinToEvent(int id, String username) throws UniteException;
-    
     public void updateUser(String username, User user) throws UniteException;
 
     public boolean checkUserAndPwd(String username, String pwd) throws UniteException;
 
     public Set<String> getAllUsers();
+    
+    public void joinToEvent(int id, String username) throws UniteException;
 
 }
