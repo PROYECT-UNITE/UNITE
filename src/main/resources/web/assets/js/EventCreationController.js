@@ -1,4 +1,3 @@
-
 var newEvent = (function () {
 	var eventCreator = {
 		"name": "",

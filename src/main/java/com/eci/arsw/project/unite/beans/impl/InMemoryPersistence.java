@@ -34,6 +34,7 @@ public class InMemoryPersistence implements UnitePersitence {
         uniteUsers.put("JuanDDuenas", new User("JuanDDuenas", "pass123", "juan.duenas@gmail.com", "Juan Dueñas"));
         uniteUsers.put("SergioR", new User("SergioR", "Sergio1", "sergior@gmail.com", "Sergio Rodriguez"));
         uniteUsers.put("NicGarcia", new User("NicGarcia", "nicolas2", "nicolas.garcia@gmail.com", "Nicolas Garcia"));
+
     }
 
     @Override
