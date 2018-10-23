@@ -6,6 +6,7 @@ import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,20 @@ public class InMemoryPersistence implements UnitePersitence {
 
     private int eventCounter;
     private Map<Integer, Event> events;
+    private Map<String, User> uniteUsers;
 
     public InMemoryPersistence() {
         eventCounter = 0;
         events = new ConcurrentHashMap<>();
         try {
-            createEvent(new Event(new User(),"PEventoPrueba","PARTY",100000));
+            createEvent(new Event("user","PEventoPrueba","PARTY",100000));
         } catch (UniteException e) {
             e.printStackTrace();
         }
+        uniteUsers = new ConcurrentHashMap<>();
+        uniteUsers.put("JuanDDuenas", new User("JuanDDuenas", "pass123", "juan.duenas@gmail.com", "Juan Dueñas"));
+        uniteUsers.put("SergioR", new User("SergioR", "Sergio1", "sergior@gmail.com", "Sergio Rodriguez"));
+        uniteUsers.put("NicGarcia", new User("NicGarcia", "nicolas2", "nicolas.garcia@gmail.com", "Nicolas Garcia"));
     }
 
     @Override
@@ -37,9 +43,9 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void createEvent(Event event) throws UniteException {
-        if(events.containsKey(eventCounter)){
+        if (events.containsKey(eventCounter)) {
             throw new UniteException("Error creating a new event.");
-        }else{
+        } else {
             event.setId(eventCounter);
             events.put(eventCounter++, event);
         }
@@ -52,10 +58,10 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public Event getEvent(int id) throws UniteException {
-        if(events.containsKey(id)){
+        if (events.containsKey(id)) {
             return events.get(id);
-        }else{
-            throw new UniteException(String.format("Event with id: %d not found.",id));
+        } else {
+            throw new UniteException(String.format("Event with id: %d not found.", id));
         }
     }
 
@@ -78,6 +84,39 @@ public class InMemoryPersistence implements UnitePersitence {
     public void joinToEvent(int id, String username) throws UniteException {
         Event event = events.get(id);
         event.addMember(this.getUser(username));
+    }
+    
+    @Override
+    public void createAccount(User user) throws UniteException {
+        if (uniteUsers.containsKey(user.getUsername())) {
+            throw new UniteException("Username is already taken");
+        } else {
+            uniteUsers.put(user.getUsername(), user);
+        }
+    }
+
+    @Override
+    public void updateUser(String username, User user) throws UniteException {
+        if (!uniteUsers.containsKey(user.getUsername())) {
+            throw new UniteException("User with given username does not exist");
+        } else {
+            uniteUsers.replace(username, user);
+        }
+    }
+
+    @Override
+    public boolean checkUserAndPwd(String username, String pwd) throws UniteException {
+        if (!uniteUsers.containsKey(uniteUsers.get(username).getUsername())) {
+            throw new UniteException("User with given username does not exist");
+        } else {
+            return uniteUsers.get(username).getPassword().equals(pwd);
+        }
+        
+    }
+
+    @Override
+    public Set<String> getAllUsers() {
+        return uniteUsers.keySet();
     }
 
 }

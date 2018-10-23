@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -52,7 +53,7 @@ public class APIController {
     }
     
     @GetMapping("/{username}")
-    public ResponseEntity<?> getEventHandler(@PathVariable("username") String username) {
+    public ResponseEntity<?> getEventsByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsByUser(username), HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
@@ -94,6 +95,41 @@ public class APIController {
         }
     }
     
+    @PostMapping("/newAccount")
+    public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
+        try {
+            service.createAccount(user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
     
+    @PutMapping("/{username}")
+    public ResponseEntity<?> putUpdateUserHandler(@PathVariable("username") String username, @RequestBody User user) {
+        try {
+            service.updateUser(username, user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    @PostMapping("/access/{username}")
+    public ResponseEntity<?> getAccess(@PathVariable("username") String username, @RequestParam String pwd) {
+        try {
+            return new ResponseEntity<>(service.grantAccess(username,pwd), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @GetMapping("/AllUsers")
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(service.getAllUsers(), HttpStatus.ACCEPTED);
+    }
     
 }

@@ -4,6 +4,7 @@ import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -12,6 +13,8 @@ import java.util.List;
 public interface UnitePersitence {
 
     void createAccount(String username, String mail, String name, String password) throws UniteException;
+    
+    public void createAccount(User user) throws UniteException;
 
     void createEvent(Event event) throws UniteException;
 
@@ -26,5 +29,11 @@ public interface UnitePersitence {
     public void changeEventName(int id, String name) throws UniteException;
 
     public void joinToEvent(int id, String username) throws UniteException;
+    
+    public void updateUser(String username, User user) throws UniteException;
+
+    public boolean checkUserAndPwd(String username, String pwd) throws UniteException;
+
+    public Set<String> getAllUsers();
 
 }

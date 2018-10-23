@@ -2,7 +2,9 @@ package com.eci.arsw.project.unite.services;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.User;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +34,8 @@ public class UniteServicesStub implements UniteServices{
     }
 
     @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void createAccount(User user) throws UniteException {
+        persistence.createAccount(user);
     }
 
     @Override
@@ -50,6 +52,21 @@ public class UniteServicesStub implements UniteServices{
     @Override
     public void joinToEvent(int id, String username) throws UniteException {
         persistence.joinToEvent(id,username);
+    }
+    
+    @Override
+    public void updateUser(String username, User user) throws UniteException{
+        persistence.updateUser(username, user);
+    }
+
+    @Override
+    public boolean grantAccess(String username, String pwd) throws UniteException {
+        return persistence.checkUserAndPwd(username,pwd);
+    }
+
+    @Override
+    public Set<String> getAllUsers() {
+        return persistence.getAllUsers();
     }
     
 }
