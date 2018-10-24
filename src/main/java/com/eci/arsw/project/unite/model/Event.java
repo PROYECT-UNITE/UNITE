@@ -26,7 +26,7 @@ public class Event {
     private Gather gather;
     private Location location;
     private Date date;
-
+    
     public Event(String owner, String name, String type, int budget){
         this.owner = owner;
         this.name = name;
@@ -41,7 +41,6 @@ public class Event {
         
     }
 
-
     public Event() {
         assistants = new CopyOnWriteArrayList<>();
         confirmedAssistants = new CopyOnWriteArrayList<>();
@@ -50,7 +49,6 @@ public class Event {
         chat = new Chat();
         gather = new Gather();
     }
-
 
     public void changeName(String name) {
         this.name = name;
@@ -131,7 +129,6 @@ public class Event {
     public List<User> getConfirmedAssistants() {
         return confirmedAssistants;
     }
-
 
     public List<Date> getPossibleDates() {
         return possibleDates;
