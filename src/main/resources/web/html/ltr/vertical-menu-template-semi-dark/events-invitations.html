@@ -169,12 +169,12 @@
 							<span>Events</span><i class=" ft-minus" data-toggle="tooltip" data-placement="right"
 									data-original-title="General"></i>
 						</li>
-						<li class="active"><a href="event-creation.html"><i class="ft-calendar"></i><span class="menu-title" data-i18n="">Create</span><span class="badge badge badge-primary badge-pill float-right mr-2">3</span></a>
+						<li class=" nav-item"><a href="event-creation.html"><i class="ft-calendar"></i><span class="menu-title" data-i18n="">Create</span><span class="badge badge badge-primary badge-pill float-right mr-2">3</span></a>
 						</li>
 						<li class=" nav-item"><a href="events-managment.html"><i class="ft-monitor"></i><span class="menu-title" data-i18n="">Manage</span></a>
 						</li>
 
-						<li class=" nav-item"><a href="events-invitations.html"><i class="ft-zap"></i><span class="menu-title" data-i18n="">Invitations</span><span class="badge badge badge-danger badge-pill float-right mr-2">New</span></a>
+						<li class=" active"><a href="events-invitations.html"><i class="ft-zap"></i><span class="menu-title" data-i18n="">Invitations</span><span class="badge badge badge-danger badge-pill float-right mr-2">New</span></a>
 						
 						</li>
 						<li class=" navigation-header">
@@ -193,12 +193,12 @@
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item"><a href="index.html">Home</a>
 										</li>									
-										<li class="breadcrumb-item active">Crate Event
+										<li class="breadcrumb-item active">Invitations 
 										</li>
 									</ol>
 								</div>
 							</div>
-							<h3 class="content-header-title mb-0">Event Planning</h3>
+							<h3 class="content-header-title mb-0">Current events invitations</h3>
 						</div>
 						<div class="content-header-right col-md-6 col-12">
 							<div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
@@ -215,159 +215,7 @@
 						</div>
 					</div>
 					<div class="content-body">
-						<section id="validation">
-							<div class="row">
-								<div class="col-12">
-									<div class="card">
-										<div class="card-header">
-											<h4 class="card-title">Your event will be ready soon! </h4>
-											<a class="heading-elements-toggle"><i class="fa fa-ellipsis-h font-medium-3"></i></a>
-											<div class="heading-elements">
-												<ul class="list-inline mb-0">
-													<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-													<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-												</ul>
-											</div>
-										</div>
-										<div class="card-content collapse show">
-											<div class="card-body">
-												<form action="#" class="steps-validation wizard-circle">
-													<!-- Step 1 -->
-													<h6>Initial specifications</h6>
-													<fieldset>
-														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="eventName">
-																		Event Name :
-																		<span class="danger">*</span>
-																	</label>
-																	<input type="text" class="form-control required" id="eventName" name="firstName"></input>
-																</div>
-															</div>
-															<div class="col-md-6">
-
-																<fieldset class="form-group">
-																	<label for="eventDescriptionTextarea">Description :</label>
-																	<textarea class="form-control" id="eventDescriptionTextarea" rows="3"></textarea>
-																</fieldset>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-6">
-																<label for="eventStartAndEndDate">Start and end date :
-																</label>
-																<div class="input-group">
-
-																	<input type="text" class="form-control datetime" id="eventStartAndEndDate">
-																		<div class="input-group-append">
-																			<span class="input-group-text">
-																				<span class="fa fa-calendar"></span>
-																			</span>
-																		</input>
-																	</div>
-																</div>
-															</div>
-
-															<div class="col-md-6">
-																
-																	<label for="tripDate">Is the event date up to modifications?  </label><br/>
-																	<input type="checkbox" id="tripDate"class="switch hidden" id="switch5" data-group-cls="btn-group-sm"></input>
-																
-															</div>
-														</div>         
-													</fieldset>
-													<!-- Step 2 -->
-													<h6>Budget</h6>
-													<fieldset>
-														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="proposalTitle3">
-																		Event budget :
-																		<span class="danger">*</span>
-																	</label>
-																	
-																		<div class="input-group">
-																			<div class="input-group-prepend">
-																				<span class="input-group-text">$</span>
-																			</div>
-																			<input type="number" class="form-control" placeholder="Estimated event budget" aria-label="Amount (to the nearest dollar)"></input>
-																		</div>
-																	
-																</div>
-																<div class="form-group">
-																	<label for="eventType">
-																		Event Type :
-																		<span class="danger">*</span>
-																	</label>
-																	<select class="custom-select form-control required" id="eventType" name="eventType">
-																		<option value>Select event type</option>
-																		<option value="Party">Party</option>
-																		<option value="Trip">Trip</option>
-																		<option value="Other">Other</option>
-
-																	</select>
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">	
-																	<label for="budgetItems">
-																		Budget items :            									
-																	</label>
-																	<select class="select2-tokenizer form-control" style="width: 100%" multiple="" id="budgetItems">																																																									
-																		<option value="Beer">Beer</option>
-																		<option value="Accomodation">Accomodation</option>
-																		<option value="Breakfast">Breakfast</option>
-																		<option value="Dinner">Dinner</option>
-																		<option value="Lunch">Lunch</option>
-																	</select>																
-																</div>
-
-															</div>
-														</div>
-													</fieldset>
-													<!-- Step 3 -->
-													<h6>Location and invitations </h6>
-													<fieldset>
-														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="eventAddress">
-																		Event address :
-																	
-																	</label>
-																	<input type="text" class="form-control " id="eventAddress" name="eventName"></input>
-																</div>
-
-																<div class="form-group">
-																	<label for="guestE-mail">Guest e-mail :</label>
-																	<select class="select2-tokenizer form-control" style="width: 100%" multiple="" id="guestE-mail">																																																															
-																	</select>
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">					
-																	<label for="addressConfirmationOfEvent">Is the address confirmed?  </label><br/>
-																	<input type="checkbox" id="addressConfirmationOfEvent"class="switch hidden" id="switch5" data-group-cls="btn-group-sm"></input>																
-																</div>
-																<div class="form-group">					
-																	<label for="privacyOfEvent">Is the event private?  </label><br/>
-																	<input type="checkbox" id="privacyOfEvent"class="switch hidden" id="switch5" data-group-cls="btn-group-sm"></input>																
-																</div>
-																
-															</div>
-														</div>
-													</fieldset>
-													<!-- Step 4 -->
-													
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</section>
+						
 					</div>
 				</div>
 			</div>
