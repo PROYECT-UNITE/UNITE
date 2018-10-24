@@ -1,5 +1,6 @@
 package com.eci.arsw.project.unite.beans.impl;
 
+import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;

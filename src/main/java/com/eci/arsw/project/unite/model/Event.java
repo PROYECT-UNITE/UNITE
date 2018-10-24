@@ -18,7 +18,7 @@ public class Event {
     private String name;
     private String type;
     private int budget;
-    private User owner;
+    private String owner;
     private List<User> assistants;
     private List<User> confirmedAssistants;
     private List<Date> possibleDates;
@@ -28,9 +28,8 @@ public class Event {
     private Gather gather;
     private Location location;
     private Date date;
-    
-    
-    public Event(User owner, String name, String type, int budget){
+
+    public Event(String owner, String name, String type, int budget){
         this.owner = owner;
         this.name = name;
         this.type = type;
@@ -44,7 +43,17 @@ public class Event {
         
     }
 
-    
+
+    public Event() {
+        assistants = new CopyOnWriteArrayList<>();
+        confirmedAssistants = new CopyOnWriteArrayList<>();
+        possibleDates = new CopyOnWriteArrayList<>();
+        assistantsState = new ConcurrentHashMap<>();
+        chat = new Chat();
+        gather = new Gather();
+    }
+
+
     public void changeName(String name) {
         this.name = name;
     }
@@ -78,8 +87,98 @@ public class Event {
         }
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public List<User> getAssistants() {
+        return assistants;
+    }
+
+    public List<User> getConfirmedAssistants() {
+        return confirmedAssistants;
+    }
+
+
+    public List<Date> getPossibleDates() {
+        return possibleDates;
+    }
+
+    public Map<String, Integer> getAssistantsState() {
+        return assistantsState;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    public Gather getGather() {
+        return gather;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" + "id=" + id + ", name=" + name + ", type=" + type + ", budget=" + budget + ", owner=" + owner + ", assistants=" + assistants + ", confirmedAssistants=" + confirmedAssistants + ", possibleDates=" + possibleDates + ", assistantsState=" + assistantsState + ", chat=" + chat + ", poll=" + poll + ", gather=" + gather + ", location=" + location + ", date=" + date + '}';
+    }
+    
 }
