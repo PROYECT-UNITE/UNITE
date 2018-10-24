@@ -62,7 +62,7 @@ $(".steps-validation").steps({
     transitionEffect: "fade",
     titleTemplate: '<span class="step">#index#</span> #title#',
     labels: {
-        finish: 'Submit'
+        finish: 'Create'
     },
     onStepChanging: function (event, currentIndex, newIndex)
     {
@@ -93,7 +93,8 @@ $(".steps-validation").steps({
     },
     onFinished: function (event, currentIndex)
     {
-        alert("Submitted!");
+        
+		newEvent.createEvent();
     }
 });
 

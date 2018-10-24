@@ -1,33 +1,63 @@
 
 var newEvent = (function () {
-	var eventName;
-	var eventType;
-	var eventBudget;
+	var eventCreator = {
+		"name": "",
+		"type": "",
+		"budget": 0,
+		"owner": ""
+	};
+	var eventDate;
+	var eventDescription;
 
 	var getEventName = function () {
-		return eventName;
+		return eventCreator.name;
+	};
+	var createEvent = function () {
+		axios.post("http://localhost:8080/unite/", eventCreator)
+		.then(function (response) {})
+		.catch(function (error) {
+			console.log(error);
+		});
+	};
+	var setEventDescription = function (des) {
+		eventDescription = des;
+	};
+	var getEventDescription = function () {
+		return eventDescription;
 	};
 	var setEventName = function (name) {
-		eventName = name;
+		eventCreator.name = name;
+	};
+
+	var getEventDate = function () {
+		return eventDate;
+	};
+	var setEventDate = function (date) {
+		eventDate = date;
 	};
 	var getEventType = function () {
-		return eventType;
+		return eventCreator.type;
 	};
 	var setEventType = function (type) {
-		eventType = type;
+		eventCreator.type = type;
 	};
 	var getEventBudget = function () {
-		return eventBudget;
+		return eventCreator.budget;
 	};
 	var setEventBudget = function (budget) {
-		eventBudget = budget;
+		eventCreator.budget = budget;
 	};
 
 	return {
+		createEvent: createEvent,
 		getEventName: getEventName,
 		setEventName: setEventName,
+		getEventDescription: getEventDescription,
 		getEventType: getEventType,
 		setEventType: setEventType,
+		getEventDate: getEventDate,
+		setEventDate: setEventDate,
+		setEventDescription: setEventDescription,
 		getEventBudget: getEventBudget,
 		setEventBudget: setEventBudget
 	};

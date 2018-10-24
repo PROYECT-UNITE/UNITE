@@ -13,6 +13,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
 				rel="stylesheet"/>
 		<!-- BEGIN VENDOR CSS-->
+		<script src="../../../assets/js/EventCreationController.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="../../../app-assets/css/vendors.css"/>
 		<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/daterange/daterangepicker.css"/>
 		<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/selects/select2.min.css">
@@ -31,7 +32,7 @@
 			<!-- END Custom CSS-->
 		</head>
 		<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
-				data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="prueba()">
+				data-open="click" data-menu="vertical-menu" data-col="2-columns" >
 			<!-- fixed-top-->
 			<nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
 				<div class="navbar-wrapper">
@@ -233,7 +234,7 @@
 										</div>
 										<div class="card-content collapse show">
 											<div class="card-body">
-												<form action="#" class="steps-validation wizard-circle">
+												<form action="#" class="steps-validation wizard-circle" >
 													<!-- Step 1 -->
 													<h6>Initial specifications</h6>
 													<fieldset>
@@ -251,7 +252,7 @@
 
 																<fieldset class="form-group">
 																	<label for="eventDescriptionTextarea">Description :</label>
-																	<textarea class="form-control" id="eventDescriptionTextarea" rows="3"></textarea>
+																	<textarea class="form-control" id="eventDescriptionTextarea" oninput="newEvent.setEventDescription(this.value)" rows="3"></textarea>
 																</fieldset>
 															</div>
 														</div>
@@ -261,20 +262,20 @@
 																</label>
 																<div class="input-group">
 
-																	<input type="text" class="form-control datetime" id="eventStartAndEndDate">
+																	<input type="text" class="form-control datetime" id="eventStartAndEndDate" onchange="newEvent.setEventDate(this.value)">
 																		<div class="input-group-append">
 																			<span class="input-group-text">
 																				<span class="fa fa-calendar"></span>
 																			</span>
-																		</input>
-																	</div>
+																		</div>
+																	</input>
 																</div>
 															</div>
 
 															<div class="col-md-6">
 																
 																	<label for="tripDate">Is the event date up to modifications?  </label><br/>
-																	<input type="checkbox" id="tripDate"class="switch hidden" id="switch5" data-group-cls="btn-group-sm"></input>
+																	<input type="checkbox" id="tripDate"class="switch hidden" id="switch5" data-group-cls="btn-group-sm" ></input>
 																
 															</div>
 														</div>         
@@ -294,7 +295,7 @@
 																			<div class="input-group-prepend">
 																				<span class="input-group-text">$</span>
 																			</div>
-																			<input type="number" class="form-control" placeholder="Estimated event budget" aria-label="Amount (to the nearest dollar)"></input>
+																			<input type="number" class="form-control" placeholder="Estimated event budget" oninput="newEvent.setEventBudget(this.value)"aria-label="Amount (to the nearest dollar)"></input>
 																		</div>
 																	
 																</div>
@@ -303,7 +304,7 @@
 																		Event Type :
 																		<span class="danger">*</span>
 																	</label>
-																	<select class="custom-select form-control required" id="eventType" name="eventType">
+																	<select class="custom-select form-control required" onchange="newEvent.setEventType(this.value)" id="eventType" name="eventType">
 																		<option value>Select event type</option>
 																		<option value="Party">Party</option>
 																		<option value="Trip">Trip</option>
@@ -361,7 +362,7 @@
 															</div>
 														</div>
 													</fieldset>
-													<!-- Step 4 -->
+													
 													
 												</form>
 											</div>
@@ -377,7 +378,7 @@
 			<footer class="footer footer-static footer-light navbar-border">
 				<p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
 					<span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2018 <a class="text-bold-800 grey darken-2" href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
-								target="_blank">PIXINVENT </a>, All rights reserved. </span>
+								target="_blank">Unite </a>, All rights reserved. </span>
 					<span class="float-md-right d-block d-md-inline-block d-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span>
 				</p>
 			</footer>
@@ -408,6 +409,7 @@
 			<script src="../../../app-assets/js/scripts/forms/switch.js" type="text/javascript"></script>
 			<script src="../../../app-assets/js/scripts/forms/select/form-select2.js" type="text/javascript"></script>
 			<!-- END PAGE LEVEL JS-->
-			<script src="../../../assets/js/EventCreationController.js" type="text/javascript"></script>
+			<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+			
 		</body>
 	</html>

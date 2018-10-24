@@ -1,5 +1,7 @@
 package com.eci.arsw.project.unite.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,6 +43,7 @@ public class Event {
         
     }
 
+    
     public void changeName(String name) {
         this.name = name;
     }
@@ -71,6 +74,6 @@ public class Event {
 
     public void setId(int id) {
         this.id = id;
-    }  
+    }
 
 }
