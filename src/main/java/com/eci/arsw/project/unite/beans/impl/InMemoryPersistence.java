@@ -106,7 +106,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public boolean checkUserAndPwd(String username, String pwd) throws UniteException {
-        if (!uniteUsers.containsKey(uniteUsers.get(username).getUsername())) {
+        if (uniteUsers.get(username)==null) {
             throw new UniteException("User with given username does not exist");
         } else {
             return uniteUsers.get(username).getPassword().equals(pwd);
