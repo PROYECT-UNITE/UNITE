@@ -55,6 +55,7 @@ public class UniteServicesStub implements UniteServices{
     }
     
     @Override
+
     public void updateUser(String username, User user) throws UniteException{
         persistence.updateUser(username, user);
     }
