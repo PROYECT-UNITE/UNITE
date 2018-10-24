@@ -1,6 +1,6 @@
 package com.eci.arsw.project.unite.services;
 
-import com.eci.arsw.project.unite.beans.impl.UnitePersitence;
+import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,7 @@ public class UniteServicesStub implements UniteServices{
 
     @Override
     public void createEvent(Event event) throws UniteException {
+        //persistence.getUser(event.getOwner());
         persistence.createEvent(event);
     }
 

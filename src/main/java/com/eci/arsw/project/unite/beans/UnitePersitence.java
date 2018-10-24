@@ -1,4 +1,4 @@
-package com.eci.arsw.project.unite.beans.impl;
+package com.eci.arsw.project.unite.beans;
 
 import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.User;
