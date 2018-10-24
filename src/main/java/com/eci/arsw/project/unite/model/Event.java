@@ -28,7 +28,11 @@ public class Event {
     private Gather gather;
     private Location location;
     private Date date;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> arreglo restAPI
     public Event(String owner, String name, String type, int budget){
         this.owner = owner;
         this.name = name;
@@ -43,6 +47,10 @@ public class Event {
         
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> arreglo restAPI
     public Event() {
         assistants = new CopyOnWriteArrayList<>();
         confirmedAssistants = new CopyOnWriteArrayList<>();
@@ -52,6 +60,10 @@ public class Event {
         gather = new Gather();
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> arreglo restAPI
     public void changeName(String name) {
         this.name = name;
     }
