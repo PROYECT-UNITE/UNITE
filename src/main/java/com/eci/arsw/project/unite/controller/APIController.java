@@ -41,7 +41,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/event/{id}")
     public ResponseEntity<?> getEventHandler(@PathVariable("id") int id) {
         try {
             return new ResponseEntity<>(service.getEvent(id), HttpStatus.ACCEPTED);
@@ -51,7 +51,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/{username}")
+    @GetMapping("/events/{username}")
     public ResponseEntity<?> getEventsByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsByUser(username), HttpStatus.ACCEPTED);
@@ -61,7 +61,7 @@ public class APIController {
         }
     }
     
-    @PostMapping
+    @PostMapping("/newEvent")
     public ResponseEntity<?> postCreateEventHandler(@RequestBody Event event) {
         try {
             service.createEvent(event);
@@ -106,9 +106,10 @@ public class APIController {
     }
    
     @PostMapping("/newAccount")
-    public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
+    public ResponseEntity<?> postCreateAccount(@RequestParam String username,@RequestParam String pwd, @RequestParam String mail, @RequestParam String name) {
         try {
-            service.createAccount(user);
+            System.out.println(username +" Pd: "+pwd);
+            service.createAccount(new User(username, pwd, mail, name));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,8 +127,8 @@ public class APIController {
         }
     }
     
-    @PostMapping("/access/{username}")
-    public ResponseEntity<?> getAccess(@PathVariable("username") String username, @RequestParam String pwd) {
+    @PostMapping("/access/")
+    public ResponseEntity<?> getAccess(@RequestParam String username, @RequestParam String pwd) {
         try {
             return new ResponseEntity<>(service.grantAccess(username,pwd), HttpStatus.ACCEPTED);
         } catch (UniteException ex) {

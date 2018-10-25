@@ -7,7 +7,7 @@
   <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
   <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
   <meta name="author" content="PIXINVENT">
-  <title>Login with Background Image - Stack Responsive Bootstrap 4 Admin Template</title>
+  <title>Unite - Login</title>
   <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
   <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
@@ -44,39 +44,20 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                   <div class="card-title text-center">
                     <img src="../../../app-assets/images/logo/unite-logo.png" alt="branding logo">
                   </div>
-                  <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                    <span>Easily Using</span>
-                  </h6>
+                  
                 </div>
-                <div class="card-content">
-                  <div class="text-center">
-                    <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook">
-                      <span class="fa fa-facebook"></span>
-                    </a>
-                    <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter">
-                      <span class="fa fa-twitter"></span>
-                    </a>
-                    <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin">
-                      <span class="fa fa-linkedin font-medium-4"></span>
-                    </a>
-                    <a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-github">
-                      <span class="fa fa-github font-medium-4"></span>
-                    </a>
-                  </div>
-                  <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
-                    <span>OR Using Account Details</span>
-                  </p>
+                <div class="card-content">               
                   <div class="card-body">
-                    <form class="form-horizontal" action="index.html" novalidate>
+                    <form id="login-form" class="form-horizontal" novalidate>
                       <fieldset class="form-group position-relative has-icon-left">
-                        <input type="text" class="form-control" id="user-name" placeholder="Your Username"
+                        <input type="text" class="form-control" name="username" id="user-name" placeholder="Your Username"
                         required>
                         <div class="form-control-position">
                           <i class="ft-user"></i>
                         </div>
                       </fieldset>
                       <fieldset class="form-group position-relative has-icon-left">
-                        <input type="password" class="form-control" id="user-password" placeholder="Enter Password"
+                        <input type="password" class="form-control" name="pwd" id="user-password" placeholder="Enter Password"
                         required>
                         <div class="form-control-position">
                           <i class="fa fa-key"></i>
@@ -91,14 +72,14 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                         </div>
                         <div class="col-md-6 col-12 float-sm-left text-center text-sm-right"><a href="recover-password.html" class="card-link">Forgot Password?</a></div>
                       </div>
-                      <button type="submit" class="btn btn-outline-primary btn-block"><i class="ft-unlock"></i> Login</button>
+                      <button type="submit" class="btn btn-outline-primary btn-block" onclick="loginServices.validate()"><i class="ft-unlock"></i> Login</button>
                     </form>
                   </div>
                   <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
-                    <span>New to Stack ?</span>
+                    <span>New to Unite ?</span>
                   </p>
                   <div class="card-body">
-                    <a href="register-with-bg-image.html" class="btn btn-outline-danger btn-block"><i class="ft-user"></i> Register</a>
+                    <a href="register.html" class="btn btn-outline-danger btn-block"><i class="ft-user"></i> Register</a>
                   </div>
                 </div>
               </div>
@@ -125,5 +106,9 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
   <!-- BEGIN PAGE LEVEL JS-->
   <script src="../../../app-assets/js/scripts/forms/form-login-register.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
+  <!-- BEGIN LOGIN JS-->
+  <script src="../../../app-assets/js/scripts/forms/form-login.js" type="text/javascript"></script>
+  <!-- END LOGIN JS-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>

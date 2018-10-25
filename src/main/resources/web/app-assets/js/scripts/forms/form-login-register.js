@@ -13,3 +13,20 @@ $(document).ready(function(){
 		});
 	}
 });
+
+var registrationServices = (function (){
+     var url = 'http://localhost:8080';
+     return {
+        signUp : function (){
+            var names = document.getElementById("namesOfUser").value;
+            var user = document.getElementById("user-name").value;
+            var email = document.getElementById("user-email").value;
+            var pwd = document.getElementById("user-password").value;
+            axios.post(url+"/unite/newAccount?username="+user+"&pwd="+pwd+"&mail="+email+"&name="+names).then(function (response) {
+                alert("User Created Succesfully");
+                window.location.href = url+"/login.html";
+                
+            })
+        }
+    };
+ })();
