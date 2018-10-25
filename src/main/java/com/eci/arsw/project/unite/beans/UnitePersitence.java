@@ -25,8 +25,10 @@ public interface UnitePersitence {
     List<Event> getEventsByUser(String username) throws UniteException;
 
     User getUser(String username) throws UniteException;
+    
+    User getUserByMail(String mail) throws UniteException;
 
-    public void changeEventName(int id, String name) throws UniteException;
+    void changeEventName(int id, String name) throws UniteException;
 
     public void updateUser(String username, User user) throws UniteException;
 
@@ -34,6 +36,8 @@ public interface UnitePersitence {
 
     public Set<String> getAllUsers();
     
-    public void joinToEvent(int id, String username) throws UniteException;
+    void joinToEventByMail(int id, String username) throws UniteException;
 
+    void joinToEventByUsername(int id, String username) throws UniteException;
+    
 }

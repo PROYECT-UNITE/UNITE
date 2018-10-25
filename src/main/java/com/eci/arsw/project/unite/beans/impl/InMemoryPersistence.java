@@ -70,21 +70,20 @@ public class InMemoryPersistence implements UnitePersitence {
     public List<Event> getEventsByUser(String username) throws UniteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public User getUser(String username) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public User getUserByMail(String mail) throws UniteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void changeEventName(int id, String name) throws UniteException {
         this.getEvent(id).changeName(name);
-    }
-
-    @Override
-    public void joinToEvent(int id, String username) throws UniteException {
-        Event event = events.get(id);
-        event.addMember(this.getUser(username));
     }
     
     @Override
@@ -118,6 +117,19 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public Set<String> getAllUsers() {
         return uniteUsers.keySet();
+    }
+    
+    
+    @Override
+    public void joinToEventByUsername(int id, String username) throws UniteException {
+        Event event = events.get(id);
+        event.addMember(this.getUser(username));
+    }
+
+    @Override
+    public void joinToEventByMail(int id, String mail) throws UniteException {
+        Event event = events.get(id);
+        event.addMember(this.getUserByMail(mail));
     }
 
 }

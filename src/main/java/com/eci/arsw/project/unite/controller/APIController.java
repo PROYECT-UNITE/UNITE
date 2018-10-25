@@ -4,7 +4,6 @@ import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +72,7 @@ public class APIController {
         }
     }
     
-    @PutMapping("/{id}/{name}")
+    @PutMapping("/{id}/rename/{name}")
     public ResponseEntity<?> putChangeEventNameHandler(@PathVariable("id") int id, @PathVariable("name") String name) {
         try {
             service.changeEventName(id, name);
@@ -84,10 +83,10 @@ public class APIController {
         }
     }
     
-    @PutMapping("/{id}/{username}")
-    public ResponseEntity<?> putJoinToEventHandler(@PathVariable("id") int id, @PathVariable("username") String username) {
+    @PutMapping("/{id}/mail/{mail}")
+    public ResponseEntity<?> putJoinToEventByMailHandler(@PathVariable("id") int id, @PathVariable("mail") String mail) {
         try {
-            service.joinToEvent(id, username);
+            service.joinToEventByMail(id, mail);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,6 +94,17 @@ public class APIController {
         }
     }
     
+    @PutMapping("/{id}/user/{username}")
+    public ResponseEntity<?> putJoinToEventByUsernameHandler(@PathVariable("id") int id, @PathVariable("username") String username) {
+        try {
+            service.joinToEventByUsername(id, username);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+   
     @PostMapping("/newAccount")
     public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
         try {
@@ -105,7 +115,6 @@ public class APIController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
-   
     @PutMapping("/{username}")
     public ResponseEntity<?> putUpdateUserHandler(@PathVariable("username") String username, @RequestBody User user) {
         try {

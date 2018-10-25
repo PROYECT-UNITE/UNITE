@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
  * @author sergio
  */
 @Service
-public class UniteServicesStub implements UniteServices{
+public class UniteServicesStub implements UniteServices {
 
     @Autowired
     UnitePersitence persistence;
-    
+
     @Override
     public List<Event> getEvents() throws UniteException {
         return persistence.getEvents();
@@ -48,11 +48,6 @@ public class UniteServicesStub implements UniteServices{
     public void changeEventName(int id, String name) throws UniteException {
         persistence.changeEventName(id, name);
     }
-
-    @Override
-    public void joinToEvent(int id, String username) throws UniteException {
-        persistence.joinToEvent(id,username);
-    }
     
     @Override
 
@@ -69,5 +64,20 @@ public class UniteServicesStub implements UniteServices{
     public Set<String> getAllUsers() {
         return persistence.getAllUsers();
     }
+
+    @Override
+    public void createAccount(String username, String mail, String name, String password) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
+    @Override
+    public void joinToEventByUsername(int id, String username) throws UniteException {
+        persistence.joinToEventByUsername(id, username);
+    }
+
+    @Override
+    public void joinToEventByMail(int id, String mail) throws UniteException {
+        persistence.joinToEventByMail(id, mail);
+    }
+
 }

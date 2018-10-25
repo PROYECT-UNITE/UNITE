@@ -21,8 +21,6 @@ public interface UniteServices {
 
     void changeEventName(int id, String name) throws UniteException;
 
-    public void joinToEvent(int id, String username) throws UniteException;
-
     void createAccount(User user)throws UniteException;    
 
     public void updateUser(String username, User user) throws UniteException;
@@ -30,5 +28,11 @@ public interface UniteServices {
     public boolean grantAccess(String username, String pwd) throws UniteException;
     
     public Set<String> getAllUsers();
+
+    void createAccount(String username, String mail, String name, String password) throws UniteException;
+    
+    public void joinToEventByUsername(int id, String username) throws UniteException;
+    
+    public void joinToEventByMail(int id, String mail) throws UniteException;
 
 }
