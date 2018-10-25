@@ -1,7 +1,6 @@
 package com.eci.arsw.project.unite.model;
 
 
-
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +117,6 @@ public class Event {
     public void setBudget(int budget) {
         this.budget = budget;
     }
-
     public String getOwner() {
         return owner;
     }
