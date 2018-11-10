@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,9 +33,13 @@ public class InMemoryPersistence implements UnitePersitence {
             e.printStackTrace();
         }
         uniteUsers = new ConcurrentHashMap<>();
-        uniteUsers.put("JuanDDuenas", new User("JuanDDuenas", "pass123", "juan.duenas@gmail.com", "Juan Dueñas"));
-        uniteUsers.put("SergioR", new User("SergioR", "Sergio1", "sergior@gmail.com", "Sergio Rodriguez"));
-        uniteUsers.put("NicGarcia", new User("NicGarcia", "nicolas2", "nicolas.garcia@gmail.com", "Nicolas Garcia"));
+        try {
+            uniteUsers.put("JuanDDuenas", new User("JuanDDuenas", "passwordnob1", "juan.duenas@gmail.com", "Juan Dueñas"));
+            uniteUsers.put("SergioR", new User("SergioR", "Sergio1", "sergior@gmail.com", "Sergio Rodriguez"));
+            uniteUsers.put("NicGarcia", new User("NicGarcia", "nicolas2", "nicolas.garcia@gmail.com", "Nicolas Garcia"));
+        } catch (UniteException ex) {
+            Logger.getLogger(InMemoryPersistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
