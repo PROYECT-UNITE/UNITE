@@ -152,4 +152,16 @@ public class InMemoryPersistence implements UnitePersitence {
         return chat.getRecord();
     }
 
+    @Override
+    public void saveLink(int eventId, Message message) throws UniteException {
+        Chat chat = getEvent(eventId).getChat();
+        chat.saveMessage(message);
+    }
+
+    @Override
+    public List<Message> getLinkByEvent(int eventId) throws UniteException {
+        Chat links = getEvent(eventId).getLinkChat();
+        return links.getRecord();
+    }
+
 }

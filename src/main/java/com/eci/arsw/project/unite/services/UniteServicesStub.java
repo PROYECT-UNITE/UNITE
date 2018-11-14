@@ -91,4 +91,14 @@ public class UniteServicesStub implements UniteServices {
         persistence.saveMessage(eventId, message);
     }
 
+    @Override
+    public List<Message> getLinkByEvent(int eventId) throws UniteException {
+        return persistence.getLinkByEvent(eventId);
+    }
+
+    @Override
+    public void saveLink(int eventId, Message message) throws UniteException {
+        persistence.saveLink(eventId, message);
+    }
+
 }

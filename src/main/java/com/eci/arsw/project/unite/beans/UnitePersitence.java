@@ -43,7 +43,11 @@ public interface UnitePersitence {
 
     public void saveMessage(int eventId, Message message) throws UniteException;
 
-    public List<Message> getMessagesByEvent(int eventId) throws UniteException;;
+    public List<Message> getMessagesByEvent(int eventId) throws UniteException;
+
+    public void saveLink(int eventId, Message message) throws UniteException;
+
+    public List<Message> getLinkByEvent(int eventId) throws UniteException;
 
     
 }

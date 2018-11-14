@@ -166,5 +166,22 @@ public class APIController {
         service.saveMessage(eventId, message);
     }
     
+    @GetMapping("/events/{eventId}/link")
+    public ResponseEntity<?> getLinksByEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            return new ResponseEntity<>(service.getLinkByEvent(eventId), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @MessageMapping("/newlink.{eventId}")
+    public void handleLinkEvent(Message message, @DestinationVariable int eventId) throws Exception {
+        System.out.println("New link recived from server!: " +message +" at id: "+eventId);
+        msgt.convertAndSend("/topic/newlink." + eventId, message);
+        service.saveLink(eventId, message);
+    }
+    
     
 }
