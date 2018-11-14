@@ -5,27 +5,26 @@ var newEvent = (function () {
 		"type": "",
 		"budget": 0,
 		"owner": "",
-		"location":""
+		"location":"",
 		"description":""
 	};
 	var eventDate;
-	var eventDescription;
 
 	var getEventName = function () {
 		return eventCreator.name;
 	};
 	var createEvent = function () {
-		axios.post("http://localhost:8080/unite/", eventCreator)
+		axios.post("http://localhost:8080/unite/newEvent", eventCreator)
 		.then(function (response) {})
 		.catch(function (error) {
 			console.log(error);
 		});
 	};
 	var setEventDescription = function (des) {
-		eventDescription = des;
+		eventCreator.description = des;
 	};
 	var getEventDescription = function () {
-		return eventDescription;
+		return eventCreator.description;
 	};
 	var setEventName = function (name) {
 		eventCreator.name = name;
