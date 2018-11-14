@@ -28,6 +28,7 @@ public class Event {
     private Gather gather;
     private Location location;
     private Date date;
+    private String description;
 
     public Event(String owner, String name, String type, int budget){
         this.owner = owner;
@@ -172,9 +173,29 @@ public class Event {
         this.date = date;
     }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) {  this.description = description; }
+
     @Override
     public String toString() {
-        return "Event{" + "id=" + id + ", name=" + name + ", type=" + type + ", budget=" + budget + ", owner=" + owner + ", assistants=" + assistants + ", confirmedAssistants=" + confirmedAssistants + ", possibleDates=" + possibleDates + ", assistantsState=" + assistantsState + ", chat=" + chat + ", poll=" + poll + ", gather=" + gather + ", location=" + location + ", date=" + date + '}';
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", budget=" + budget +
+                ", owner='" + owner + '\'' +
+                ", assistants=" + assistants +
+                ", confirmedAssistants=" + confirmedAssistants +
+                ", possibleDates=" + possibleDates +
+                ", assistantsState=" + assistantsState +
+                ", chat=" + chat +
+                ", poll=" + poll +
+                ", gather=" + gather +
+                ", location=" + location +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                '}';
     }
-    
+
 }

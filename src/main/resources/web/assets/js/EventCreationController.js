@@ -1,9 +1,12 @@
 var newEvent = (function () {
 	var eventCreator = {
+	    "owner":"",
 		"name": "",
 		"type": "",
 		"budget": 0,
-		"owner": ""
+		"owner": "",
+		"location":""
+		"description":""
 	};
 	var eventDate;
 	var eventDescription;
@@ -46,6 +49,18 @@ var newEvent = (function () {
 	var setEventBudget = function (budget) {
 		eventCreator.budget = budget;
 	};
+	var getEventLocation = function () {
+    		return eventCreator.location;
+    };
+    var setEventLocation = function (location) {
+        eventCreator.location = location;
+    };
+    var getEventOwner = function () {
+            return eventCreator.owner;
+    };
+    var setEventOwner = function (owner) {
+        eventCreator.owner = owner;
+    };
 
 	return {
 		createEvent: createEvent,
@@ -58,6 +73,10 @@ var newEvent = (function () {
 		setEventDate: setEventDate,
 		setEventDescription: setEventDescription,
 		getEventBudget: getEventBudget,
-		setEventBudget: setEventBudget
+		setEventBudget: setEventBudget,
+		setEventOwner: setEventOwner,
+		getEventOwner: getEventOwner,
+		setEventLocation: setEventLocation,
+		getEventLocation: getEventLocation
 	};
 })();
