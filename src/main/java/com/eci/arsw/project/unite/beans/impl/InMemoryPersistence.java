@@ -1,7 +1,9 @@
 package com.eci.arsw.project.unite.beans.impl;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
+import com.eci.arsw.project.unite.model.Chat;
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
@@ -136,6 +138,18 @@ public class InMemoryPersistence implements UnitePersitence {
     public void joinToEventByMail(int id, String mail) throws UniteException {
         Event event = events.get(id);
         event.addMember(this.getUserByMail(mail));
+    }
+
+    @Override
+    public void saveMessage(int eventId, Message message) throws UniteException {
+        Chat chat = getEvent(eventId).getChat();
+        chat.saveMessage(message);
+    }
+
+    @Override
+    public List<Message> getMessagesByEvent(int eventId) throws UniteException {
+        Chat chat = getEvent(eventId).getChat();
+        return chat.getRecord();
     }
 
 }

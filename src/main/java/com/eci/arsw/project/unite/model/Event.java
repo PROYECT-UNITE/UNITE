@@ -24,6 +24,7 @@ public class Event {
     private List<Date> possibleDates;
     private Map<String, Integer> assistantsState;
     private Chat chat;
+    private Chat links;
     private Poll poll;
     private Gather gather;
     private Location location;
@@ -40,6 +41,7 @@ public class Event {
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
+        links = new Chat();
         gather = new Gather();
         
     }

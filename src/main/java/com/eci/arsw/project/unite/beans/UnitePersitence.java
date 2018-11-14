@@ -1,6 +1,7 @@
 package com.eci.arsw.project.unite.beans;
 
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
@@ -39,5 +40,10 @@ public interface UnitePersitence {
     void joinToEventByMail(int id, String username) throws UniteException;
 
     void joinToEventByUsername(int id, String username) throws UniteException;
+
+    public void saveMessage(int eventId, Message message) throws UniteException;
+
+    public List<Message> getMessagesByEvent(int eventId) throws UniteException;;
+
     
 }

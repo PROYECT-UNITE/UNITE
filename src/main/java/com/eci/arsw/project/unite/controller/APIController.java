@@ -1,6 +1,7 @@
 package com.eci.arsw.project.unite.controller;
 
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
@@ -9,6 +10,8 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +35,8 @@ public class APIController {
     @Autowired
     UniteServices service;
     
-//    @Autowired
-//    SimpMessagingTemplate msgt;
+    @Autowired
+    SimpMessagingTemplate msgt;
     
     @GetMapping
     public ResponseEntity<?> getEventsHandler() {
@@ -55,7 +58,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/events/{username}")
+    @GetMapping("/event/{username}")
     public ResponseEntity<?> getEventsByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsByUser(username), HttpStatus.ACCEPTED);
@@ -131,7 +134,7 @@ public class APIController {
         }
     }
     
-    @PostMapping("/access/")
+    @PostMapping("/access")
     public ResponseEntity<?> getAccess(@RequestParam String username, @RequestParam String pwd) {
         try {
             return new ResponseEntity<>(service.grantAccess(username,pwd), HttpStatus.ACCEPTED);
@@ -145,5 +148,23 @@ public class APIController {
     public ResponseEntity<?> getAllUsers() {
         return new ResponseEntity<>(service.getAllUsers(), HttpStatus.ACCEPTED);
     }
+    
+    @GetMapping("/events/{eventId}/chat")
+    public ResponseEntity<?> getMessagesByEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            return new ResponseEntity<>(service.getMessagesByEvent(eventId), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @MessageMapping("/newmessage.{eventId}")
+    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
+        System.out.println("New message recived from server!: " +message +" at id: "+eventId);
+        msgt.convertAndSend("/topic/newmessage." + eventId, message);
+        service.saveMessage(eventId, message);
+    }
+    
     
 }

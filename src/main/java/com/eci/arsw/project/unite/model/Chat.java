@@ -9,17 +9,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Chat {
 
-    List<String> record;
+    List<Message> record;
 
     public Chat() {
         record = new CopyOnWriteArrayList<>();
     }
+    
+    public void saveMessage(Message message){
+        record.add(message);
+    }
 
-    public List<String> getRecord() {
+    public List<Message> getRecord() {
         return record;
     }
 
-    public void setRecord(List<String> record) {
+    public void setRecord(List<Message> record) {
         this.record = record;
     }
 

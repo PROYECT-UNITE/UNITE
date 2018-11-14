@@ -2,6 +2,7 @@ package com.eci.arsw.project.unite.services;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import java.util.List;
 import java.util.Set;
@@ -78,6 +79,16 @@ public class UniteServicesStub implements UniteServices {
     @Override
     public void joinToEventByMail(int id, String mail) throws UniteException {
         persistence.joinToEventByMail(id, mail);
+    }
+
+    @Override
+    public List<Message> getMessagesByEvent(int eventId) throws UniteException {
+        return persistence.getMessagesByEvent(eventId);
+    }
+
+    @Override
+    public void saveMessage(int eventId, Message message) throws UniteException {
+        persistence.saveMessage(eventId, message);
     }
 
 }

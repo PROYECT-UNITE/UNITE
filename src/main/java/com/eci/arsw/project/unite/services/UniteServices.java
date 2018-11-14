@@ -1,6 +1,7 @@
 package com.eci.arsw.project.unite.services;
 
 import com.eci.arsw.project.unite.model.Event;
+import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import java.util.List;
 import java.util.Set;
@@ -21,18 +22,22 @@ public interface UniteServices {
 
     void changeEventName(int id, String name) throws UniteException;
 
-    void createAccount(User user)throws UniteException;    
+    void createAccount(User user) throws UniteException;
 
     public void updateUser(String username, User user) throws UniteException;
-    
+
     public boolean grantAccess(String username, String pwd) throws UniteException;
-    
+
     public Set<String> getAllUsers();
 
     void createAccount(String username, String mail, String name, String password) throws UniteException;
-    
+
     public void joinToEventByUsername(int id, String username) throws UniteException;
-    
+
     public void joinToEventByMail(int id, String mail) throws UniteException;
+
+    public List<Message> getMessagesByEvent(int eventId) throws UniteException;
+
+    public void saveMessage(int eventId, Message message) throws UniteException;
 
 }
