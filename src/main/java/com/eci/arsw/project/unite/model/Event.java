@@ -7,14 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import org.springframework.data.annotation.Id;
 
 /**
  *
  * @author sergio
  */
 public class Event {
-
+    
+    @Id
     private int id;
+    
     private String name;
     private String type;
     private int budget;

@@ -2,6 +2,7 @@ package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.regex.Pattern;
+import org.springframework.data.annotation.Id;
 
 /**
  *
@@ -13,7 +14,9 @@ public class User {
     public static Integer INDETERMINATE = 2;
     public static Integer INVOLUNTARY_ABSENCE = 3;
 
+    @Id
     private String username;
+    
     private String password;
     private String mail;
     private String name;
