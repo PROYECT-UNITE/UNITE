@@ -32,8 +32,8 @@ public class APIController {
     @Autowired
     UniteServices service;
     
-    @Autowired
-    SimpMessagingTemplate msgt;
+//    @Autowired
+//    SimpMessagingTemplate msgt;
     
     @GetMapping
     public ResponseEntity<?> getEventsHandler() {
