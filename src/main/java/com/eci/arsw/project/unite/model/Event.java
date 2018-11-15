@@ -1,8 +1,6 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,10 +12,10 @@ import org.springframework.data.annotation.Id;
  * @author sergio
  */
 public class Event {
-    
+
     @Id
     private int id;
-    
+
     private String name;
     private String type;
     private int budget;
@@ -33,7 +31,7 @@ public class Event {
     private Date date;
     private String description;
 
-    public Event(String owner, String name, String type, int budget){
+    public Event(String owner, String name, String type, int budget) {
         this.owner = owner;
         this.name = name;
         this.type = type;
@@ -76,9 +74,9 @@ public class Event {
     }
 
     public void changeStateOfUser(String username, String state) throws UniteException {
-        if(assistantsState.containsKey(username)){
+        if (assistantsState.containsKey(username)) {
             assistantsState.put(username, state);
-        }else{
+        } else {
             throw new UniteException("User not assist to this event.");
         }
     }
@@ -114,6 +112,7 @@ public class Event {
     public void setBudget(int budget) {
         this.budget = budget;
     }
+
     public String getOwner() {
         return owner;
     }
@@ -173,29 +172,33 @@ public class Event {
     public void setLinkChat(Chat linkChat) {
         this.linkChat = linkChat;
     }
-    
-    public String getDescription() { return description; }
 
-    public void setDescription(String description) {  this.description = description; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", budget=" + budget +
-                ", owner='" + owner + '\'' +
-                ", assistants=" + assistants +
-                ", possibleDates=" + possibleDates +
-                ", assistantsState=" + assistantsState +
-                ", chat=" + chat +
-                ", poll=" + poll +
-                ", gather=" + gather +
-                ", location=" + location +
-                ", date=" + date +
-                ", description='" + description + '\'' +
-                '}';
+        return "Event{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", type='" + type + '\''
+                + ", budget=" + budget
+                + ", owner='" + owner + '\''
+                + ", assistants=" + assistants
+                + ", possibleDates=" + possibleDates
+                + ", assistantsState=" + assistantsState
+                + ", chat=" + chat
+                + ", poll=" + poll
+                + ", gather=" + gather
+                + ", location=" + location
+                + ", date=" + date
+                + ", description='" + description + '\''
+                + '}';
     }
 
 }

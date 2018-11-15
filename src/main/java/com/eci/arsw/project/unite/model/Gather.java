@@ -22,7 +22,5 @@ public class Gather {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-    
-    
 
 }

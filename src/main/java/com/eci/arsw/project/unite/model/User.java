@@ -1,8 +1,6 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.data.annotation.Id;
 
