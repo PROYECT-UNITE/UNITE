@@ -14,10 +14,20 @@ var newEvent = (function () {
 		return eventCreator.name;
 	};
 	var createEvent = function () {
+		eventCreator.owner=controller.getUser();
 		axios.post("http://localhost:8080/unite/newEvent", eventCreator)
 		.then(function (response) {
             location.reload(true);
             alert("Event Created");
+            eventCreator = {
+                "owner":"",
+                "name": "",
+                "type": "",
+                "budget": 0,
+                "owner": "",
+                "location":"",
+                "description":""
+            };
 		})
 		.catch(function (error) {
 

@@ -58,7 +58,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/event/{username}")
+    @GetMapping("/events/{username}")
     public ResponseEntity<?> getEventsByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsByUser(username), HttpStatus.ACCEPTED);
