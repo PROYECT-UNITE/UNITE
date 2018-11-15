@@ -15,9 +15,12 @@ var newEvent = (function () {
 	};
 	var createEvent = function () {
 		axios.post("http://localhost:8080/unite/newEvent", eventCreator)
-		.then(function (response) {})
+		.then(function (response) {
+            location.reload(true);
+            alert("Event Created");
+		})
 		.catch(function (error) {
-			console.log(error);
+
 		});
 	};
 	var setEventDescription = function (des) {
