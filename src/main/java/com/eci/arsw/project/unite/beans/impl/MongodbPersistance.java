@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.eci.arsw.project.unite.beans.impl;
 
-import com.eci.arsw.project.unite.UniteRepository;
 import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.repository.EventRepository;
 import com.eci.arsw.project.unite.services.UniteException;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MongodbPersistance implements UnitePersitence {
 
     @Autowired
-    private UniteRepository repository;
+    private EventRepository repository;
 
     @Override
     public void createAccount(String username, String mail, String name, String password) throws UniteException {
@@ -117,6 +112,11 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public List<Message> getLinkByEvent(int eventId) throws UniteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Event> getEventsInvitedByUser(String username) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

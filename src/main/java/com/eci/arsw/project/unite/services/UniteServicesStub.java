@@ -101,4 +101,9 @@ public class UniteServicesStub implements UniteServices {
         persistence.saveLink(eventId, message);
     }
 
+    @Override
+    public List<Event> getEventsInvitedByUser(String username) throws UniteException {
+        return persistence.getEventsInvitedByUser(username);
+    }
+
 }

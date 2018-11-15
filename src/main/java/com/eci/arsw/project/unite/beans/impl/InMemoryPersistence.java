@@ -25,10 +25,14 @@ public class InMemoryPersistence implements UnitePersitence {
     private int eventCounter;
     private Map<Integer, Event> events;
     private Map<String, User> uniteUsers;
+    private Map<String, List<Event>> eventsByUser;
+    private Map<String, List<Event>> eventsIvitedByUser;
 
     public InMemoryPersistence() {
         eventCounter = 0;
         events = new ConcurrentHashMap<>();
+        eventsByUser = new ConcurrentHashMap<>();
+        eventsIvitedByUser = new ConcurrentHashMap<>();
         try {
             createEvent(new Event("user","PEventoPrueba","PARTY",100000));
         } catch (UniteException e) {
@@ -57,6 +61,14 @@ public class InMemoryPersistence implements UnitePersitence {
         } else {
             event.setId(eventCounter);
             events.put(eventCounter++, event);
+            String owner = event.getOwner();
+            if(eventsByUser.containsKey(owner)){
+                eventsByUser.get(owner).add(event);
+            }else{
+                List<Event> userEvents = new CopyOnWriteArrayList<>();
+                userEvents.add(event);
+                eventsByUser.put(owner, userEvents);
+            }
         }
     }
 
@@ -76,7 +88,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public List<Event> getEventsByUser(String username) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return eventsByUser.get(username);
     }
     
     @Override
@@ -162,6 +174,11 @@ public class InMemoryPersistence implements UnitePersitence {
     public List<Message> getLinkByEvent(int eventId) throws UniteException {
         Chat links = getEvent(eventId).getLinkChat();
         return links.getRecord();
+    }
+
+    @Override
+    public List<Event> getEventsInvitedByUser(String username) throws UniteException {
+        return eventsIvitedByUser.get(username);
     }
 
 }

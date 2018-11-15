@@ -68,6 +68,16 @@ public class APIController {
         }
     }
     
+    @GetMapping("/event/invited/{username}")
+    public ResponseEntity<?> getEventsInvitedByUserHandler(@PathVariable("username") String username) {
+        try {
+            return new ResponseEntity<>(service.getEventsInvitedByUser(username), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
     @PostMapping("/newEvent")
     public ResponseEntity<?> postCreateEventHandler(@RequestBody Event event) {
         try {

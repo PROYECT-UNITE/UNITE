@@ -18,6 +18,8 @@ public interface UniteServices {
 
     List<Event> getEventsByUser(String username) throws UniteException;
 
+    List<Event> getEventsInvitedByUser(String username) throws UniteException; 
+    
     void createEvent(Event event) throws UniteException;
 
     void changeEventName(int id, String name) throws UniteException;
