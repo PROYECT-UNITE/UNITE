@@ -33,6 +33,7 @@ public class InMemoryPersistence implements UnitePersitence {
         events = new ConcurrentHashMap<>();
         eventsByUser = new ConcurrentHashMap<>();
         eventsIvitedByUser = new ConcurrentHashMap<>();
+        uniteUsers = new ConcurrentHashMap<>();
         try {
             createEvent(new Event("user","PEventoPrueba","PARTY",100000));
         } catch (UniteException e) {
@@ -93,7 +94,7 @@ public class InMemoryPersistence implements UnitePersitence {
     
     @Override
     public User getUser(String username) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return uniteUsers.get(username);
     }
     
     @Override
@@ -109,7 +110,7 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public void createAccount(User user) throws UniteException {
         if (uniteUsers.containsKey(user.getUsername())) {
-            throw new UniteException("Username is already taken");
+            throw new UniteException("Username is already taken.");
         } else {
             uniteUsers.put(user.getUsername(), user);
         }
@@ -179,6 +180,15 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         return eventsIvitedByUser.get(username);
+    }
+
+    public List<User> getAssistanceToEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getAssistants();
+    }
+
+    @Override
+    public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
+        getEvent(eventId).changeStateOfUser(username, state);
     }
 
 }
