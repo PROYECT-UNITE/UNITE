@@ -169,13 +169,6 @@ public class APIController {
         }
     }
     
-    @MessageMapping("/newmessage.{eventId}")
-    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
-        System.out.println("New message recived from server!: " +message +" at id: "+eventId);
-        msgt.convertAndSend("/topic/newmessage." + eventId, message);
-        service.saveMessage(eventId, message);
-    }
-    
     @GetMapping("/events/{eventId}/link")
     public ResponseEntity<?> getLinksByEventHandler(@PathVariable("eventId") int eventId) {
         try {
@@ -184,6 +177,23 @@ public class APIController {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+    
+    @GetMapping("/events/{eventId}/assistance")
+    public ResponseEntity<?> getAssistanceToEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            return new ResponseEntity<>(service.getAssistanceToEvent(eventId), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @MessageMapping("/newmessage.{eventId}")
+    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
+        System.out.println("New message recived from server!: " +message +" at id: "+eventId);
+        msgt.convertAndSend("/topic/newmessage." + eventId, message);
+        service.saveMessage(eventId, message);
     }
     
     @MessageMapping("/newlink.{eventId}")

@@ -35,7 +35,7 @@ public class InMemoryPersistence implements UnitePersitence {
         eventsIvitedByUser = new ConcurrentHashMap<>();
         uniteUsers = new ConcurrentHashMap<>();
         try {
-            createEvent(new Event("user","PEventoPrueba","PARTY",100000));
+            createEvent(new Event("user", "PEventoPrueba", "PARTY", 100000));
         } catch (UniteException e) {
             e.printStackTrace();
         }
@@ -63,9 +63,9 @@ public class InMemoryPersistence implements UnitePersitence {
             event.setId(eventCounter);
             events.put(eventCounter++, event);
             String owner = event.getOwner();
-            if(eventsByUser.containsKey(owner)){
+            if (eventsByUser.containsKey(owner)) {
                 eventsByUser.get(owner).add(event);
-            }else{
+            } else {
                 List<Event> userEvents = new CopyOnWriteArrayList<>();
                 userEvents.add(event);
                 eventsByUser.put(owner, userEvents);
@@ -91,12 +91,12 @@ public class InMemoryPersistence implements UnitePersitence {
     public List<Event> getEventsByUser(String username) throws UniteException {
         return eventsByUser.get(username);
     }
-    
+
     @Override
     public User getUser(String username) throws UniteException {
         return uniteUsers.get(username);
     }
-    
+
     @Override
     public User getUserByMail(String mail) throws UniteException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -106,7 +106,7 @@ public class InMemoryPersistence implements UnitePersitence {
     public void changeEventName(int id, String name) throws UniteException {
         this.getEvent(id).changeName(name);
     }
-    
+
     @Override
     public void createAccount(User user) throws UniteException {
         if (uniteUsers.containsKey(user.getUsername())) {
@@ -127,20 +127,19 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public boolean checkUserAndPwd(String username, String pwd) throws UniteException {
-        if (uniteUsers.get(username)==null) {
+        if (uniteUsers.get(username) == null) {
             throw new UniteException("User with given username does not exist");
         } else {
             return uniteUsers.get(username).getPassword().equals(pwd);
         }
-        
+
     }
 
     @Override
     public Set<String> getAllUsers() {
         return uniteUsers.keySet();
     }
-    
-    
+
     @Override
     public void joinToEventByUsername(int id, String username) throws UniteException {
         Event event = events.get(id);
