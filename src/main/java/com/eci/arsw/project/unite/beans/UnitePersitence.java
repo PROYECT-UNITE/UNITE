@@ -49,7 +49,11 @@ public interface UnitePersitence {
 
     public List<Message> getLinkByEvent(int eventId) throws UniteException;
 
+
     public List<Event> getEventsInvitedByUser(String username) throws UniteException;
 
-    
+    public List<User> getAssistanceToEvent(int eventId) throws UniteException;
+
+    public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
+
 }

@@ -119,4 +119,14 @@ public class MongodbPersistance implements UnitePersitence {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<User> getAssistanceToEvent(int eventId) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
