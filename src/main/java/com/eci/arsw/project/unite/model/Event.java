@@ -23,9 +23,8 @@ public class Event {
     private int budget;
     private String owner;
     private List<User> assistants;
-    private List<User> confirmedAssistants;
     private List<Date> possibleDates;
-    private Map<String, Integer> assistantsState;
+    private Map<String, String> assistantsState;
     private Chat chat;
     private Chat linkChat;
     private Poll poll;
@@ -40,7 +39,6 @@ public class Event {
         this.type = type;
         this.budget = budget;
         assistants = new CopyOnWriteArrayList<>();
-        confirmedAssistants = new CopyOnWriteArrayList<>();
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
@@ -50,7 +48,6 @@ public class Event {
 
     public Event() {
         assistants = new CopyOnWriteArrayList<>();
-        confirmedAssistants = new CopyOnWriteArrayList<>();
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
@@ -63,14 +60,10 @@ public class Event {
 
     public void addMember(User member) {
         assistants.add(member);
-        assistantsState.put(member.getUsername(), User.INDETERMINATE);
+        assistantsState.put(member.getUsername(), "indeterminate");
     }
 
     public void removeMember(User memeber) {
-
-    }
-
-    public void confirmAttendanceOfAMember(String username) {
 
     }
 
@@ -82,7 +75,7 @@ public class Event {
 
     }
 
-    public void changeStateOfUser(String username, int state) throws UniteException {
+    public void changeStateOfUser(String username, String state) throws UniteException {
         if(assistantsState.containsKey(username)){
             assistantsState.put(username, state);
         }else{
@@ -133,15 +126,11 @@ public class Event {
         return assistants;
     }
 
-    public List<User> getConfirmedAssistants() {
-        return confirmedAssistants;
-    }
-
     public List<Date> getPossibleDates() {
         return possibleDates;
     }
 
-    public Map<String, Integer> getAssistantsState() {
+    public Map<String, String> getAssistantsState() {
         return assistantsState;
     }
 
@@ -198,7 +187,6 @@ public class Event {
                 ", budget=" + budget +
                 ", owner='" + owner + '\'' +
                 ", assistants=" + assistants +
-                ", confirmedAssistants=" + confirmedAssistants +
                 ", possibleDates=" + possibleDates +
                 ", assistantsState=" + assistantsState +
                 ", chat=" + chat +

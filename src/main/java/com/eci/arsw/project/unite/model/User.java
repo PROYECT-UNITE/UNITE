@@ -1,6 +1,8 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.data.annotation.Id;
 
@@ -9,10 +11,6 @@ import org.springframework.data.annotation.Id;
  * @author sergio
  */
 public class User {
-    
-    public static Integer ASSISTANT = 1;
-    public static Integer INDETERMINATE = 2;
-    public static Integer INVOLUNTARY_ABSENCE = 3;
 
     @Id
     private String username;

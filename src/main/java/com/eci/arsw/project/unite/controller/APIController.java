@@ -193,5 +193,11 @@ public class APIController {
         service.saveLink(eventId, message);
     }
     
+    @MessageMapping("/assistance.{eventId}.{username}")
+    public void handleAssistanceEvent(String state, @DestinationVariable int eventId, @DestinationVariable String username) throws Exception {
+        System.out.println("New state recived from server!: " +state +" at id: "+eventId+ " username: "+username);
+        msgt.convertAndSend("/topic/assistance." + eventId+"."+username, state);
+        service.changeStateOfAssitance(eventId, username, state);
+    }
     
 }

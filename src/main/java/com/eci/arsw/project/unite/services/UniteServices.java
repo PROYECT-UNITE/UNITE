@@ -45,5 +45,9 @@ public interface UniteServices {
     public List<Message> getLinkByEvent(int eventId) throws UniteException;
 
     public void saveLink(int eventId, Message message) throws UniteException;
+    
+    public List<User> getAssistanceToEvent(int eventId) throws UniteException;
+
+    public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
 
 }
