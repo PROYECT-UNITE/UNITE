@@ -6,6 +6,7 @@ import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.services.UniteException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,13 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author sergio
  */
-@Service
+
 public class InMemoryPersistence implements UnitePersitence {
 
     private int eventCounter;
@@ -89,22 +90,36 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public List<Event> getEventsByUser(String username) throws UniteException {
-        return eventsByUser.get(username);
+        if (eventsByUser.containsKey(username)) {
+            return eventsByUser.get(username);
+        } else {
+            throw new UniteException("No found user " + username);
+        }
+
     }
 
     @Override
     public User getUser(String username) throws UniteException {
-        return uniteUsers.get(username);
+        if (uniteUsers.containsKey(username)) {
+            return uniteUsers.get(username);
+        } else {
+            throw new UniteException("No found user " + username);
+        }
     }
 
     @Override
     public User getUserByMail(String mail) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        for (User u : uniteUsers.values()) {
+            if (u.getMail().equals(mail)) {
+                return u;
+            }
+        }
+        throw new UniteException("User with given mail does not exist");
     }
 
     @Override
     public void changeEventName(int id, String name) throws UniteException {
-        this.getEvent(id).changeName(name);
+        this.getEvent(id).setName(name);
     }
 
     @Override
@@ -178,7 +193,10 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
-        return eventsIvitedByUser.get(username);
+        if(eventsIvitedByUser.containsKey(username)){
+            return eventsIvitedByUser.get(username);
+        }
+        throw new UniteException("The user is not invited to any event");
     }
 
     public List<User> getAssistanceToEvent(int eventId) throws UniteException {

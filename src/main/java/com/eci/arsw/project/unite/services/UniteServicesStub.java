@@ -4,6 +4,8 @@ import com.eci.arsw.project.unite.beans.UnitePersitence;
 import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,7 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public Set<String> getAllUsers() {
+    public Collection<String> getAllUsers() {
         return persistence.getAllUsers();
     }
 

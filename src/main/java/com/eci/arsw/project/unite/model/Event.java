@@ -52,10 +52,6 @@ public class Event {
         gather = new Gather();
     }
 
-    public void changeName(String name) {
-        this.name = name;
-    }
-
     public void addMember(User member) {
         assistants.add(member);
         assistantsState.put(member.getUsername(), "indeterminate");
