@@ -14,7 +14,6 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 
 /**
@@ -118,9 +117,9 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public User getUserByMail(String mail) throws UniteException {
         User user = usersRepository.findByMail(mail);
-        if (user == null){
+        if (user == null) {
             throw new UniteException("User with given mail does not exist");
-        }else{
+        } else {
             return user;
         }
     }
@@ -130,6 +129,10 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = this.getEvent(id);
         event.setName(name);
         eventRepository.save(event);
+        EventsByUser eventsByUser = eventsByUserRepository.findByEventsContainsId(id);
+        for (Event e : eventsByUser.getEvents())
+            if (e.getId() == id) e.setName(name);
+        eventsByUserRepository.save(eventsByUser);
     }
 
     @Override
@@ -204,10 +207,9 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         Optional<EventsByUser> eventsByUser = eventsInvitedByUserRepository.findById(username);
-        if(eventsByUser.isPresent()){
+        if (eventsByUser.isPresent()) {
             return eventsByUser.get().getEvents();
-        }
-        else{
+        } else {
             throw new UniteException("The user is not invited to any event");
         }
     }
@@ -220,7 +222,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
         Event event = getEvent(eventId);
-        event.changeStateOfUser(username,state);
+        event.changeStateOfUser(username, state);
         eventRepository.save(event);
     }
 
@@ -231,7 +233,7 @@ public class MongodbPersistance implements UnitePersitence {
         ) {
             counter = java.lang.Math.max(counter, e.getId());
         }
-        return counter;
+        return counter+1;
     }
 
 
