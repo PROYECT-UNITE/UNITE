@@ -3,6 +3,8 @@ package com.eci.arsw.project.unite.services;
 import com.eci.arsw.project.unite.model.Event;
 import com.eci.arsw.project.unite.model.Message;
 import com.eci.arsw.project.unite.model.User;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -26,28 +28,28 @@ public interface UniteServices {
 
     void createAccount(User user) throws UniteException;
 
-    public void updateUser(String username, User user) throws UniteException;
+    void updateUser(String username, User user) throws UniteException;
 
-    public boolean grantAccess(String username, String pwd) throws UniteException;
+    boolean grantAccess(String username, String pwd) throws UniteException;
 
-    public Set<String> getAllUsers();
+    Collection<String> getAllUsers();
 
     void createAccount(String username, String mail, String name, String password) throws UniteException;
 
-    public void joinToEventByUsername(int id, String username) throws UniteException;
+    void joinToEventByUsername(int id, String username) throws UniteException;
 
-    public void joinToEventByMail(int id, String mail) throws UniteException;
+    void joinToEventByMail(int id, String mail) throws UniteException;
 
-    public List<Message> getMessagesByEvent(int eventId) throws UniteException;
+    List<Message> getMessagesByEvent(int eventId) throws UniteException;
 
-    public void saveMessage(int eventId, Message message) throws UniteException;
+    void saveMessage(int eventId, Message message) throws UniteException;
     
-    public List<Message> getLinkByEvent(int eventId) throws UniteException;
+    List<Message> getLinkByEvent(int eventId) throws UniteException;
 
-    public void saveLink(int eventId, Message message) throws UniteException;
+    void saveLink(int eventId, Message message) throws UniteException;
     
-    public List<User> getAssistanceToEvent(int eventId) throws UniteException;
+    List<User> getAssistanceToEvent(int eventId) throws UniteException;
 
-    public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
+    void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
 
 }
