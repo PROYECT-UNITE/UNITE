@@ -68,7 +68,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/event/invited/{username}")
+    @GetMapping("/events/invited/{username}")
     public ResponseEntity<?> getEventsInvitedByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsInvitedByUser(username), HttpStatus.ACCEPTED);

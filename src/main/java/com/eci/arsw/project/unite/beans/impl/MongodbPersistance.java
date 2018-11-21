@@ -206,9 +206,9 @@ public class MongodbPersistance implements UnitePersitence {
 
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
-        Optional<EventsByUser> eventsByUser = eventsInvitedByUserRepository.findById(username);
-        if (eventsByUser.isPresent()) {
-            return eventsByUser.get().getEvents();
+        Optional<EventsInvitedByUser> EventsInvitedByUser = eventsInvitedByUserRepository.findById(username);
+        if (EventsInvitedByUser.isPresent()) {
+            return EventsInvitedByUser.get().getEvents();
         } else {
             throw new UniteException("The user is not invited to any event");
         }

@@ -5,17 +5,17 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
-public class EventsByUser {
+public class EventsInvitedByUser {
 
     @Id
     private String username;
 
     private List<Event> events;
 
-    public EventsByUser() {
+    public EventsInvitedByUser() {
     }
 
-    EventsByUser(String owner, List<Event> events) {
+    EventsInvitedByUser(String owner, List<Event> events) {
         this.username = owner;
         this.events = events;
     }
