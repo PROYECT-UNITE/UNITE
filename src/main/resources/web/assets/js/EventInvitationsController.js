@@ -1,18 +1,19 @@
-var prueba;
-var controller = (function () {
+var InvitationsController = (function () {
     var user = "NicGarcia";
     var createdEvts;
-    var getEventName = function () {
-        return eventCreator.name;
-    };
-    var updateEvent = function () {
-        axios.post("http://localhost:8080/unite/newEvent", eventCreator)
+    var getEventInvitations = function () {
+        axios.get("http://localhost:8080/unite/event/invited/" + user)
             .then(function (response) {
-                location.reload(true);
-                alert("Event Created");
+                createdEvts = response.data;
             })
             .catch(function (error) {
+            })
+            .then(function () {
+                callback(createdEvts);
             });
+    };
+    var updateEvent = function () {
+
     };
     var getCreatedEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/" + user)
@@ -43,10 +44,7 @@ var controller = (function () {
             });
     }
     return {
-        getUser: getUser,
-        getCreatedEvents: getCreatedEvents,
-        saveEditedEvent: saveEditedEvent,
-        editEventName: editEventName
+
 
     };
 })();
