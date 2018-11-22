@@ -27,7 +27,7 @@ public class Event {
     private Chat linkChat;
     private Poll poll;
     private Gather gather;
-    private Location location;
+    private String location;
     private Date date;
     private String description;
 
@@ -145,11 +145,11 @@ public class Event {
         return gather;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

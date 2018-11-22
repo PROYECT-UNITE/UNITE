@@ -234,8 +234,10 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public void saveEventLocation(int eventId, String longitude, String latitude) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException {
+        Event event = getEvent(eventId);
+        event.setLocation("lon: "+longitude +" lat: "+latitude);
+        eventRepository.save(event);
     }
 
     private int getCounter() {

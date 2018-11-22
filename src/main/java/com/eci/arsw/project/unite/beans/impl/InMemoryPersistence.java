@@ -35,7 +35,7 @@ public class InMemoryPersistence implements UnitePersitence {
         try {
             createEvent(new Event("user", "PEventoPrueba", "PARTY", 100000));
         } catch (UniteException e) {
-            e.printStackTrace();
+            Logger.getLogger(InMemoryPersistence.class.getName()).log(Level.SEVERE, null, e);
         }
         uniteUsers = new ConcurrentHashMap<>();
         try {
@@ -216,7 +216,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) {
-        events.get(eventId).setLocation(new Location(longitude, latitude));
+        events.get(eventId).setLocation("lon: "+longitude +" lat: "+latitude);
     }
 
 }

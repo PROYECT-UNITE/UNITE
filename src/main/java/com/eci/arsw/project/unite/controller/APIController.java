@@ -92,6 +92,7 @@ public class APIController {
     @PutMapping("/{id}/rename/{name}")
     public ResponseEntity<?> putChangeEventNameHandler(@PathVariable("id") int id, @PathVariable("name") String name) {
         try {
+            System.out.println("Change "+id+ " "+name);
             service.changeEventName(id, name);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {

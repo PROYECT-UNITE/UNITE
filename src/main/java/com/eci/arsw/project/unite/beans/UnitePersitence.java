@@ -59,6 +59,6 @@ public interface UnitePersitence {
 
     void changePassword(String username, String newPassword) throws UniteException;
 
-    void saveEventLocation(int eventId, String longitude, String latitude);
+    void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
 }
