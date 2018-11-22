@@ -75,7 +75,7 @@ function showCreatedEvts(events) {
             + '<label for="eventName'+events[i].id+'">'
             + 'Event Name :'
             + '</label>'
-            + '<input type="text" class="form-control required" id="eventName'+events[i].id+'" name="firstName" value="'+events[i].name+'" oninput="controller.editEventName('+i+',this.value)"></input>'
+            + '<input type="text" class="form-control required" id="eventName'+events[i].id+'" name="firstName" value="'+events[i].name+'" oninput="eventEditionController.editEventName('+i+',this.value)"></input>'
             + '</div>'
             + '</div>'
             + '<div class="col-md-6">'

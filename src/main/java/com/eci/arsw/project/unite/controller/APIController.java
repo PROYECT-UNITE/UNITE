@@ -148,6 +148,7 @@ public class APIController {
     @PutMapping("/changePassword/{username}")
     public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestParam String newPassword) {
         try {
+            System.out.println("Cam"+username+ " "+ newPassword);
             service.updatePassword(username, newPassword);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
