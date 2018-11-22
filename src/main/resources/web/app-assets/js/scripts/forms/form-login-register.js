@@ -15,11 +15,11 @@ $(document).ready(function(){
 });
 
 var registrationServices = (function (){
-     var url = 'http://localhost:8080';
+     var url = '';
      return {
         signUp : function (){
-            var names = document.getElementById("namesOfUser").value;
-            var user = document.getElementById("user-name").value;
+            var user  = document.getElementById("namesOfUser").value;
+            var names = document.getElementById("user-name").value;
             var email = document.getElementById("user-email").value;
             var pwd = document.getElementById("user-password").value;
             axios.post(url+"/unite/newAccount?username="+user+"&pwd="+pwd+"&mail="+email+"&name="+names).then(function (response) {

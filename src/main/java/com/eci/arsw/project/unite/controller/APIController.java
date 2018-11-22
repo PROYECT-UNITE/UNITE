@@ -144,10 +144,23 @@ public class APIController {
         }
     }
     
+    @PutMapping("/changePassword/{username}")
+    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestParam String newPassword) {
+        try {
+            service.updatePassword(username, newPassword);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+
     @PostMapping("/access")
     public ResponseEntity<?> getAccess(@RequestParam String username, @RequestParam String pwd) {
         try {
-            return new ResponseEntity<>(service.grantAccess(username,pwd), HttpStatus.ACCEPTED);
+            boolean ans = service.grantAccess(username,pwd);
+            System.out.println("Getting acces to "+username+" "+pwd +" = "+ans);
+            return new ResponseEntity<>(ans, HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -188,26 +201,38 @@ public class APIController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    
+
+    @PostMapping("/{eventID}/location")
+    public ResponseEntity<?> postEventLocation(@PathVariable("eventId") int eventId, @RequestParam String longitude, @RequestParam String latitude) {
+        try {
+            service.saveEventLocation(eventId,longitude,latitude);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @MessageMapping("/newmessage.{eventId}")
     public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
         System.out.println("New message recived from server!: " +message +" at id: "+eventId);
         msgt.convertAndSend("/topic/newmessage." + eventId, message);
         service.saveMessage(eventId, message);
     }
-    
+
     @MessageMapping("/newlink.{eventId}")
     public void handleLinkEvent(Message message, @DestinationVariable int eventId) throws Exception {
         System.out.println("New link recived from server!: " +message +" at id: "+eventId);
         msgt.convertAndSend("/topic/newlink." + eventId, message);
         service.saveLink(eventId, message);
     }
-    
+
     @MessageMapping("/assistance.{eventId}.{username}")
     public void handleAssistanceEvent(String state, @DestinationVariable int eventId, @DestinationVariable String username) throws Exception {
         System.out.println("New state recived from server!: " +state +" at id: "+eventId+ " username: "+username);
         msgt.convertAndSend("/topic/assistance." + eventId+"."+username, state);
         service.changeStateOfAssitance(eventId, username, state);
     }
-    
+
+
 }

@@ -226,6 +226,18 @@ public class MongodbPersistance implements UnitePersitence {
         eventRepository.save(event);
     }
 
+    @Override
+    public void changePassword(String username, String newPassword) throws UniteException {
+        User user = getUser(username);
+        user.setPassword(newPassword);
+        usersRepository.save(user);
+    }
+
+    @Override
+    public void saveEventLocation(int eventId, String longitude, String latitude) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private int getCounter() {
         List<Event> events = eventRepository.findAll();
         int counter = 0;

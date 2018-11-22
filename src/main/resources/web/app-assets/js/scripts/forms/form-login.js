@@ -3,14 +3,16 @@
 		
 ==========================================================================================*/
 var loginServices = (function (){ 
-     var url = 'http://localhost:8080';    
+     var url = '';
     return {
        validate: function () { 
             var user = document.getElementById("user-name").value;
             var pwd = document.getElementById("user-password").value;
-            axios.post(url+"/unite/access?username="+user+"&pwd="+pwd+"").then(function (response) {
+            axios.post(url+"/unite/access?username="+user+"&pwd="+pwd).then(function (response) {
+                console.log(response.data);
+                alert(response.data);
                 if(JSON.stringify(response.data) == "true"){
-                    window.location.href = url+"/event-creation.html";
+                    window.location.href = url+"/index.html";
                 }else{
                     alert("Wrong name or password");
                 }

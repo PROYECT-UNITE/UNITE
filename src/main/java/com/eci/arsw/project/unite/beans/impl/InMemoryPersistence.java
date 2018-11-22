@@ -1,10 +1,7 @@
 package com.eci.arsw.project.unite.beans.impl;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
-import com.eci.arsw.project.unite.model.Chat;
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.services.UniteException;
 
 import java.util.List;
@@ -192,6 +189,15 @@ public class InMemoryPersistence implements UnitePersitence {
     }
 
     @Override
+    public void changePassword(String username, String newPassword) throws UniteException {
+        if (!uniteUsers.containsKey(username)) {
+            throw new UniteException("User with given username does not exist");
+        } else {
+            uniteUsers.get(username).setPassword(newPassword);
+        }
+    }
+
+    @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         if(eventsIvitedByUser.containsKey(username)){
             return eventsIvitedByUser.get(username);
@@ -206,6 +212,11 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
         getEvent(eventId).changeStateOfUser(username, state);
+    }
+
+    @Override
+    public void saveEventLocation(int eventId, String longitude, String latitude) {
+        events.get(eventId).setLocation(new Location(longitude, latitude));
     }
 
 }
