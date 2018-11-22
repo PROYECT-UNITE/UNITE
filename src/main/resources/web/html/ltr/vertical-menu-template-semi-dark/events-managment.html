@@ -34,7 +34,7 @@
     <!-- END Custom CSS-->
 </head>
 <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
-      data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="controller.getCreatedEvents(showCreatedEvts)">
+      data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="eventEditionController.getCreatedEvents(showCreatedEvts)">
 <!-- fixed-top-->
 <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
     <div class="navbar-wrapper">
@@ -262,7 +262,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Your event will be ready soon! </h4>
+                        <h4 class="card-title">Here you can manage your events </h4>
 
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-h font-medium-3"></i></a>
                         <div class="heading-elements">
@@ -274,9 +274,7 @@
                     </div>
                     <div class="card-content collapse show">
                         <div class="card-body">
-                            <h4 class="card-title">Collapse</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up
-                                the bulk of the card's content.</p>
+                            <p class="card-text">To edit an event just click on event´s name.s</p>
                         </div>
                         <div id="accordionWrap1" role="tablist" aria-multiselectable="true">
                             <div id="createdEvents" class="card collapse-icon panel mb-0 box-shadow-0 border-0">
@@ -304,6 +302,7 @@
 </footer>
 <!-- BEGIN VENDOR JS-->
 <script src="../../../app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+<script src="../../../assets/js/EventEditionController.js" type="text/javascript"></script>
 <script src="../../../assets/js/MainController.js" type="text/javascript"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- BEGIN VENDOR JS-->
