@@ -61,4 +61,5 @@ public interface UnitePersitence {
 
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
+    void inviteToEvent(int eventId, String username) throws UniteException;
 }

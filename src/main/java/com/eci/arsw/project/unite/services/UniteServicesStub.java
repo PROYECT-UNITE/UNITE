@@ -128,4 +128,9 @@ public class UniteServicesStub implements UniteServices {
         persistence.saveEventLocation(eventId,longitude,latitude);
     }
 
+    @Override
+    public void inviteToEvent(int eventId, String username) throws UniteException {
+        persistence.inviteToEvent(eventId,username);
+    }
+
 }

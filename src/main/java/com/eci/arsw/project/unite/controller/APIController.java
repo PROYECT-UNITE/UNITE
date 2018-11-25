@@ -217,6 +217,17 @@ public class APIController {
         }
     }
 
+    @PostMapping("/{eventID}/invite/{username}")
+    public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @PathVariable("username") String username) {
+        try {
+            service.inviteToEvent(eventId,username);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @MessageMapping("/newmessage.{eventId}")
     public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
         System.out.println("New message recived from server!: " +message +" at id: "+eventId);

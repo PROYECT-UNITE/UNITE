@@ -56,4 +56,5 @@ public interface UniteServices {
 
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
+    void inviteToEvent(int eventId, String username) throws UniteException;
 }

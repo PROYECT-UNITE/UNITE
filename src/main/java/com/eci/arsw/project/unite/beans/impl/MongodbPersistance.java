@@ -45,6 +45,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void createAccount(User user) throws UniteException {
         boolean exists = usersRepository.existsById(user.getUsername());
+
         if (!exists) {
             usersRepository.save(user);
         } else {
@@ -238,6 +239,24 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = getEvent(eventId);
         event.setLocation("lon: "+longitude +" lat: "+latitude);
         eventRepository.save(event);
+    }
+
+    @Override
+    public void inviteToEvent(int eventId, String username) throws UniteException {
+        Event event = getEvent(eventId);
+        Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
+        if (events.isPresent()) {
+            EventsInvitedByUser eventsInvitedByUser = events.get();
+            eventsInvitedByUser.getEvents().add(event);
+            eventsInvitedByUserRepository.save(eventsInvitedByUser);
+
+        } else {
+            List<Event> eventList;
+            eventList = new CopyOnWriteArrayList<>();
+            eventList.add(event);
+            eventsInvitedByUserRepository.save(new EventsInvitedByUser(username, eventList));
+        }
+
     }
 
     private int getCounter() {

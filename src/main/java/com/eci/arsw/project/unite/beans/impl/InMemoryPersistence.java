@@ -219,4 +219,9 @@ public class InMemoryPersistence implements UnitePersitence {
         events.get(eventId).setLocation("lon: "+longitude +" lat: "+latitude);
     }
 
+    @Override
+    public void inviteToEvent(int eventId, String username) throws UniteException {
+
+    }
+
 }
