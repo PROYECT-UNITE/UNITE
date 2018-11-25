@@ -46,7 +46,8 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws UniteException {
+        passwordValid(password);
         this.password = password;
     }
 

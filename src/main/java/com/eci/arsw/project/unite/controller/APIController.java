@@ -7,6 +7,8 @@ import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,10 +126,10 @@ public class APIController {
     }
    
     @PostMapping("/newAccount")
-    public ResponseEntity<?> postCreateAccount(@RequestParam String username,@RequestParam String pwd, @RequestParam String mail, @RequestParam String name) {
+    public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
         try {
-            System.out.println(username +" Pd: "+pwd);
-            service.createAccount(new User(username, pwd, mail, name));
+            System.out.println(user);
+            service.createAccount(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,9 +148,9 @@ public class APIController {
     }
     
     @PutMapping("/changePassword/{username}")
-    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestParam String newPassword) {
+    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestBody String newPassword) {
         try {
-            System.out.println("Cam"+username+ " "+ newPassword);
+            newPassword = (String) new JSONObject(newPassword).get("newPassword");
             service.updatePassword(username, newPassword);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (UniteException ex) {

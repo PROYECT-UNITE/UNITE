@@ -9,8 +9,8 @@ var loginServices = (function (){
             var user = document.getElementById("user-name").value;
             var pwd = document.getElementById("user-password").value;
             axios.post(url+"/unite/access?username="+user+"&pwd="+pwd).then(function (response) {
-                console.log(response.data);
-                alert(response.data);
+                console.log(response);
+                alert("Welcome " + user);
                 if(JSON.stringify(response.data) == "true"){
                     window.location.href = url+"/index.html";
                 }else{
