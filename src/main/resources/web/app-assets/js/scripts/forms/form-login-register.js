@@ -15,14 +15,16 @@ $(document).ready(function(){
 });
 
 var registrationServices = (function (){
-     var url = 'http://localhost:8080';
+     var url = '';
      return {
         signUp : function (){
-            var names = document.getElementById("namesOfUser").value;
-            var user = document.getElementById("user-name").value;
-            var email = document.getElementById("user-email").value;
-            var pwd = document.getElementById("user-password").value;
-            axios.post(url+"/unite/newAccount?username="+user+"&pwd="+pwd+"&mail="+email+"&name="+names).then(function (response) {
+            var user = {
+                "username": document.getElementById("namesOfUser").value,
+                "name" : document.getElementById("user-name").value,
+                "mail" : document.getElementById("user-email").value,
+                "password" : document.getElementById("user-password").value,
+            };
+            axios.post(url+"/unite/newAccount",user).then(function (response) {
                 alert("User Created Succesfully");
                 window.location.href = url+"/login.html";
                 

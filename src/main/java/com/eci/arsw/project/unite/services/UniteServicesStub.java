@@ -118,4 +118,19 @@ public class UniteServicesStub implements UniteServices {
         persistence.changeStateOfAssitance(eventId,username,state);
     }
 
+    @Override
+    public void updatePassword(String username, String newPassword) throws UniteException {
+        persistence.changePassword(username, newPassword);
+    }
+
+    @Override
+    public void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException {
+        persistence.saveEventLocation(eventId,longitude,latitude);
+    }
+
+    @Override
+    public void inviteToEvent(int eventId, String username) throws UniteException {
+        persistence.inviteToEvent(eventId,username);
+    }
+
 }

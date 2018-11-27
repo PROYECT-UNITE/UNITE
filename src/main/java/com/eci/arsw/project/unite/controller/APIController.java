@@ -7,6 +7,8 @@ import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +70,7 @@ public class APIController {
         }
     }
     
-    @GetMapping("/event/invited/{username}")
+    @GetMapping("/events/invited/{username}")
     public ResponseEntity<?> getEventsInvitedByUserHandler(@PathVariable("username") String username) {
         try {
             return new ResponseEntity<>(service.getEventsInvitedByUser(username), HttpStatus.ACCEPTED);
@@ -92,6 +94,7 @@ public class APIController {
     @PutMapping("/{id}/rename/{name}")
     public ResponseEntity<?> putChangeEventNameHandler(@PathVariable("id") int id, @PathVariable("name") String name) {
         try {
+            System.out.println("Change "+id+ " "+name);
             service.changeEventName(id, name);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
@@ -123,10 +126,10 @@ public class APIController {
     }
    
     @PostMapping("/newAccount")
-    public ResponseEntity<?> postCreateAccount(@RequestParam String username,@RequestParam String pwd, @RequestParam String mail, @RequestParam String name) {
+    public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
         try {
-            System.out.println(username +" Pd: "+pwd);
-            service.createAccount(new User(username, pwd, mail, name));
+            System.out.println(user);
+            service.createAccount(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,10 +147,24 @@ public class APIController {
         }
     }
     
+    @PutMapping("/changePassword/{username}")
+    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestBody String newPassword) {
+        try {
+            newPassword = (String) new JSONObject(newPassword).get("newPassword");
+            service.updatePassword(username, newPassword);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+
     @PostMapping("/access")
     public ResponseEntity<?> getAccess(@RequestParam String username, @RequestParam String pwd) {
         try {
-            return new ResponseEntity<>(service.grantAccess(username,pwd), HttpStatus.ACCEPTED);
+            boolean ans = service.grantAccess(username,pwd);
+            System.out.println("Getting acces to "+username+" "+pwd +" = "+ans);
+            return new ResponseEntity<>(ans, HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -188,26 +205,49 @@ public class APIController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    
+
+    @PostMapping("/{eventID}/location")
+    public ResponseEntity<?> postEventLocation(@PathVariable("eventId") int eventId, @RequestParam String longitude, @RequestParam String latitude) {
+        try {
+            service.saveEventLocation(eventId,longitude,latitude);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{eventID}/invite/{username}")
+    public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @PathVariable("username") String username) {
+        try {
+            service.inviteToEvent(eventId,username);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @MessageMapping("/newmessage.{eventId}")
     public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
         System.out.println("New message recived from server!: " +message +" at id: "+eventId);
         msgt.convertAndSend("/topic/newmessage." + eventId, message);
         service.saveMessage(eventId, message);
     }
-    
+
     @MessageMapping("/newlink.{eventId}")
     public void handleLinkEvent(Message message, @DestinationVariable int eventId) throws Exception {
         System.out.println("New link recived from server!: " +message +" at id: "+eventId);
         msgt.convertAndSend("/topic/newlink." + eventId, message);
         service.saveLink(eventId, message);
     }
-    
+
     @MessageMapping("/assistance.{eventId}.{username}")
     public void handleAssistanceEvent(String state, @DestinationVariable int eventId, @DestinationVariable String username) throws Exception {
         System.out.println("New state recived from server!: " +state +" at id: "+eventId+ " username: "+username);
         msgt.convertAndSend("/topic/assistance." + eventId+"."+username, state);
         service.changeStateOfAssitance(eventId, username, state);
     }
-    
+
+
 }

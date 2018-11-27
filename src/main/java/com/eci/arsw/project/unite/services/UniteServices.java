@@ -52,4 +52,9 @@ public interface UniteServices {
 
     void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
 
+    void updatePassword(String username, String newPassword) throws UniteException;
+
+    void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
+
+    void inviteToEvent(int eventId, String username) throws UniteException;
 }
