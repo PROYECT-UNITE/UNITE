@@ -1,11 +1,12 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
+import org.springframework.data.annotation.Id;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.springframework.data.annotation.Id;
 
 /**
  *

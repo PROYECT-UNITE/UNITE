@@ -1,7 +1,7 @@
 package com.eci.arsw.project.unite.model;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -9,17 +9,25 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Gather {
 
-    List<Item> items;
+    Set<Item> items;
 
     public Gather() {
-        items = new CopyOnWriteArrayList<>();
+        items = ConcurrentHashMap.newKeySet();
     }
 
-    public List<Item> getItems() {
+    public void addItem(Item item){
+        this.items.add(item);
+    }
+
+    public void removeItem(Item item){
+        this.items.remove(item);
+    }
+
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 

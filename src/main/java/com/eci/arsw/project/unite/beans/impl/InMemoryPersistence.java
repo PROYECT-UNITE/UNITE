@@ -12,8 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.stereotype.Service;
-
 /**
  * @author sergio
  */
@@ -221,6 +219,21 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void inviteToEvent(int eventId, String username) throws UniteException {
+
+    }
+
+    @Override
+    public Set<Item> getGatherOfEvent(int eventId) throws UniteException {
+        return null;
+    }
+
+    @Override
+    public void addItem(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void removeItem(int eventId, Item item) throws UniteException {
 
     }
 

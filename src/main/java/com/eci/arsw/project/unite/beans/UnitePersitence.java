@@ -1,16 +1,12 @@
 package com.eci.arsw.project.unite.beans;
 
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.services.UniteException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
- *
  * @author sergio
  */
 public interface UnitePersitence {
@@ -62,4 +58,10 @@ public interface UnitePersitence {
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
     void inviteToEvent(int eventId, String username) throws UniteException;
+
+    Gather getGatherOfEvent(int eventId) throws UniteException;
+
+    void addItem(int eventId, Item item) throws UniteException;
+
+    void removeItem(int eventId, Item item) throws UniteException;
 }

@@ -1,15 +1,11 @@
 package com.eci.arsw.project.unite.services;
 
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
- *
  * @author sergio
  */
 public interface UniteServices {
@@ -20,8 +16,8 @@ public interface UniteServices {
 
     List<Event> getEventsByUser(String username) throws UniteException;
 
-    List<Event> getEventsInvitedByUser(String username) throws UniteException; 
-    
+    List<Event> getEventsInvitedByUser(String username) throws UniteException;
+
     void createEvent(Event event) throws UniteException;
 
     void changeEventName(int id, String name) throws UniteException;
@@ -43,11 +39,11 @@ public interface UniteServices {
     List<Message> getMessagesByEvent(int eventId) throws UniteException;
 
     void saveMessage(int eventId, Message message) throws UniteException;
-    
+
     List<Message> getLinkByEvent(int eventId) throws UniteException;
 
     void saveLink(int eventId, Message message) throws UniteException;
-    
+
     List<User> getAssistanceToEvent(int eventId) throws UniteException;
 
     void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
@@ -57,4 +53,10 @@ public interface UniteServices {
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
     void inviteToEvent(int eventId, String username) throws UniteException;
+
+    Gather getGatherOfEvent(int eventId) throws UniteException;
+
+    void addItem(int eventId, Item item) throws UniteException;
+
+    void removeItem(int eventId, Item item) throws UniteException;
 }

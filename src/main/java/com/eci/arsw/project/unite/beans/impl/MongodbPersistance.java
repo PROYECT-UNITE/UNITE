@@ -1,20 +1,20 @@
 package com.eci.arsw.project.unite.beans.impl;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.repository.EventRepository;
 import com.eci.arsw.project.unite.repository.EventsByUserRepository;
 import com.eci.arsw.project.unite.repository.EventsInvitedByUserRepository;
 import com.eci.arsw.project.unite.repository.UsersRepository;
 import com.eci.arsw.project.unite.services.UniteException;
-
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author SergioRt
@@ -237,7 +237,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException {
         Event event = getEvent(eventId);
-        event.setLocation("lon: "+longitude +" lat: "+latitude);
+        event.setLocation("lon: " + longitude + " lat: " + latitude);
         eventRepository.save(event);
     }
 
@@ -259,6 +259,25 @@ public class MongodbPersistance implements UnitePersitence {
 
     }
 
+    @Override
+    public Gather getGatherOfEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getGather();
+    }
+
+    @Override
+    public void addItem(int eventid, Item item) throws UniteException {
+        Event event = getEvent(eventid);
+        event.getGather().addItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getGather().removeItem(item);
+        eventRepository.save(event);
+    }
+
     private int getCounter() {
         List<Event> events = eventRepository.findAll();
         int counter = 0;
@@ -266,7 +285,7 @@ public class MongodbPersistance implements UnitePersitence {
         ) {
             counter = java.lang.Math.max(counter, e.getId());
         }
-        return counter+1;
+        return counter + 1;
     }
 
 

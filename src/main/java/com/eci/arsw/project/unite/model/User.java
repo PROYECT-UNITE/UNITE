@@ -1,8 +1,9 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
-import java.util.regex.Pattern;
 import org.springframework.data.annotation.Id;
+
+import java.util.regex.Pattern;
 
 /**
  *
@@ -16,6 +17,7 @@ public class User {
     private String password;
     private String mail;
     private String name;
+    private String state;
 
     public User(String username, String password, String mail, String name) throws UniteException {
         this.username = username;
@@ -67,4 +69,11 @@ public class User {
         this.name = name;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }
