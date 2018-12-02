@@ -154,12 +154,16 @@ public class Event {
         return chat;
     }
 
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
     public String getLocation() {
         return location;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Poll getPoll() {
@@ -168,10 +172,6 @@ public class Event {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Date getDate() {

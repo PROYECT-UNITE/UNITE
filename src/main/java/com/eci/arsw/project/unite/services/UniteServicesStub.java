@@ -164,4 +164,19 @@ public class UniteServicesStub implements UniteServices {
         return persistence.voteForTopicInEvent(eventId,username,topic);
     }
 
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.addItemChecklist(eventId,item);
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.removeItemChecklist(eventId,item);
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.takeChargeItemChecklist(eventId,item);
+    }
+
 }

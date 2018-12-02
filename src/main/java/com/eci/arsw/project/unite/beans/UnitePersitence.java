@@ -67,9 +67,15 @@ public interface UnitePersitence {
 
     void takeChargeItem(int eventId, Item item) throws UniteException;
 
-    void addTopicToEvent(int eventId, Topic topic)throws  UniteException;
+    void addTopicToEvent(int eventId, Topic topic) throws UniteException;
 
-    void removeTopicToEvent(int eventId, Topic topic) throws  UniteException;
+    void removeTopicToEvent(int eventId, Topic topic) throws UniteException;
 
     Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException;
+
+    void addItemChecklist(int eventId, Item item) throws UniteException;
+
+    void removeItemChecklist(int eventId, Item item) throws UniteException;
+
+    void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
 }

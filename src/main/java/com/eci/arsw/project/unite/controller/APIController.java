@@ -241,7 +241,7 @@ public class APIController {
     }
 
     @MessageMapping("/newmessage.{eventId}")
-    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws UniteException{
+    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws UniteException {
         System.out.println("New message recived from server!: " + message + " at id: " + eventId);
         msgt.convertAndSend("/topic/newmessage." + eventId, message);
         service.saveMessage(eventId, message);
@@ -359,6 +359,48 @@ public class APIController {
         System.out.println("New topic to vote recived from server!: " + topic + " at id: " + eventId);
         Topic votedTopic = service.voteForTopicInEvent(eventId, username, topic);
         msgt.convertAndSend("/topic/votetopic." + eventId, votedTopic);
+    }
+
+    /**
+     * Resive un nuevo item para el checklist de un evento y lo publica en /topic/additemchecklist.{eventId}
+     *
+     * @param item    item publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/additemchecklist.{eventId}")
+    public void handleAddItemChecklist(Item item, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New item recived from server!: " + item + " at id: " + eventId);
+        msgt.convertAndSend("/topic/additemchecklist." + eventId, item);
+        service.addItemChecklist(eventId, item);
+    }
+
+    /**
+     * Resive un item para el checklist de un evento para eliminar y lo publica en /topic/removeitemchecklist.{eventId}
+     *
+     * @param item    item publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/removeitemchecklist.{eventId}")
+    public void handleRemoveItemChecklist(Item item, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New item to remove recived from server!: " + item + " at id: " + eventId);
+        msgt.convertAndSend("/topic/removeitemchecklist." + eventId, item);
+        service.removeItemChecklist(eventId, item);
+    }
+
+    /**
+     * Resive un item para el checklist de un evento con el oncharge=Username y state=Taken y lo publica en /topic/takechargeitemchecklist.{eventId}
+     *
+     * @param item    item publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/takechargeitemchecklist.{eventId}")
+    public void handleTakeChargeItemChecklist(Item item, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New item to take charge recived from server!: " + item + " at id: " + eventId);
+        msgt.convertAndSend("/topic/takechargeitemchecklist." + eventId, item);
+        service.takeChargeItemChecklist(eventId, item);
     }
 
 }

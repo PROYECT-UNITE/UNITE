@@ -67,4 +67,10 @@ public interface UniteServices {
     void removeTopicToEvent(int eventId, Topic topic) throws UniteException;
 
     Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException;
+
+    void addItemChecklist(int eventId, Item item) throws UniteException;
+
+    void removeItemChecklist(int eventId, Item item) throws UniteException;
+
+    void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
 }

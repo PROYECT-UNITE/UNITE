@@ -260,8 +260,8 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public void addItem(int eventid, Item item) throws UniteException {
-        Event event = getEvent(eventid);
+    public void addItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
         event.getGather().addItem(item);
         eventRepository.save(event);
     }
@@ -302,9 +302,30 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
         Event event = getEvent(eventId);
-        Topic votedTopic = event.getPoll().vote(username,topic);
+        Topic votedTopic = event.getPoll().vote(username, topic);
         eventRepository.save(event);
         return votedTopic;
+    }
+
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().addItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().removeItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().changeState(item);
+        eventRepository.save(event);
     }
 
     private int getCounter() {

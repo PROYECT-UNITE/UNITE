@@ -192,7 +192,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
-        if(eventsIvitedByUser.containsKey(username)){
+        if (eventsIvitedByUser.containsKey(username)) {
             return eventsIvitedByUser.get(username);
         }
         throw new UniteException("The user is not invited to any event");
@@ -209,7 +209,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) {
-        events.get(eventId).setLocation("lon: "+longitude +" lat: "+latitude);
+        events.get(eventId).setLocation("lon: " + longitude + " lat: " + latitude);
     }
 
     @Override
@@ -255,6 +255,21 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
         return null;
+    }
+
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+
     }
 
 }
