@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface UnitePersitence {
 
-    void createAccount(String username, String mail, String name, String password) throws UniteException;
-
     void createAccount(User user) throws UniteException;
 
     void createEvent(Event event) throws UniteException;
@@ -59,9 +57,19 @@ public interface UnitePersitence {
 
     void inviteToEvent(int eventId, String username) throws UniteException;
 
-    Gather getGatherOfEvent(int eventId) throws UniteException;
+    ItemSet getGatherOfEvent(int eventId) throws UniteException;
 
     void addItem(int eventId, Item item) throws UniteException;
 
     void removeItem(int eventId, Item item) throws UniteException;
+
+    Poll getPollOfEvent(int eventId) throws UniteException;
+
+    void takeChargeItem(int eventId, Item item) throws UniteException;
+
+    void addTopicToEvent(int eventId, Topic topic)throws  UniteException;
+
+    void removeTopicToEvent(int eventId, Topic topic) throws  UniteException;
+
+    Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException;
 }

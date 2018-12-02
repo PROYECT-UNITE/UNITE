@@ -1,9 +1,6 @@
 package com.eci.arsw.project.unite.controller;
 
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Item;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
 import org.json.JSONObject;
@@ -211,6 +208,16 @@ public class APIController {
         }
     }
 
+    @GetMapping("/{eventId}/poll")
+    public ResponseEntity<?> getPollOfEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            return new ResponseEntity<>(service.getPollOfEvent(eventId), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/{eventID}/location")
     public ResponseEntity<?> postEventLocation(@PathVariable("eventId") int eventId, @RequestParam String longitude, @RequestParam String latitude) {
         try {
@@ -234,7 +241,7 @@ public class APIController {
     }
 
     @MessageMapping("/newmessage.{eventId}")
-    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws Exception {
+    public void handlePointEvent(Message message, @DestinationVariable int eventId) throws UniteException{
         System.out.println("New message recived from server!: " + message + " at id: " + eventId);
         msgt.convertAndSend("/topic/newmessage." + eventId, message);
         service.saveMessage(eventId, message);
@@ -245,10 +252,10 @@ public class APIController {
      *
      * @param message mensaje que se publica y resive
      * @param eventId id del evento al que pertenece el mensaje
-     * @throws Exception
+     * @throws UniteException
      */
     @MessageMapping("/newlink.{eventId}")
-    public void handleLinkEvent(Message message, @DestinationVariable int eventId) throws Exception {
+    public void handleLinkEvent(Message message, @DestinationVariable int eventId) throws UniteException {
         System.out.println("New link recived from server!: " + message + " at id: " + eventId);
         msgt.convertAndSend("/topic/newlink." + eventId, message);
         service.saveLink(eventId, message);
@@ -259,10 +266,10 @@ public class APIController {
      *
      * @param user    usuario con solo el username y el estado correspondiente JSON{"username":"","state":""}
      * @param eventId id del evento
-     * @throws Exception
+     * @throws UniteException
      */
     @MessageMapping("/assistance.{eventId}")
-    public void handleAssistanceEvent(User user, @DestinationVariable int eventId) throws Exception {
+    public void handleAssistanceEvent(User user, @DestinationVariable int eventId) throws UniteException {
         System.out.println("New user state recived from server!: " + user + " at id: " + eventId);
         msgt.convertAndSend("/topic/assistance." + eventId, user);
         service.changeStateOfAssitance(eventId, user.getUsername(), user.getState());
@@ -273,27 +280,85 @@ public class APIController {
      *
      * @param item    item publicado
      * @param eventId id del evento
-     * @throws Exception
+     * @throws UniteException
      */
     @MessageMapping("/additem.{eventId}")
-    public void handleAddItem(Item item, @DestinationVariable int eventId) throws Exception {
+    public void handleAddItem(Item item, @DestinationVariable int eventId) throws UniteException {
         System.out.println("New item recived from server!: " + item + " at id: " + eventId);
         msgt.convertAndSend("/topic/additem." + eventId, item);
-        service.addItem(eventId,item);
+        service.addItem(eventId, item);
     }
 
     /**
-     * Resive un item a la vaca de un evento para eliminar y lo publica en /topic/newitem.{eventId}
+     * Resive un item a la vaca de un evento para eliminar y lo publica en /topic/removeitem.{eventId}
      *
      * @param item    item publicado
      * @param eventId id del evento
-     * @throws Exception
+     * @throws UniteException
      */
     @MessageMapping("/removeitem.{eventId}")
-    public void handleRemoveItem(Item item, @DestinationVariable int eventId) throws Exception {
+    public void handleRemoveItem(Item item, @DestinationVariable int eventId) throws UniteException {
         System.out.println("New item to remove recived from server!: " + item + " at id: " + eventId);
-        msgt.convertAndSend("/topic/newitem." + eventId, item);
-        service.removeItem(eventId,item);
+        msgt.convertAndSend("/topic/removeitem." + eventId, item);
+        service.removeItem(eventId, item);
+    }
+
+    /**
+     * Resive un item a la vaca de un evento con el oncharge=Username y state=Taken y lo publica en /topic/takechargeitem.{eventId}
+     *
+     * @param item    item publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/takechargeitem.{eventId}")
+    public void handleTakeChargeItem(Item item, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New item to take charge recived from server!: " + item + " at id: " + eventId);
+        msgt.convertAndSend("/topic/takechargeitem." + eventId, item);
+        service.takeChargeItem(eventId, item);
+    }
+
+    /**
+     * Resive un topico de la encuesta en un evento lo agrega y lo publica en /topic/addtopic.{eventId}
+     *
+     * @param topic   topic publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/addtopic.{eventId}")
+    public void handleAddTopicToEvent(Topic topic, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New topic to add recived from server!: " + topic + " at id: " + eventId);
+        msgt.convertAndSend("/topic/addtopic." + eventId, topic);
+        service.addTopicToEvent(eventId, topic);
+    }
+
+    /**
+     * Resive un topico de la encuesta en un evento lo elimina y lo publica en /topic/removetopic.{eventId}
+     *
+     * @param topic   topic publicado
+     * @param eventId id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/removetopic.{eventId}")
+    public void handleRemoveTopic(Topic topic, @DestinationVariable int eventId) throws UniteException {
+        System.out.println("New topic to remove recived from server!: " + topic + " at id: " + eventId);
+        msgt.convertAndSend("/topic/addtopic." + eventId, topic);
+        service.removeTopicToEvent(eventId, topic);
+    }
+
+    /**
+     * Resive un topico de la encuesta en un evento vota en el con el usuario dado y lo publica en /topic/votetopic.{eventId},
+     * el topic tiene una lista de los que votaron por el, eso se modifica y debe servir para actualizar el cliente JS suscrito a /topic
+     *
+     * @param username username del usuario que vota por el topic
+     * @param topic    topic publicado
+     * @param eventId  id del evento
+     * @throws UniteException
+     */
+    @MessageMapping("/votetopic.{eventId}.{username}")
+    public void handleVoteForTopic(Topic topic, @DestinationVariable int eventId, @DestinationVariable String username) throws UniteException {
+        System.out.println("New topic to vote recived from server!: " + topic + " at id: " + eventId);
+        Topic votedTopic = service.voteForTopicInEvent(eventId, username, topic);
+        msgt.convertAndSend("/topic/votetopic." + eventId, votedTopic);
     }
 
 }

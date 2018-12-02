@@ -7,11 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author sergio
  */
-public class Gather {
+public class ItemSet {
 
-    Set<Item> items;
+    private Set<Item> items;
 
-    public Gather() {
+    public ItemSet() {
         items = ConcurrentHashMap.newKeySet();
     }
 
@@ -21,6 +21,11 @@ public class Gather {
 
     public void removeItem(Item item){
         this.items.remove(item);
+    }
+
+    public  void changeState(Item item){
+        items.remove(item);
+        items.add(item);
     }
 
     public Set<Item> getItems() {

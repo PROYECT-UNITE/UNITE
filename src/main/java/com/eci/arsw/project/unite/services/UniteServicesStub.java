@@ -65,11 +65,6 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void joinToEventByUsername(int id, String username) throws UniteException {
         persistence.joinToEventByUsername(id, username);
     }
@@ -130,7 +125,7 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public Gather getGatherOfEvent(int eventId) throws UniteException {
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
         return persistence.getGatherOfEvent(eventId);
     }
 
@@ -142,6 +137,31 @@ public class UniteServicesStub implements UniteServices {
     @Override
     public void removeItem(int eventId, Item item) throws UniteException {
         persistence.removeItem(eventId, item);
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return persistence.getPollOfEvent(eventId);
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+        persistence.takeChargeItem(eventId, item);
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+        persistence.addTopicToEvent(eventId, topic);
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+        persistence.removeTopicToEvent(eventId,topic);
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        return persistence.voteForTopicInEvent(eventId,username,topic);
     }
 
 }

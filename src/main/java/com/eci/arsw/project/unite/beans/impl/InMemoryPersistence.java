@@ -47,11 +47,6 @@ public class InMemoryPersistence implements UnitePersitence {
     }
 
     @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void createEvent(Event event) throws UniteException {
         if (events.containsKey(eventCounter)) {
             throw new UniteException("Error creating a new event.");
@@ -223,7 +218,7 @@ public class InMemoryPersistence implements UnitePersitence {
     }
 
     @Override
-    public Set<Item> getGatherOfEvent(int eventId) throws UniteException {
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
         return null;
     }
 
@@ -235,6 +230,31 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public void removeItem(int eventId, Item item) throws UniteException {
 
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return null;
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        return null;
     }
 
 }

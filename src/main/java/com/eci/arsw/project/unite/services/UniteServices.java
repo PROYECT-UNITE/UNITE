@@ -30,8 +30,6 @@ public interface UniteServices {
 
     Collection<String> getAllUsers();
 
-    void createAccount(String username, String mail, String name, String password) throws UniteException;
-
     void joinToEventByUsername(int id, String username) throws UniteException;
 
     void joinToEventByMail(int id, String mail) throws UniteException;
@@ -54,9 +52,19 @@ public interface UniteServices {
 
     void inviteToEvent(int eventId, String username) throws UniteException;
 
-    Gather getGatherOfEvent(int eventId) throws UniteException;
+    ItemSet getGatherOfEvent(int eventId) throws UniteException;
 
     void addItem(int eventId, Item item) throws UniteException;
 
     void removeItem(int eventId, Item item) throws UniteException;
+
+    Poll getPollOfEvent(int eventId) throws UniteException;
+
+    void takeChargeItem(int eventId, Item item) throws UniteException;
+
+    void addTopicToEvent(int eventId, Topic topic) throws UniteException;
+
+    void removeTopicToEvent(int eventId, Topic topic) throws UniteException;
+
+    Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException;
 }

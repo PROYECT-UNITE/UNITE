@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
  * @author sergio
  */
 public class Event {
@@ -27,7 +26,8 @@ public class Event {
     private Chat chat;
     private Chat linkChat;
     private Poll poll;
-    private Gather gather;
+    private ItemSet gather;
+    private ItemSet checklist;
     private String location;
     private Date date;
     private String description;
@@ -42,7 +42,7 @@ public class Event {
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
         linkChat = new Chat();
-        gather = new Gather();
+        gather = new ItemSet();
     }
 
     public Event() {
@@ -50,7 +50,7 @@ public class Event {
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
-        gather = new Gather();
+        gather = new ItemSet();
     }
 
     public void addMember(User member) {
@@ -76,6 +76,14 @@ public class Event {
         } else {
             throw new UniteException("User not assist to this event.");
         }
+    }
+
+    public ItemSet getChecklist() {
+        return checklist;
+    }
+
+    public void setChecklist(ItemSet checklist) {
+        this.checklist = checklist;
     }
 
     public int getId() {
@@ -122,16 +130,36 @@ public class Event {
         return assistants;
     }
 
+    public void setAssistants(List<User> assistants) {
+        this.assistants = assistants;
+    }
+
     public List<Date> getPossibleDates() {
         return possibleDates;
+    }
+
+    public void setPossibleDates(List<Date> possibleDates) {
+        this.possibleDates = possibleDates;
     }
 
     public Map<String, String> getAssistantsState() {
         return assistantsState;
     }
 
+    public void setAssistantsState(Map<String, String> assistantsState) {
+        this.assistantsState = assistantsState;
+    }
+
     public Chat getChat() {
         return chat;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
     public Poll getPoll() {
@@ -140,14 +168,6 @@ public class Event {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
-    }
-
-    public Gather getGather() {
-        return gather;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public void setLocation(String location) {
@@ -170,6 +190,14 @@ public class Event {
         this.linkChat = linkChat;
     }
 
+    public ItemSet getGather() {
+        return gather;
+    }
+
+    public void setGather(ItemSet gather) {
+        this.gather = gather;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -180,22 +208,23 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + ", type='" + type + '\''
-                + ", budget=" + budget
-                + ", owner='" + owner + '\''
-                + ", assistants=" + assistants
-                + ", possibleDates=" + possibleDates
-                + ", assistantsState=" + assistantsState
-                + ", chat=" + chat
-                + ", poll=" + poll
-                + ", gather=" + gather
-                + ", location=" + location
-                + ", date=" + date
-                + ", description='" + description + '\''
-                + '}';
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", budget=" + budget +
+                ", owner='" + owner + '\'' +
+                ", assistants=" + assistants +
+                ", possibleDates=" + possibleDates +
+                ", assistantsState=" + assistantsState +
+                ", chat=" + chat +
+                ", linkChat=" + linkChat +
+                ", poll=" + poll +
+                ", gather=" + gather +
+                ", checklist=" + checklist +
+                ", location='" + location + '\'' +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                '}';
     }
-
 }

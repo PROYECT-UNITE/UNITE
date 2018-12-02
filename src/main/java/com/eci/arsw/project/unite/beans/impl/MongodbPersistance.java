@@ -38,11 +38,6 @@ public class MongodbPersistance implements UnitePersitence {
     private Integer eventCounter;
 
     @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void createAccount(User user) throws UniteException {
         boolean exists = usersRepository.existsById(user.getUsername());
 
@@ -260,7 +255,7 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public Gather getGatherOfEvent(int eventId) throws UniteException {
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
         return getEvent(eventId).getGather();
     }
 
@@ -276,6 +271,40 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = getEvent(eventId);
         event.getGather().removeItem(item);
         eventRepository.save(event);
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getPoll();
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getGather().changeState(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getPoll().addTopic(topic);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getPoll().removeTopic(topic);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        Topic votedTopic = event.getPoll().vote(username,topic);
+        eventRepository.save(event);
+        return votedTopic;
     }
 
     private int getCounter() {
