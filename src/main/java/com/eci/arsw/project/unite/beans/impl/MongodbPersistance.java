@@ -96,7 +96,9 @@ public class MongodbPersistance implements UnitePersitence {
         if (eventsByUser.isPresent()) {
             return eventsByUser.get().getEvents();
         } else {
-            throw new UniteException("No found user " + username);
+            if(usersRepository.findById(username).isPresent())
+                return new CopyOnWriteArrayList<>();
+            else throw new UniteException("No found user " + username);
         }
     }
 
