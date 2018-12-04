@@ -1,6 +1,6 @@
 var prueba;
 var controller = (function () {
-    var user = "NicGarcia";
+    var user = "SergioRt1";
     var createdEvts;
     var getEventName = function () {
         return eventCreator.name;
