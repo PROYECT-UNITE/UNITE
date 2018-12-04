@@ -34,18 +34,20 @@ var newEvent = (function () {
 
 		});
 	};
-	var setEventDescription = function (des) {
-		eventCreator.description = des;
-	};
-	var getEventDescription = function () {
-		return eventCreator.description;
-	};
-    var setEventGuests = function () {
-        eventGuests=$("#guestE-mail").select2('val');
-    	console.log(eventGuests);
 
+	var setEventGuests = function (guests) {
+		eventGuests = guests;
+	};
+    var getEventGuests = function () {
+        return eventGuests;
     };
 
+    var setEventDescription = function (des) {
+        eventCreator.description = des;
+    };
+    var getEventDescription = function () {
+        return eventCreator.description;
+    };
 	var setEventName = function (name) {
 		eventCreator.name = name;
 	};
@@ -84,6 +86,8 @@ var newEvent = (function () {
 	return {
 		createEvent: createEvent,
 		getEventName: getEventName,
+        getEventGuests: getEventGuests,
+        setEventGuests: setEventGuests,
 		setEventName: setEventName,
 		getEventDescription: getEventDescription,
 		getEventType: getEventType,
@@ -96,7 +100,6 @@ var newEvent = (function () {
 		setEventOwner: setEventOwner,
 		getEventOwner: getEventOwner,
 		setEventLocation: setEventLocation,
-		getEventLocation: getEventLocation,
-        setEventGuests: setEventGuests
+		getEventLocation: getEventLocation
 	};
 })();
