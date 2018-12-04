@@ -1,18 +1,23 @@
 package com.eci.arsw.project.unite.model;
 
 import java.util.Objects;
+import java.util.Set;
 
-/**
- * @author sergio
- */
-public class Item {
+public class Topic {
 
     private String name;
     private String description;
-    private String state;
-    private String onCharge;
+    private Set<String> voters;
 
-    public Item() {
+    public Topic() {
+    }
+
+    public int votes() {
+        return voters.size();
+    }
+
+    public void vote(String username) {
+        voters.add(username);
     }
 
     public String getName() {
@@ -31,29 +36,21 @@ public class Item {
         this.description = description;
     }
 
-    public String getState() {
-        return state;
+    public Set<String> getVoters() {
+        return voters;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getOnCharge() {
-        return onCharge;
-    }
-
-    public void setOnCharge(String onCharge) {
-        this.onCharge = onCharge;
+    public void setVoters(Set<String> voters) {
+        this.voters = voters;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return Objects.equals(name, item.name) &&
-                Objects.equals(description, item.description);
+        Topic topic = (Topic) o;
+        return Objects.equals(name, topic.name) &&
+                Objects.equals(description, topic.description);
     }
 
     @Override

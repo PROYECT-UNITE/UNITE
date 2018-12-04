@@ -12,8 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.stereotype.Service;
-
 /**
  * @author sergio
  */
@@ -46,11 +44,6 @@ public class InMemoryPersistence implements UnitePersitence {
             Logger.getLogger(InMemoryPersistence.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -199,7 +192,7 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
-        if(eventsIvitedByUser.containsKey(username)){
+        if (eventsIvitedByUser.containsKey(username)) {
             return eventsIvitedByUser.get(username);
         }
         throw new UniteException("The user is not invited to any event");
@@ -216,11 +209,66 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) {
-        events.get(eventId).setLocation("lon: "+longitude +" lat: "+latitude);
+        events.get(eventId).setLocation("lon: " + longitude + " lat: " + latitude);
     }
 
     @Override
     public void inviteToEvent(int eventId, String username) throws UniteException {
+
+    }
+
+    @Override
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
+        return null;
+    }
+
+    @Override
+    public void addItem(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void removeItem(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return null;
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        return null;
+    }
+
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
 
     }
 

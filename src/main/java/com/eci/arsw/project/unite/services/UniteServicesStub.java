@@ -1,18 +1,14 @@
 package com.eci.arsw.project.unite.services;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import com.eci.arsw.project.unite.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
- *
  * @author sergio
  */
 @Service
@@ -51,16 +47,16 @@ public class UniteServicesStub implements UniteServices {
     public void changeEventName(int id, String name) throws UniteException {
         persistence.changeEventName(id, name);
     }
-    
+
     @Override
 
-    public void updateUser(String username, User user) throws UniteException{
+    public void updateUser(String username, User user) throws UniteException {
         persistence.updateUser(username, user);
     }
 
     @Override
     public boolean grantAccess(String username, String pwd) throws UniteException {
-        return persistence.checkUserAndPwd(username,pwd);
+        return persistence.checkUserAndPwd(username, pwd);
     }
 
     @Override
@@ -68,11 +64,6 @@ public class UniteServicesStub implements UniteServices {
         return persistence.getAllUsers();
     }
 
-    @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
     @Override
     public void joinToEventByUsername(int id, String username) throws UniteException {
         persistence.joinToEventByUsername(id, username);
@@ -107,7 +98,7 @@ public class UniteServicesStub implements UniteServices {
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         return persistence.getEventsInvitedByUser(username);
     }
-    
+
     @Override
     public List<User> getAssistanceToEvent(int eventId) throws UniteException {
         return persistence.getAssistanceToEvent(eventId);
@@ -115,7 +106,7 @@ public class UniteServicesStub implements UniteServices {
 
     @Override
     public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
-        persistence.changeStateOfAssitance(eventId,username,state);
+        persistence.changeStateOfAssitance(eventId, username, state);
     }
 
     @Override
@@ -125,12 +116,67 @@ public class UniteServicesStub implements UniteServices {
 
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException {
-        persistence.saveEventLocation(eventId,longitude,latitude);
+        persistence.saveEventLocation(eventId, longitude, latitude);
     }
 
     @Override
     public void inviteToEvent(int eventId, String username) throws UniteException {
-        persistence.inviteToEvent(eventId,username);
+        persistence.inviteToEvent(eventId, username);
+    }
+
+    @Override
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
+        return persistence.getGatherOfEvent(eventId);
+    }
+
+    @Override
+    public void addItem(int eventId, Item item) throws UniteException {
+        persistence.addItem(eventId, item);
+    }
+
+    @Override
+    public void removeItem(int eventId, Item item) throws UniteException {
+        persistence.removeItem(eventId, item);
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return persistence.getPollOfEvent(eventId);
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+        persistence.takeChargeItem(eventId, item);
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+        persistence.addTopicToEvent(eventId, topic);
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+        persistence.removeTopicToEvent(eventId,topic);
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        return persistence.voteForTopicInEvent(eventId,username,topic);
+    }
+
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.addItemChecklist(eventId,item);
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.removeItemChecklist(eventId,item);
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+        persistence.takeChargeItemChecklist(eventId,item);
     }
 
 }

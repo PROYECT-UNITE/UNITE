@@ -1,21 +1,15 @@
 package com.eci.arsw.project.unite.beans;
 
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.services.UniteException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
- *
  * @author sergio
  */
 public interface UnitePersitence {
-
-    void createAccount(String username, String mail, String name, String password) throws UniteException;
 
     void createAccount(User user) throws UniteException;
 
@@ -62,4 +56,26 @@ public interface UnitePersitence {
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
     void inviteToEvent(int eventId, String username) throws UniteException;
+
+    ItemSet getGatherOfEvent(int eventId) throws UniteException;
+
+    void addItem(int eventId, Item item) throws UniteException;
+
+    void removeItem(int eventId, Item item) throws UniteException;
+
+    Poll getPollOfEvent(int eventId) throws UniteException;
+
+    void takeChargeItem(int eventId, Item item) throws UniteException;
+
+    void addTopicToEvent(int eventId, Topic topic) throws UniteException;
+
+    void removeTopicToEvent(int eventId, Topic topic) throws UniteException;
+
+    Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException;
+
+    void addItemChecklist(int eventId, Item item) throws UniteException;
+
+    void removeItemChecklist(int eventId, Item item) throws UniteException;
+
+    void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
 }

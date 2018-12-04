@@ -1,20 +1,20 @@
 package com.eci.arsw.project.unite.beans.impl;
 
 import com.eci.arsw.project.unite.beans.UnitePersitence;
-import com.eci.arsw.project.unite.model.Event;
-import com.eci.arsw.project.unite.model.Message;
-import com.eci.arsw.project.unite.model.User;
+import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.repository.EventRepository;
 import com.eci.arsw.project.unite.repository.EventsByUserRepository;
 import com.eci.arsw.project.unite.repository.EventsInvitedByUserRepository;
 import com.eci.arsw.project.unite.repository.UsersRepository;
 import com.eci.arsw.project.unite.services.UniteException;
-
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author SergioRt
@@ -36,11 +36,6 @@ public class MongodbPersistance implements UnitePersitence {
     private EventsInvitedByUserRepository eventsInvitedByUserRepository;
 
     private Integer eventCounter;
-
-    @Override
-    public void createAccount(String username, String mail, String name, String password) throws UniteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void createAccount(User user) throws UniteException {
@@ -237,7 +232,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException {
         Event event = getEvent(eventId);
-        event.setLocation("lon: "+longitude +" lat: "+latitude);
+        event.setLocation("lon: " + longitude + " lat: " + latitude);
         eventRepository.save(event);
     }
 
@@ -259,6 +254,80 @@ public class MongodbPersistance implements UnitePersitence {
 
     }
 
+    @Override
+    public ItemSet getGatherOfEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getGather();
+    }
+
+    @Override
+    public void addItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getGather().addItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getGather().removeItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public Poll getPollOfEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getPoll();
+    }
+
+    @Override
+    public void takeChargeItem(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getGather().changeState(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void addTopicToEvent(int eventId, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getPoll().addTopic(topic);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getPoll().removeTopic(topic);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
+        Event event = getEvent(eventId);
+        Topic votedTopic = event.getPoll().vote(username, topic);
+        eventRepository.save(event);
+        return votedTopic;
+    }
+
+    @Override
+    public void addItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().addItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void removeItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().removeItem(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+        Event event = getEvent(eventId);
+        event.getChecklist().changeState(item);
+        eventRepository.save(event);
+    }
+
     private int getCounter() {
         List<Event> events = eventRepository.findAll();
         int counter = 0;
@@ -266,7 +335,7 @@ public class MongodbPersistance implements UnitePersitence {
         ) {
             counter = java.lang.Math.max(counter, e.getId());
         }
-        return counter+1;
+        return counter + 1;
     }
 
 
