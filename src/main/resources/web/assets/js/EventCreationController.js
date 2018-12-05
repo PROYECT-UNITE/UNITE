@@ -9,6 +9,7 @@ var newEvent = (function () {
 		"description":""
 	};
 	var eventDate;
+	var eventGuests;
 
 	var getEventName = function () {
 		return eventCreator.name;
@@ -39,6 +40,12 @@ var newEvent = (function () {
 	var getEventDescription = function () {
 		return eventCreator.description;
 	};
+    var setEventGuests = function () {
+        eventGuests=$("#guestE-mail").select2('val');
+    	console.log(eventGuests);
+
+    };
+
 	var setEventName = function (name) {
 		eventCreator.name = name;
 	};
@@ -89,6 +96,7 @@ var newEvent = (function () {
 		setEventOwner: setEventOwner,
 		getEventOwner: getEventOwner,
 		setEventLocation: setEventLocation,
-		getEventLocation: getEventLocation
+		getEventLocation: getEventLocation,
+        setEventGuests: setEventGuests
 	};
 })();
