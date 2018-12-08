@@ -229,7 +229,7 @@ public class APIController {
         }
     }
 
-    @PostMapping("/{eventID}/location")
+    @PostMapping("/{eventId}/location")
     public ResponseEntity<?> postEventLocation(@PathVariable("eventId") int eventId, @RequestParam String longitude, @RequestParam String latitude) {
         try {
             service.saveEventLocation(eventId, longitude, latitude);
@@ -240,7 +240,7 @@ public class APIController {
         }
     }
 
-    @PostMapping("/{eventID}/invite/{username}")
+    @PostMapping("/{eventId}/invite/{username}")
     public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @PathVariable("username") String username) {
         try {
             service.inviteToEvent(eventId, username);
