@@ -1,52 +1,60 @@
 var prueba;
 var controller = (function () {
     var user = "SergioRt1";
-    var createdEvts;
-    var getEventName = function () {
-        return eventCreator.name;
-    };
-    var updateEvent = function () {
-        axios.post("http://localhost:8080/unite/newEvent", eventCreator)
+    var events;
+
+
+    var getEvents = function (callback) {
+        axios.get("http://localhost:8080/events/invited/" + user)
             .then(function (response) {
-                location.reload(true);
-                alert("Event Created");
-            })
-            .catch(function (error) {
-            });
-    };
-    var getCreatedEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/" + user)
-            .then(function (response) {
-                createdEvts = response.data;
+                events = response.data;
             })
             .catch(function (error) {
             })
             .then(function () {
-                callback(createdEvts);
+                callback(events);
             });
     };
     var getUser = function () {
         return user;
     };
-    var editEventName=function(i,value){
-        createdEvts[i]["name"]=value;
-    };
-    var saveEditedEvent=function(pos){
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
+
+    var saveEditedEvent = function (pos) {
+        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
             .then(function (response) {
                 location.reload(true);
                 alert("Event name changed");
             })
             .catch(function (error) {
+
             })
             .then(function () {
             });
     }
     return {
         getUser: getUser,
-        getCreatedEvents: getCreatedEvents,
-        saveEditedEvent: saveEditedEvent,
-        editEventName: editEventName
+        getEvents: getEvents
 
     };
 })();
+
+function showEvents(evts) {
+    var body = document.getElementById("events");
+    for (var i = 0; i < evts.length; i++) {
+        var tab = document.createElement("div");
+        tab.setAttribute("class", "col-lg-4 col-md-12");
+        body.appendChild(tab);
+        tab.innerHTML =
+            + '<div class="card">'
+            + '<div class="card-content">'
+            + '<div class="card-body">'
+            + '<h4 class="card-title info">Text Align Left</h4>'
+            + '<p class="card-text"></p>'
+            + '<p class="card-text"></p>'
+            + '<a href="#" class="btn btn-outline-info">Go somewhere</a>'
+            + '</div>'
+            + '</div>'
+            + '</div>';
+
+    }
+}

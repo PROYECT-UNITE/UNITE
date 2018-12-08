@@ -1,10 +1,9 @@
 var InvitationsController = (function () {
-    var user = "NicGarcia";
-    var createdEvts;
+    var invitedEvents
     var getEventInvitations = function () {
-        axios.get("http://localhost:8080/unite/event/invited/" + user)
+        axios.get("http://localhost:8080/unite/event/invited/" + controller.getUser())
             .then(function (response) {
-                createdEvts = response.data;
+                invitedEvents = response.data;
             })
             .catch(function (error) {
             })
@@ -12,9 +11,7 @@ var InvitationsController = (function () {
                 callback(createdEvts);
             });
     };
-    var updateEvent = function () {
 
-    };
     var getCreatedEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/" + user)
             .then(function (response) {
@@ -25,12 +22,6 @@ var InvitationsController = (function () {
             .then(function () {
                 callback(createdEvts);
             });
-    };
-    var getUser = function () {
-        return user;
-    };
-    var editEventName=function(i,value){
-        createdEvts[i]["name"]=value;
     };
     var saveEditedEvent=function(pos){
         axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
@@ -44,7 +35,7 @@ var InvitationsController = (function () {
             });
     }
     return {
-
+        getEventInvitations: getEventInvitations
 
     };
 })();
