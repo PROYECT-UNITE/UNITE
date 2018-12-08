@@ -47,7 +47,7 @@ public class InMemoryPersistence implements UnitePersitence {
     }
 
     @Override
-    public void createEvent(Event event) throws UniteException {
+    public int createEvent(Event event) throws UniteException {
         if (events.containsKey(eventCounter)) {
             throw new UniteException("Error creating a new event.");
         } else {
@@ -62,6 +62,7 @@ public class InMemoryPersistence implements UnitePersitence {
                 eventsByUser.put(owner, userEvents);
             }
         }
+        return 0;
     }
 
     @Override
@@ -269,6 +270,11 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
+
+    }
+
+    @Override
+    public void changeDescription(int eventId, String newDescription) throws UniteException {
 
     }
 

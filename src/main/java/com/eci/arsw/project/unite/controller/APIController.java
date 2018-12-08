@@ -74,7 +74,7 @@ public class APIController {
     @PostMapping("/newEvent")
     public ResponseEntity<?> postCreateEventHandler(@RequestBody Event event) {
         try {
-            service.createEvent(event);
+            int eventId = service.createEvent(event);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,6 +148,17 @@ public class APIController {
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PutMapping("/{eventId}/description")
+    public ResponseEntity<?> putChangeDesciptionHandler(@PathVariable("eventId") int eventId, @RequestBody String newDescription) {
+        try {
+            service.changeDescription(eventId,newDescription);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -304,7 +315,7 @@ public class APIController {
     }
 
     /**
-     * Resive un item a la vaca de un evento con el oncharge=Username y state=Taken y lo publica en /topic/takechargeitem.{eventId}
+     * Resive un item a la vaca de un evento con el oncharge=Username y lo publica en /topic/takechargeitem.{eventId}
      *
      * @param item    item publicado
      * @param eventId id del evento

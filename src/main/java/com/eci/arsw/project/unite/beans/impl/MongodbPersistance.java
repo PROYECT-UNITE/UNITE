@@ -49,7 +49,7 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public void createEvent(Event event) throws UniteException {
+    public int createEvent(Event event) throws UniteException {
         if (eventCounter == null) {
             eventCounter = getCounter();
         }
@@ -71,7 +71,7 @@ public class MongodbPersistance implements UnitePersitence {
             eventList.add(event);
             eventsByUserRepository.save(new EventsByUser(owner, eventList));
         }
-
+        return event.getId();
     }
 
     @Override
@@ -327,6 +327,13 @@ public class MongodbPersistance implements UnitePersitence {
     public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
         Event event = getEvent(eventId);
         event.getChecklist().changeState(item);
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void changeDescription(int eventId, String newDescription) throws UniteException {
+        Event event = getEvent(eventId);
+        event.setDescription(newDescription);
         eventRepository.save(event);
     }
 

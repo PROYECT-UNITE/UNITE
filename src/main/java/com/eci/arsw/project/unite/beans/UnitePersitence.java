@@ -13,7 +13,7 @@ public interface UnitePersitence {
 
     void createAccount(User user) throws UniteException;
 
-    void createEvent(Event event) throws UniteException;
+    int createEvent(Event event) throws UniteException;
 
     List<Event> getEvents() throws UniteException;
 
@@ -78,4 +78,6 @@ public interface UnitePersitence {
     void removeItemChecklist(int eventId, Item item) throws UniteException;
 
     void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
+
+    void changeDescription(int eventId, String newDescription) throws UniteException;
 }

@@ -18,7 +18,7 @@ public interface UniteServices {
 
     List<Event> getEventsInvitedByUser(String username) throws UniteException;
 
-    void createEvent(Event event) throws UniteException;
+    int createEvent(Event event) throws UniteException;
 
     void changeEventName(int id, String name) throws UniteException;
 
@@ -73,4 +73,6 @@ public interface UniteServices {
     void removeItemChecklist(int eventId, Item item) throws UniteException;
 
     void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
+
+    void changeDescription(int eventId, String newDescription) throws UniteException;
 }

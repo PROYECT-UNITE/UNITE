@@ -38,9 +38,9 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public void createEvent(Event event) throws UniteException {
-        //persistence.getUser(event.getOwner());
-        persistence.createEvent(event);
+    public int createEvent(Event event) throws UniteException {
+        return persistence.createEvent(event);
+
     }
 
     @Override
@@ -156,27 +156,32 @@ public class UniteServicesStub implements UniteServices {
 
     @Override
     public void removeTopicToEvent(int eventId, Topic topic) throws UniteException {
-        persistence.removeTopicToEvent(eventId,topic);
+        persistence.removeTopicToEvent(eventId, topic);
     }
 
     @Override
     public Topic voteForTopicInEvent(int eventId, String username, Topic topic) throws UniteException {
-        return persistence.voteForTopicInEvent(eventId,username,topic);
+        return persistence.voteForTopicInEvent(eventId, username, topic);
     }
 
     @Override
     public void addItemChecklist(int eventId, Item item) throws UniteException {
-        persistence.addItemChecklist(eventId,item);
+        persistence.addItemChecklist(eventId, item);
     }
 
     @Override
     public void removeItemChecklist(int eventId, Item item) throws UniteException {
-        persistence.removeItemChecklist(eventId,item);
+        persistence.removeItemChecklist(eventId, item);
     }
 
     @Override
     public void takeChargeItemChecklist(int eventId, Item item) throws UniteException {
-        persistence.takeChargeItemChecklist(eventId,item);
+        persistence.takeChargeItemChecklist(eventId, item);
+    }
+
+    @Override
+    public void changeDescription(int eventId, String newDescription) throws UniteException {
+        persistence.changeDescription(eventId, newDescription);
     }
 
 }

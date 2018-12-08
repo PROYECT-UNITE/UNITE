@@ -9,7 +9,6 @@ public class Item {
 
     private String name;
     private String description;
-    private String state;
     private String onCharge;
 
     public Item() {
@@ -29,14 +28,6 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getOnCharge() {
