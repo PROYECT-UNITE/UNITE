@@ -53,9 +53,9 @@ public class Event {
         gather = new ItemSet();
     }
 
-    public void addMember(User member) {
+    public void addMember(User member,String state) {
         assistants.add(member);
-        assistantsState.put(member.getUsername(), "indeterminate");
+        assistantsState.put(member.getUsername(), state);
     }
 
     public void removeMember(User memeber) {

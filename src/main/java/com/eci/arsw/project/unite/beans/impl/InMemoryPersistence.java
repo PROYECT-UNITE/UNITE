@@ -149,13 +149,13 @@ public class InMemoryPersistence implements UnitePersitence {
     @Override
     public void joinToEventByUsername(int id, String username) throws UniteException {
         Event event = events.get(id);
-        event.addMember(this.getUser(username));
+        event.addMember(this.getUser(username),"indeterminate");
     }
 
     @Override
     public void joinToEventByMail(int id, String mail) throws UniteException {
         Event event = events.get(id);
-        event.addMember(this.getUserByMail(mail));
+        event.addMember(this.getUserByMail(mail),"indeterminate");
     }
 
     @Override

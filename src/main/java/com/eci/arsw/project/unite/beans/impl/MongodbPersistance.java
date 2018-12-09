@@ -167,14 +167,14 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void joinToEventByMail(int id, String mail) throws UniteException {
         Event event = this.getEvent(id);
-        event.addMember(this.getUserByMail(mail));
+        event.addMember(this.getUserByMail(mail),User.ASSISTANT);
         eventRepository.save(event);
     }
 
     @Override
     public void joinToEventByUsername(int id, String username) throws UniteException {
         Event event = this.getEvent(id);
-        event.addMember(this.getUser(username));
+        event.addMember(this.getUser(username),User.ASSISTANT);
         eventRepository.save(event);
     }
 
@@ -241,6 +241,8 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void inviteToEvent(int eventId, String username) throws UniteException {
         Event event = getEvent(eventId);
+        event.addMember(this.getUser(username),User.INDETERMINATE);
+        eventRepository.save(event);
         Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
         if (events.isPresent()) {
             EventsInvitedByUser eventsInvitedByUser = events.get();

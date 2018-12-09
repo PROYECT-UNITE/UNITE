@@ -13,6 +13,11 @@ import java.util.regex.Pattern;
  */
 public class User {
 
+    public static String INDETERMINATE = "indeterminate";
+    public static String ASSISTANT = "assistant";
+    public static String INVOLUNTARY_ABSENCE = "involuntary_absence";
+
+
     @Id
     private String username;
     
