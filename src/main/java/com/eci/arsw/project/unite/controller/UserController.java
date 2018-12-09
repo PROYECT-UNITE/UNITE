@@ -4,14 +4,15 @@ import com.eci.arsw.project.unite.model.User;
 import com.eci.arsw.project.unite.repository.UsersRepository;
 import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/users")
@@ -35,14 +36,26 @@ public class UserController {
             return new ResponseEntity<>("User already exists", HttpStatus.FORBIDDEN);
         } else {
             try {
-                user.passwordValid(user.getPassword());
+                User.passwordValid(user.getPassword());
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                 service.createAccount(user);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (UniteException e) {
-                System.out.println(e.getMessage());
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
             }
+        }
+    }
+
+    @PutMapping("/changePassword/{username}")
+    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestBody String newPassword) {
+        try {
+            newPassword = (String) new JSONObject(newPassword).get("newPassword");
+            User.passwordValid(newPassword);
+            service.updatePassword(username, bCryptPasswordEncoder.encode(newPassword));
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 }

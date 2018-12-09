@@ -68,6 +68,7 @@ var Login = (function () {
         if(localStorage['AUTH_TOKEN']==='') {
             window.location.href = "/login.html";
         }else{
+            document.getElementById("user-name-header").innerHTML = localStorage['UserLoggedIn'];
             axios.defaults.headers.common['Authorization'] = localStorage['AUTH_TOKEN'];
         }
 

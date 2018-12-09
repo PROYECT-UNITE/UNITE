@@ -13,12 +13,12 @@ var settingsServices = (function () {
     }
 
     var updatePassword = function () {
-        var username = document.getElementById("username").value;
+        var username = localStorage['UserLoggedIn'];
         var newPassword = document.getElementById("newPassword").value;
         var confirm = document.getElementById("confirmNewPassword").value;
         if (confirm === newPassword) {
             newPassword = {"newPassword": newPassword};
-            axios.put(url + "/unite/changePassword/" + username, newPassword).then(function (response) {
+            axios.put(url + "/users/changePassword/" + username, newPassword).then(function (response) {
                 alert("Password Updated Successfully. Please Log Back in Using Your New Password");
                 window.location.href = url + "/login.html";
             }).catch(function (error) {
@@ -30,8 +30,9 @@ var settingsServices = (function () {
     var updatePasswordTest = function (username, newPassword) {
         var confirm = document.getElementById("confirmNewPassword").value;
 
-        axios.put(url + "/unite/changePassword/" + username, newPassword).then(function (response) {
+        axios.put(url + "/users/changePassword/" + username, newPassword).then(function (response) {
             alert("Password Updated Successfully. Please Log Back in Using Your New Password");
+            Login.logoutUser();
             window.location.href = url + "/login.html";
         }).catch(function (error) {
             alert(error.response.data);

@@ -129,18 +129,6 @@ public class APIController {
         }
     }
 
-    @PutMapping("/changePassword/{username}")
-    public ResponseEntity<?> putUpdatePasswordHandler(@PathVariable("username") String username, @RequestBody String newPassword) {
-        try {
-            newPassword = (String) new JSONObject(newPassword).get("newPassword");
-            service.updatePassword(username, newPassword);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } catch (UniteException ex) {
-            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
-        }
-    }
-
     @PutMapping("/{eventId}/description")
     public ResponseEntity<?> putChangeDesciptionHandler(@PathVariable("eventId") int eventId, @RequestBody String newDescription) {
         try {

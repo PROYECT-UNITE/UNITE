@@ -32,7 +32,7 @@
 			<!-- END Custom CSS-->
 		</head>
 		<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
-				data-open="click" data-menu="vertical-menu" data-col="2-columns" >
+				data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="Login.isLogin();">
 			<!-- fixed-top-->
 			<nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
 				<div class="navbar-wrapper">
@@ -145,7 +145,7 @@
 												<i></i>
 											</img>
 										</span>
-										<span class="user-name">John Doe
+										<span class="user-name" id="user-name-header">
 										</span>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a>
@@ -406,5 +406,6 @@
 			<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 			<script src="../../../assets/js/MainController.js" type="text/javascript"></script>
 			<script src="../../../assets/js/EventCreationController.js" type="text/javascript"></script>
+			<script src="../../../assets/js/LoginController.js" type="text/javascript"></script>
 		</body>
 	</html>

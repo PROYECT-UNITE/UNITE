@@ -32,7 +32,7 @@ public class User {
         
     }
 
-    public void passwordValid(String password) throws UniteException {
+    public static void passwordValid(String password) throws UniteException {
         if(password.length()<6)throw new UniteException("Password is too short minimum 6 characters and get "+password.length());
         if(!Pattern.compile("[^a-zA-Z]").matcher(password).find())throw new UniteException("The password must have special characters or numbers.");
     }
@@ -50,7 +50,6 @@ public class User {
     }
 
     public void setPassword(String password) throws UniteException {
-//        passwordValid(password);
         this.password = password;
     }
 
