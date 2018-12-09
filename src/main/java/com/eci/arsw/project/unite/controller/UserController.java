@@ -35,9 +35,12 @@ public class UserController {
             return new ResponseEntity<>("User already exists", HttpStatus.FORBIDDEN);
         } else {
             try {
+                user.passwordValid(user.getPassword());
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                 service.createAccount(user);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (UniteException e) {
+                System.out.println(e.getMessage());
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
             }
         }

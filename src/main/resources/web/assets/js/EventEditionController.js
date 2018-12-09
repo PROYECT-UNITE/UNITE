@@ -50,7 +50,7 @@ var eventEditionController = (function () {
     return {
         getCreatedEvents: getCreatedEvents,
         saveEditedEvent: saveEditedEvent,
-        editEventName: editEventName
+        editEventName: editEventName,
 
     };
 })();

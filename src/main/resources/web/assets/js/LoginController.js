@@ -21,6 +21,7 @@ var Login = (function () {
                 if(response.data==="") {
                     console.log(response);
                     localStorage['AUTH_TOKEN'] = response.headers.authorization;
+                    localStorage['UserLoggedIn'] = username;
                     axios.defaults.headers.common['Authorization'] = response.headers.authorization;
                     window.location.href = "/index.html";
                 }else alert("Wrong credentials");
@@ -60,16 +61,17 @@ var Login = (function () {
 
     function logout() {
         localStorage['AUTH_TOKEN'] = '';
-        document.getElementById("logout").setAttribute("href","");
+        localStorage['UserLoggedIn'] = '';
     }
 
     function isLogin() {
-        if(localStorage['AUTH_TOKEN']==='')
-            document.getElementById("logout").setAttribute("href","");
-        else {
-            document.getElementById("logout").removeAttribute("href");
+        if(localStorage['AUTH_TOKEN']==='') {
+            window.location.href = "/login.html";
+        }else{
             axios.defaults.headers.common['Authorization'] = localStorage['AUTH_TOKEN'];
         }
+
+
     }
 
     return {
