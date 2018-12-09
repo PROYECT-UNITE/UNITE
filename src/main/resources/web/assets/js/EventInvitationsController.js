@@ -1,7 +1,7 @@
 var InvitationsController = (function () {
     var invitedEvents;
     var getEventInvitations = function () {
-        axios.get("http://localhost:8080/unite/event/invited/" + controller.getUser())
+        axios.get("http://localhost:8080/unite/events/invited/" + controller.getUser())
             .then(function (response) {
                 invitedEvents = response.data;
             })
@@ -39,3 +39,7 @@ var InvitationsController = (function () {
 
     };
 })();
+
+function showInvitedEvents(events){
+
+}
