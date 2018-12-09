@@ -1,7 +1,9 @@
 package com.eci.arsw.project.unite.model;
 
 import com.eci.arsw.project.unite.services.UniteException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.regex.Pattern;
 
@@ -10,6 +12,9 @@ import java.util.regex.Pattern;
  * @author sergio
  */
 public class User {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Id
     private String username;
@@ -22,7 +27,7 @@ public class User {
     public User(String username, String password, String mail, String name) throws UniteException {
         this.username = username;
         passwordValid(password);
-        this.password = password;
+        this.password = bCryptPasswordEncoder.encode(password);
         this.mail = mail;
         this.name = name;
     }
@@ -50,7 +55,7 @@ public class User {
 
     public void setPassword(String password) throws UniteException {
         passwordValid(password);
-        this.password = password;
+        this.password = bCryptPasswordEncoder.encode(password);
     }
 
     public String getMail() {

@@ -116,17 +116,7 @@ public class APIController {
         }
     }
 
-    @PostMapping("/newAccount")
-    public ResponseEntity<?> postCreateAccount(@RequestBody User user) {
-        try {
-            System.out.println(user);
-            service.createAccount(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (UniteException ex) {
-            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
-        }
-    }
+
 
     @PutMapping("/{username}")
     public ResponseEntity<?> putUpdateUserHandler(@PathVariable("username") String username, @RequestBody User user) {
