@@ -14,8 +14,16 @@ import java.util.List;
 @Service
 public class UniteServicesStub implements UniteServices {
 
+
     @Autowired
     UnitePersitence persistence;
+
+    public UniteServicesStub() {
+    }
+
+    public UniteServicesStub(UnitePersitence persistence) {
+        this.persistence = persistence;
+    }
 
     @Override
     public List<Event> getEvents() throws UniteException {
