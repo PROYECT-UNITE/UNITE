@@ -1,11 +1,10 @@
-var prueba;
 var controller = (function () {
-    var user = "SergioRt1";
+    var user = "NicGarcia";
     var events;
 
 
     var getEvents = function (callback) {
-        axios.get("http://localhost:8080/events/invited/" + user)
+        axios.get("http://localhost:8080/unite/events/invited/" + user)
             .then(function (response) {
                 events = response.data;
             })
@@ -17,6 +16,12 @@ var controller = (function () {
     };
     var getUser = function () {
         return user;
+    };
+    var getIdCurrentEvent = function () {
+        return localStorage.getItem("id");
+    };
+    var setIdCurrentEvent = function (ev) {
+        localStorage.setItem("id", ev);
     };
 
     var saveEditedEvent = function (pos) {
@@ -33,6 +38,8 @@ var controller = (function () {
     }
     return {
         getUser: getUser,
+        getIdCurrentEvent: getIdCurrentEvent,
+        setIdCurrentEvent: setIdCurrentEvent,
         getEvents: getEvents
 
     };
@@ -42,19 +49,20 @@ function showEvents(evts) {
     var body = document.getElementById("events");
     for (var i = 0; i < evts.length; i++) {
         var tab = document.createElement("div");
-        tab.setAttribute("class", "col-lg-4 col-md-12");
+        tab.setAttribute("class", "card");
         body.appendChild(tab);
         tab.innerHTML =
-            + '<div class="card">'
-            + '<div class="card-content">'
+
+            '<div class="card-content">'
             + '<div class="card-body">'
-            + '<h4 class="card-title info">Text Align Left</h4>'
-            + '<p class="card-text"></p>'
-            + '<p class="card-text"></p>'
-            + '<a href="#" class="btn btn-outline-info">Go somewhere</a>'
-            + '</div>'
+            + '<h4 class="card-title info">' + evts[i]["name"] + '</h4>'
+            + '<p class="card-text">Description: ' + evts[i]["description"] + '</p>'
+            + '<p class="card-text">Date: ' + evts[i]["date"] + '</p>'
+            + '<a href="event-dashboard.html" onclick="controller.setIdCurrentEvent(' + evts[i]["id"] + ')" class="btn btn-outline-info">Go to event dashboard</a>'
             + '</div>'
             + '</div>';
 
     }
 }
+
+
