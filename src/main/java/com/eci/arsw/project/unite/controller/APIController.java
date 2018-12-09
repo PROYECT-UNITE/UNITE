@@ -75,7 +75,7 @@ public class APIController {
     public ResponseEntity<?> postCreateEventHandler(@RequestBody Event event) {
         try {
             int eventId = service.createEvent(event);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(eventId,HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);

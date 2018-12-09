@@ -29,7 +29,7 @@ public class Event {
     private ItemSet gather;
     private ItemSet checklist;
     private String location;
-    private Date date;
+    private String date;
     private String description;
 
     public Event(String owner, String name, String type, int budget) {
@@ -174,11 +174,11 @@ public class Event {
         this.poll = poll;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

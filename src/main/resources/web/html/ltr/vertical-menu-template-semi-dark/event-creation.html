@@ -32,7 +32,7 @@
 			<!-- END Custom CSS-->
 		</head>
 		<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
-				data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="Login.isLogin();">
+				data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="Login.isLogin();newEvent.getAllUsers(showUsers)">
 			<!-- fixed-top-->
 			<nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
 				<div class="navbar-wrapper">
@@ -339,7 +339,7 @@
 
 																<div class="form-group">
 																	<label for="guestE-mail">Guest users:</label>
-																	<select class="select2-tokenizer form-control" style="width: 100%" onchange="newEvent.setEventGuests(this.value)" multiple="" id="guestE-mail">
+																	<select class="select2 form-control" style="width: 100%" onchange="newEvent.setEventGuests()" multiple="" id="guestE-mail">
 																	</select>
 																</div>
 															</div>

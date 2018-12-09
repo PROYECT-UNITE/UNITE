@@ -5,10 +5,12 @@ var newEvent = (function () {
 		"type": "",
 		"budget": 0,
 		"location":"",
-		"description":""
+		"description":"",
+		"date":""
 	};
 	var eventDate;
 	var eventGuests;
+	var users;
 
 	var getEventName = function () {
 		return eventCreator.name;
@@ -17,24 +19,52 @@ var newEvent = (function () {
 		eventCreator.owner=controller.getUser();
 		axios.post("http://localhost:8080/unite/newEvent", eventCreator)
 		.then(function (response) {
-            location.reload(true);
-            alert("Event Created");
+            inviteAllUsers(response.data);
             eventCreator = {
                 "owner":"",
                 "name": "",
                 "type": "",
                 "budget": 0,
                 "location":"",
-                "description":""
+                "description":"",
+				"date":""
             };
 		})
 		.catch(function (error) {
 
 		});
 	};
+	var inviteUser = function (eventId,user) {
+		axios.post("http://localhost:8080/unite/"+eventId+"/invite/"+user)
+			.then(function (response) {
+
+			})
+			.catch(function (error) {
+
+			});
+	};
+	var inviteAllUsers=function(eventId){
+		for (var i = 0; i < users.length; i++) {
+			inviteUser(eventId,users[i]);
+		}
+		location.reload(true);
+		alert("Event Created");
+	}
+
+	var getAllUsers = function (callback) {
+		axios.get("http://localhost:8080/unite/AllUsers")
+			.then(function (response) {
+				users = response.data;
+			})
+			.catch(function (error) {
+			})
+			.then(function () {
+				callback(users);
+			});
+	};
 
 	var setEventGuests = function (guests) {
-		eventGuests = guests;
+		eventGuests=$("#guestE-mail").select2('val');
 	};
     var getEventGuests = function () {
         return eventGuests;
@@ -54,7 +84,7 @@ var newEvent = (function () {
 		return eventDate;
 	};
 	var setEventDate = function (date) {
-		eventDate = date;
+		eventCreator.date = date;
 	};
 	var getEventType = function () {
 		return eventCreator.type;
@@ -83,6 +113,7 @@ var newEvent = (function () {
 
 	return {
 		createEvent: createEvent,
+		getAllUsers: getAllUsers,
 		getEventName: getEventName,
         getEventGuests: getEventGuests,
         setEventGuests: setEventGuests,
@@ -101,3 +132,13 @@ var newEvent = (function () {
 		getEventLocation: getEventLocation
 	};
 })();
+
+function showUsers(users){
+	var body = document.getElementById("guestE-mail");
+	for (var i = 0; i < users.length; i++) {
+		var opt = document.createElement("option");
+		opt.setAttribute("value", users[i]);
+		body.appendChild(opt);
+		opt.innerHTML =users[i];
+	}
+}
