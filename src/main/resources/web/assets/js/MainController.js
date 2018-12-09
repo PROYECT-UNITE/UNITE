@@ -1,43 +1,31 @@
-var prueba;
 var controller = (function () {
     var user = "NicGarcia";
-    var createdEvts;
+    var events;
 
-    var getEventName = function () {
-        return eventCreator.name;
-    };
-    var updateEvent = function () {
-        axios.post("http://localhost:8080/unite/newEvent", eventCreator)
+
+    var getEvents = function (callback) {
+        axios.get("http://localhost:8080/unite/events/invited/" + user)
             .then(function (response) {
-                location.reload(true);
-                alert("Event Created");
+                events = response.data;
             })
             .catch(function (error) {
-
-            });
-    };
-
-    var getCreatedEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/" + user)
-            .then(function (response) {
-                createdEvts = response.data;
-            })
-            .catch(function (error) {
-
             })
             .then(function () {
-                callback(createdEvts);
+                callback(events);
             });
     };
     var getUser = function () {
         return user;
     };
-    var editEventName=function(i,value){
-        createdEvts[i]["name"]=value;
+    var getIdCurrentEvent = function () {
+        return localStorage.getItem("id");
+    };
+    var setIdCurrentEvent = function (ev) {
+        localStorage.setItem("id", ev);
     };
 
-    var saveEditedEvent=function(pos){
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
+    var saveEditedEvent = function (pos) {
+        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
             .then(function (response) {
                 location.reload(true);
                 alert("Event name changed");
@@ -46,14 +34,35 @@ var controller = (function () {
 
             })
             .then(function () {
-
             });
     }
     return {
         getUser: getUser,
-        getCreatedEvents: getCreatedEvents,
-        saveEditedEvent: saveEditedEvent,
-        editEventName: editEventName
+        getIdCurrentEvent: getIdCurrentEvent,
+        setIdCurrentEvent: setIdCurrentEvent,
+        getEvents: getEvents
 
     };
 })();
+
+function showEvents(evts) {
+    var body = document.getElementById("events");
+    for (var i = 0; i < evts.length; i++) {
+        var tab = document.createElement("div");
+        tab.setAttribute("class", "card");
+        body.appendChild(tab);
+        tab.innerHTML =
+
+            '<div class="card-content">'
+            + '<div class="card-body">'
+            + '<h4 class="card-title info">' + evts[i]["name"] + '</h4>'
+            + '<p class="card-text">Description: ' + evts[i]["description"] + '</p>'
+            + '<p class="card-text">Date: ' + evts[i]["date"] + '</p>'
+            + '<a href="event-dashboard.html" onclick="controller.setIdCurrentEvent(' + evts[i]["id"] + ')" class="btn btn-outline-info">Go to event dashboard</a>'
+            + '</div>'
+            + '</div>';
+
+    }
+}
+
+

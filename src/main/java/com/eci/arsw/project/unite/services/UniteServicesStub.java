@@ -98,7 +98,7 @@ public class UniteServicesStub implements UniteServices {
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         return persistence.getEventsInvitedByUser(username);
     }
-
+    
     @Override
     public List<User> getAssistanceToEvent(int eventId) throws UniteException {
         return persistence.getAssistanceToEvent(eventId);
@@ -106,8 +106,10 @@ public class UniteServicesStub implements UniteServices {
 
     @Override
     public void changeStateOfAssitance(int eventId, String username, String state) throws UniteException {
-        persistence.changeStateOfAssitance(eventId, username, state);
+        persistence.changeStateOfAssitance(eventId,username,state);
     }
+
+
 
     @Override
     public void updatePassword(String username, String newPassword) throws UniteException {

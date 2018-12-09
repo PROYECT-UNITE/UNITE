@@ -21,6 +21,7 @@ var eventEditionController = (function () {
         axios.get("http://localhost:8080/unite/events/" + controller.getUser())
             .then(function (response) {
                 createdEvts = response.data;
+                console.log(createdEvts)
             })
             .catch(function (error) {
 
@@ -34,11 +35,15 @@ var eventEditionController = (function () {
         createdEvts[i]["name"]=value;
     };
 
+    var editEventDescription=function(i,value){
+        createdEvts[i]["description"]=value;
+    };
+
     var saveEditedEvent=function(pos){
         axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
             .then(function (response) {
                 location.reload(true);
-                alert("Event name changed");
+                alert("Event details changed");
             })
             .catch(function (error) {
 
@@ -50,7 +55,8 @@ var eventEditionController = (function () {
     return {
         getCreatedEvents: getCreatedEvents,
         saveEditedEvent: saveEditedEvent,
-        editEventName: editEventName,
+        editEventDescription: editEventDescription,
+        editEventName: editEventName
 
     };
 })();
@@ -81,7 +87,7 @@ function showCreatedEvts(events) {
             + '<div class="col-md-6">'
             + '<fieldset class="form-group">'
             + '<label for="eventDescriptionTextarea'+events[i].id+'">Description :</label>'
-            + '<textarea class="form-control" id="eventDescriptionTextarea'+events[i].id+'"  oninput="eventEditionController.editEvent('+i+', this.value)" rows="3">'+events[i].description+'</textarea>'
+            + '<textarea class="form-control" id="eventDescriptionTextarea'+events[i].id+'"  oninput="eventEditionController.editEventDescription('+i+', this.value)" rows="3">'+events[i].description+'</textarea>'
             + '</fieldset>'
             + '<div class="row">'
             + '<div class="col-md-5 offset-md-5">'
