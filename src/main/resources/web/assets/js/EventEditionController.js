@@ -50,7 +50,8 @@ var eventEditionController = (function () {
             .then(function () {
 
             });
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description)
+        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description,
+            {headers: {"Content-Type": "text/plain"}})
             .then(function (response) {
                 location.reload(true);
                 alert("Event details changed");

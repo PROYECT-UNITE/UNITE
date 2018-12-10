@@ -17,9 +17,9 @@ var newEvent = (function () {
     };
     var createEvent = function () {
         eventCreator.owner = localStorage['UserLoggedIn'];
+        var eventId
         axios.post("http://localhost:8080/unite/newEvent", eventCreator)
             .then(function (response) {
-                inviteAllUsers(response.data);
                 eventCreator = {
                     "owner": "",
                     "name": "",
@@ -29,30 +29,21 @@ var newEvent = (function () {
                     "description": "",
                     "date": ""
                 };
+                inviteUsers(response.data);
             })
             .catch(function (error) {
-
             });
     };
-    var inviteUser = function (eventId, user) {
-        axios.post("http://localhost:8080/unite/" + eventId + "/invite/" + user)
+    var inviteUsers = function (eventId) {
+        axios.post("http://localhost:8080/unite/" + eventId + "/invite", users)
             .then(function (response) {
-
             })
             .catch(function (error) {
-
-            })then(function () {
-
-
-                          });
-    };
-    var inviteAllUsers = function (eventId) {
-        for (var i = 0; i < users.length; i++) {
-            inviteUser(eventId, users[i]);
-        }
+                console.log(error)
+            });
         location.reload(true);
         alert("Event Created");
-    }
+    };
 
     var getAllUsers = function (callback) {
         axios.get("http://localhost:8080/unite/AllUsers")
