@@ -41,7 +41,10 @@ var newEvent = (function () {
             })
             .catch(function (error) {
 
-            });
+            })then(function () {
+
+
+                          });
     };
     var inviteAllUsers = function (eventId) {
         for (var i = 0; i < users.length; i++) {
