@@ -31,10 +31,10 @@ public class UniteApplicationTests {
         User.passwordValid(user.getPassword());
     }
 
+    @Test
     public void updatePassword() throws UniteException {
         User user = new User("SergioRt", "acdefghi", "c@mail.com", "Sergio");
         UniteServices us = new UniteServicesStub(new InMemoryPersistence());
-
         us.createAccount(user);
         Assert.assertTrue(us.grantAccess("SergioRt", "acdefghi"));
         us.updatePassword("SergioRt", "Sergio123456*");

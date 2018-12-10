@@ -10,12 +10,12 @@ public class EventsByUser {
     @Id
     private String username;
 
-    private List<Event> events;
+    private List<Integer> events;
 
     public EventsByUser() {
     }
 
-    EventsByUser(String owner, List<Event> events) {
+    public EventsByUser(String owner, List<Integer> events) {
         this.username = owner;
         this.events = events;
     }
@@ -28,11 +28,11 @@ public class EventsByUser {
         this.username = username;
     }
 
-    public List<Event> getEvents() {
+    public List<Integer> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(List<Integer> events) {
         this.events = events;
     }
 

@@ -62,13 +62,13 @@ public class MongodbPersistance implements UnitePersitence {
         Optional<EventsByUser> events = eventsByUserRepository.findById(owner);
         if (events.isPresent()) {
             EventsByUser eventsByUser = events.get();
-            eventsByUser.getEvents().add(event);
+            eventsByUser.getEvents().add(event.getId());
             eventsByUserRepository.save(eventsByUser);
 
         } else {
-            List<Event> eventList;
+            List<Integer> eventList;
             eventList = new CopyOnWriteArrayList<>();
-            eventList.add(event);
+            eventList.add(event.getId());
             eventsByUserRepository.save(new EventsByUser(owner, eventList));
         }
         return event.getId();
@@ -94,7 +94,11 @@ public class MongodbPersistance implements UnitePersitence {
     public List<Event> getEventsByUser(String username) throws UniteException {
         Optional<EventsByUser> eventsByUser = eventsByUserRepository.findById(username);
         if (eventsByUser.isPresent()) {
-            return eventsByUser.get().getEvents();
+            List<Integer> ids = eventsByUser.get().getEvents();
+            List<Event> events = new CopyOnWriteArrayList<>();
+            for(Integer id: ids)
+                events.add(getEvent(id));
+            return events;
         } else {
             if (usersRepository.findById(username).isPresent())
                 return new CopyOnWriteArrayList<>();
@@ -127,10 +131,6 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = this.getEvent(id);
         event.setName(name);
         eventRepository.save(event);
-        EventsByUser eventsByUser = eventsByUserRepository.findByEventsContainsId(id);
-        for (Event e : eventsByUser.getEvents())
-            if (e.getId() == id) e.setName(name);
-        eventsByUserRepository.save(eventsByUser);
     }
 
     @Override
@@ -157,8 +157,7 @@ public class MongodbPersistance implements UnitePersitence {
     public Collection<String> getAllUsers() {
         List<User> users = usersRepository.findAll();
         List<String> usernames = new ArrayList<>();
-        for (User u : users
-        ) {
+        for (User u : users) {
             usernames.add(u.getUsername());
         }
         return usernames;
@@ -192,7 +191,11 @@ public class MongodbPersistance implements UnitePersitence {
     public List<Event> getEventsInvitedByUser(String username) throws UniteException {
         Optional<EventsInvitedByUser> EventsInvitedByUser = eventsInvitedByUserRepository.findById(username);
         if (EventsInvitedByUser.isPresent()) {
-            return EventsInvitedByUser.get().getEvents();
+            List<Integer> ids = EventsInvitedByUser.get().getEvents();
+            List<Event> events = new CopyOnWriteArrayList<>();
+            for(Integer id: ids)
+                events.add(getEvent(id));
+            return events;
         } else {
             throw new UniteException("The user is not invited to any event");
         }
@@ -232,13 +235,13 @@ public class MongodbPersistance implements UnitePersitence {
         Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
         if (events.isPresent()) {
             EventsInvitedByUser eventsInvitedByUser = events.get();
-            eventsInvitedByUser.getEvents().add(event);
+            eventsInvitedByUser.getEvents().add(eventId);
             eventsInvitedByUserRepository.save(eventsInvitedByUser);
 
         } else {
-            List<Event> eventList;
+            List<Integer> eventList;
             eventList = new CopyOnWriteArrayList<>();
-            eventList.add(event);
+            eventList.add(eventId);
             eventsInvitedByUserRepository.save(new EventsInvitedByUser(username, eventList));
         }
 
