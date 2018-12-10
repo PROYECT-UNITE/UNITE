@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -193,10 +194,12 @@ public class APIController {
         }
     }
 
-    @PostMapping("/{eventId}/invite/{username}")
-    public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @PathVariable("username") String username) {
+    @PostMapping("/{eventId}/invite")
+    public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @RequestBody List<String> usernames) {
         try {
-            service.inviteToEvent(eventId, username);
+            for(String username: usernames) {
+                service.inviteToEvent(eventId, username);
+            }
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);

@@ -28,7 +28,8 @@ var Login = (function () {
             })
             .catch(function (reason) {
                 console.log(reason);
-            })
+            });
+
     }
 
     function registerUser() {
