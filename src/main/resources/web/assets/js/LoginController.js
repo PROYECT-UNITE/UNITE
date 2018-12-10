@@ -32,19 +32,21 @@ var Login = (function () {
     }
 
     function registerUser() {
-        var username = document.getElementById("user-name").value;
         var password = document.getElementById("user-password").value;
         var confirm = document.getElementById("user-confirm").value;
         if (confirm === password) {
-            register(username, password);
+            var user = {
+                "username": document.getElementById("user-name").value,
+                "name" : document.getElementById("namesOfUser").value,
+                "mail" : document.getElementById("user-email").value,
+                "password" : password
+            };
+            register(user);
         } else alert("The password and confirmation are not equal");
     }
 
-    function register(username, password) {
-        axios.post('/users/sign-up', {
-            "username": username,
-            "password": password
-        })
+    function register(user) {
+        axios.post('/users/sign-up', user)
             .then(function (response) {
                 console.log(response);
                 window.location.href = "/login.html"
