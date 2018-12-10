@@ -3,7 +3,6 @@ package com.eci.arsw.project.unite.controller;
 import com.eci.arsw.project.unite.model.*;
 import com.eci.arsw.project.unite.services.UniteException;
 import com.eci.arsw.project.unite.services.UniteServices;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +74,7 @@ public class APIController {
     public ResponseEntity<?> postCreateEventHandler(@RequestBody Event event) {
         try {
             int eventId = service.createEvent(event);
-            return new ResponseEntity<>(eventId,HttpStatus.CREATED);
+            return new ResponseEntity<>(eventId, HttpStatus.CREATED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
@@ -94,30 +93,6 @@ public class APIController {
         }
     }
 
-    @PutMapping("/{id}/mail/{mail}")
-    public ResponseEntity<?> putJoinToEventByMailHandler(@PathVariable("id") int id, @PathVariable("mail") String mail) {
-        try {
-            service.joinToEventByMail(id, mail);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (UniteException ex) {
-            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
-        }
-    }
-
-    @PutMapping("/{id}/user/{username}")
-    public ResponseEntity<?> putJoinToEventByUsernameHandler(@PathVariable("id") int id, @PathVariable("username") String username) {
-        try {
-            service.joinToEventByUsername(id, username);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (UniteException ex) {
-            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
-        }
-    }
-
-
-
     @PutMapping("/{username}")
     public ResponseEntity<?> putUpdateUserHandler(@PathVariable("username") String username, @RequestBody User user) {
         try {
@@ -132,7 +107,7 @@ public class APIController {
     @PutMapping("/{eventId}/description")
     public ResponseEntity<?> putChangeDesciptionHandler(@PathVariable("eventId") int eventId, @RequestBody String newDescription) {
         try {
-            service.changeDescription(eventId,newDescription);
+            service.changeDescription(eventId, newDescription);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);

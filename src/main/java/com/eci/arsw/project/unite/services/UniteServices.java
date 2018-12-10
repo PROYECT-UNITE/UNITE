@@ -30,10 +30,6 @@ public interface UniteServices {
 
     Collection<String> getAllUsers();
 
-    void joinToEventByUsername(int id, String username) throws UniteException;
-
-    void joinToEventByMail(int id, String mail) throws UniteException;
-
     List<Message> getMessagesByEvent(int eventId) throws UniteException;
 
     void saveMessage(int eventId, Message message) throws UniteException;

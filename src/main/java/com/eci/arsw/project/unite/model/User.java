@@ -15,6 +15,7 @@ public class User {
 
     public static String INDETERMINATE = "indeterminate";
     public static String ASSISTANT = "assistant";
+    public static String PENDING = "pending";
     public static String INVOLUNTARY_ABSENCE = "involuntary_absence";
 
 

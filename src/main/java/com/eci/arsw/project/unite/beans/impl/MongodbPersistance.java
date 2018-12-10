@@ -96,7 +96,7 @@ public class MongodbPersistance implements UnitePersitence {
         if (eventsByUser.isPresent()) {
             return eventsByUser.get().getEvents();
         } else {
-            if(usersRepository.findById(username).isPresent())
+            if (usersRepository.findById(username).isPresent())
                 return new CopyOnWriteArrayList<>();
             else throw new UniteException("No found user " + username);
         }
@@ -165,20 +165,6 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public void joinToEventByMail(int id, String mail) throws UniteException {
-        Event event = this.getEvent(id);
-        event.addMember(this.getUserByMail(mail),User.ASSISTANT);
-        eventRepository.save(event);
-    }
-
-    @Override
-    public void joinToEventByUsername(int id, String username) throws UniteException {
-        Event event = this.getEvent(id);
-        event.addMember(this.getUser(username),User.ASSISTANT);
-        eventRepository.save(event);
-    }
-
-    @Override
     public void saveMessage(int eventId, Message message) throws UniteException {
         Event event = getEvent(eventId);
         event.getChat().saveMessage(message);
@@ -241,7 +227,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void inviteToEvent(int eventId, String username) throws UniteException {
         Event event = getEvent(eventId);
-        event.addMember(this.getUser(username),User.INDETERMINATE);
+        event.addMember(this.getUser(username), User.PENDING);
         eventRepository.save(event);
         Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
         if (events.isPresent()) {

@@ -33,10 +33,6 @@ public interface UnitePersitence {
 
     Collection<String> getAllUsers();
 
-    void joinToEventByMail(int id, String mail) throws UniteException;
-
-    void joinToEventByUsername(int id, String username) throws UniteException;
-
     void saveMessage(int eventId, Message message) throws UniteException;
 
     List<Message> getMessagesByEvent(int eventId) throws UniteException;
