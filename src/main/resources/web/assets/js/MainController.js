@@ -48,20 +48,22 @@ var controller = (function () {
 function showEvents(evts) {
     var body = document.getElementById("events");
     for (var i = 0; i < evts.length; i++) {
-        var tab = document.createElement("div");
-        tab.setAttribute("class", "card");
-        body.appendChild(tab);
-        tab.innerHTML =
+        if (evts[i]["assistantsState"][localStorage['UserLoggedIn']] == "assistant" || evts[i]["owner"] == localStorage['UserLoggedIn']) {
+            var tab = document.createElement("div");
+            tab.setAttribute("class", "card");
+            body.appendChild(tab);
+            tab.innerHTML =
 
-            '<div class="card-content">'
-            + '<div class="card-body">'
-            + '<h4 class="card-title info">' + evts[i]["name"] + '</h4>'
-            + '<p class="card-text">Description: ' + evts[i]["description"] + '</p>'
-            + '<p class="card-text">Date: ' + evts[i]["date"] + '</p>'
-            + '<a href="event-dashboard.html" onclick="controller.setIdCurrentEvent(' + evts[i]["id"] + ')" class="btn btn-outline-info">Go to event dashboard</a>'
-            + '</div>'
-            + '</div>';
+                '<div class="card-content">'
+                + '<div class="card-body">'
+                + '<h4 class="card-title info">' + evts[i]["name"] + '</h4>'
+                + '<p class="card-text">Description: ' + evts[i]["description"] + '</p>'
+                + '<p class="card-text">Date: ' + evts[i]["date"] + '</p>'
+                + '<a href="main-dashboard.html" onclick="controller.setIdCurrentEvent(' + evts[i]["id"] + ')" class="btn btn-outline-info">Go to event dashboard</a>'
+                + '</div>'
+                + '</div>';
 
+        }
     }
 }
 
