@@ -25,7 +25,7 @@ function showInvitedEvents(events) {
     console.log(events)
     var body = document.getElementById("eventsInvitations");
     for (var i = 0; i < events.length; i++) {
-        if (events[i]["owner"] != localStorage['UserLoggedIn'] && events[i]["assistantsState"][localStorage['UserLoggedIn']] =="indeterminate" ) {
+        if (events[i]["owner"] != localStorage['UserLoggedIn'] && events[i]["assistantsState"][localStorage['UserLoggedIn']] =="pending" ) {
             var tab = document.createElement("div");
             tab.setAttribute("class", "card");
             body.appendChild(tab);

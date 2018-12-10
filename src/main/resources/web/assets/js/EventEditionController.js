@@ -21,7 +21,7 @@ var eventEditionController = (function () {
         axios.get("http://localhost:8080/unite/events/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 createdEvts = response.data;
-                console.log(createdEvts)
+
             })
             .catch(function (error) {
 
@@ -50,7 +50,7 @@ var eventEditionController = (function () {
             .then(function () {
 
             });
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description/",createdEvts[pos].description)
+        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description)
             .then(function (response) {
                 location.reload(true);
                 alert("Event details changed");
