@@ -18,7 +18,7 @@ var eventEditionController = (function () {
     };
 
     var getCreatedEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/" + controller.getUser())
+        axios.get("http://localhost:8080/unite/events/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 createdEvts = response.data;
                 console.log(createdEvts)

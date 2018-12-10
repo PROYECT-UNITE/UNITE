@@ -1,10 +1,10 @@
 var controller = (function () {
-    var user = "SergioRt1";
+
     var events;
 
 
     var getEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + user)
+        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 events = response.data;
             })
