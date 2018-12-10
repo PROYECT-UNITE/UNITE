@@ -42,6 +42,16 @@ var eventEditionController = (function () {
     var saveEditedEvent=function(pos){
         axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
             .then(function (response) {
+
+            })
+            .catch(function (error) {
+
+            })
+            .then(function () {
+
+            });
+        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description/",createdEvts[pos].description)
+            .then(function (response) {
                 location.reload(true);
                 alert("Event details changed");
             })
@@ -51,7 +61,7 @@ var eventEditionController = (function () {
             .then(function () {
 
             });
-    }
+    };
     return {
         getCreatedEvents: getCreatedEvents,
         saveEditedEvent: saveEditedEvent,
