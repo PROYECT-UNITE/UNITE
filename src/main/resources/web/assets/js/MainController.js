@@ -24,20 +24,8 @@ var controller = (function () {
         localStorage.setItem("id", ev);
     };
 
-    var saveEditedEvent = function (pos) {
-        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
-            .then(function (response) {
-                location.reload(true);
-                alert("Event name changed");
-            })
-            .catch(function (error) {
 
-            })
-            .then(function () {
-            });
-    }
     return {
-        getUser: getUser,
         getIdCurrentEvent: getIdCurrentEvent,
         setIdCurrentEvent: setIdCurrentEvent,
         getEvents: getEvents
@@ -66,5 +54,7 @@ function showEvents(evts) {
         }
     }
 }
+
+function showEventDashboard()
 
 

@@ -7,6 +7,7 @@ package com.eci.arsw.project.unite.controller;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -26,6 +27,7 @@ public class UniteWebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/stompendpoint").withSockJS();
         
     }
+
     
 
 }

@@ -1,6 +1,8 @@
 var InvitationsController = (function () {
     var invitedEvents;
+    var stompClient;
     var getEventInvitations = function (callback) {
+        connectStomp();
         axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
 
@@ -12,11 +14,32 @@ var InvitationsController = (function () {
                 callback(invitedEvents);
             });
     };
+    var connectStomp = function () {
+        console.info('Connecting to WS...');
+        var socket = new SockJS('/stompendpoint');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+        });
+
+    };
+    var answerInvitation = function (eventId,answer) {
+
+        stompClient.send("/assistance/"+eventId, {}, 'JSON{"username":"'+localStorage['UserLoggedIn']+'","state":"'+answer+'"}');
+
+    };
     var declineEventInvitation = function (eventId) {
+        answerInvitation(eventId,"declined")
+    };
+    var acceptEventInvitation = function (eventId) {
+        answerInvitation(eventId,"assistant")
     };
 
     return {
-        getEventInvitations: getEventInvitations
+        getEventInvitations: getEventInvitations,
+        acceptEventInvitation: acceptEventInvitation,
+        declineEventInvitation: declineEventInvitation
 
     };
 })();
@@ -25,7 +48,7 @@ function showInvitedEvents(events) {
     console.log(events)
     var body = document.getElementById("eventsInvitations");
     for (var i = 0; i < events.length; i++) {
-        if (events[i]["owner"] != localStorage['UserLoggedIn'] && events[i]["assistantsState"][localStorage['UserLoggedIn']] =="pending" ) {
+        if (events[i]["owner"] != localStorage['UserLoggedIn'] && events[i]["assistantsState"][localStorage['UserLoggedIn']] == "pending") {
             var tab = document.createElement("div");
             tab.setAttribute("class", "card");
             body.appendChild(tab);
@@ -46,8 +69,8 @@ function showInvitedEvents(events) {
                 + '<p class="card-text">Event Creator:<br/> ' + events[i]["owner"] + '</p>'
                 + '</div><br/>'
                 + '<div class="form-group">'
-                + '<button type="button" class="btn mr-1 mb-1 btn-success"><i class="fa fa-check-circle"></i> Accept</button>'
-                + '<button type="button" class="btn mr-1 mb-1 btn-danger"><i class="fa fa-archive"></i> Decline</button>'
+                + '<button type="button" onclick="InvitationsController.acceptEventInvitation(' + events[i]["id"] + ')" class="btn mr-1 mb-1 btn-success"><i class="fa fa-check-circle"></i> Accept</button>'
+                + '<button type="button" onclick="InvitationsController.declineEventInvitation(' + events[i]["id"] + ')" class="btn mr-1 mb-1 btn-danger"><i class="fa fa-archive"></i> Decline</button>'
                 + '</div>'
                 + '</div>'
         }
