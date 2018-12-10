@@ -173,6 +173,17 @@ public class APIController {
         }
     }
 
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<?> deleteEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            service.deleteEvent(eventId);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/{eventId}/poll")
     public ResponseEntity<?> getPollOfEventHandler(@PathVariable("eventId") int eventId) {
         try {
@@ -197,7 +208,7 @@ public class APIController {
     @PostMapping("/{eventId}/invite")
     public ResponseEntity<?> postInviteToEvent(@PathVariable("eventId") int eventId, @RequestBody List<String> usernames) {
         try {
-            for(String username: usernames) {
+            for (String username : usernames) {
                 service.inviteToEvent(eventId, username);
             }
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

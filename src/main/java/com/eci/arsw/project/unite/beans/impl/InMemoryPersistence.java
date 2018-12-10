@@ -187,8 +187,8 @@ public class InMemoryPersistence implements UnitePersitence {
         throw new UniteException("The user is not invited to any event");
     }
 
-    public List<User> getAssistanceToEvent(int eventId) throws UniteException {
-        return getEvent(eventId).getAssistants();
+    public Map<String,String> getAssistanceToEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getAssistantsState();
     }
 
     @Override
@@ -263,6 +263,11 @@ public class InMemoryPersistence implements UnitePersitence {
 
     @Override
     public void changeDescription(int eventId, String newDescription) throws UniteException {
+
+    }
+
+    @Override
+    public void deleteEvent(int eventId) throws UniteException {
 
     }
 

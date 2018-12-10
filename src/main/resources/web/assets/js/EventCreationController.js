@@ -37,10 +37,10 @@ var newEvent = (function () {
     var inviteUser = function (eventId, user) {
         axios.post("http://localhost:8080/unite/" + eventId + "/invite/" + user)
             .then(function (response) {
-
+                console.log("invito a "+user)
             })
             .catch(function (error) {
-
+                console.log(error)
             });
     };
     var inviteAllUsers = function (eventId) {

@@ -20,7 +20,6 @@ public class Event {
     private String type;
     private int budget;
     private String owner;
-    private List<User> assistants;
     private List<Date> possibleDates;
     private Map<String, String> assistantsState;
     private Chat chat;
@@ -37,7 +36,6 @@ public class Event {
         this.name = name;
         this.type = type;
         this.budget = budget;
-        assistants = new CopyOnWriteArrayList<>();
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
@@ -46,7 +44,6 @@ public class Event {
     }
 
     public Event() {
-        assistants = new CopyOnWriteArrayList<>();
         possibleDates = new CopyOnWriteArrayList<>();
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
@@ -54,12 +51,11 @@ public class Event {
     }
 
     public void addMember(User member,String state) {
-        assistants.add(member);
         assistantsState.put(member.getUsername(), state);
     }
 
     public void removeMember(User memeber) {
-
+        assistantsState.remove(memeber.getUsername());
     }
 
     public void addMemberByMail(String mail) {
@@ -124,22 +120,6 @@ public class Event {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public List<User> getAssistants() {
-        return assistants;
-    }
-
-    public void setAssistants(List<User> assistants) {
-        this.assistants = assistants;
-    }
-
-    public List<Date> getPossibleDates() {
-        return possibleDates;
-    }
-
-    public void setPossibleDates(List<Date> possibleDates) {
-        this.possibleDates = possibleDates;
     }
 
     public Map<String, String> getAssistantsState() {
@@ -214,7 +194,6 @@ public class Event {
                 ", type='" + type + '\'' +
                 ", budget=" + budget +
                 ", owner='" + owner + '\'' +
-                ", assistants=" + assistants +
                 ", possibleDates=" + possibleDates +
                 ", assistantsState=" + assistantsState +
                 ", chat=" + chat +

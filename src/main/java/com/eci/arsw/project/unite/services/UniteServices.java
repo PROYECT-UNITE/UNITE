@@ -4,6 +4,7 @@ import com.eci.arsw.project.unite.model.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sergio
@@ -38,7 +39,7 @@ public interface UniteServices {
 
     void saveLink(int eventId, Message message) throws UniteException;
 
-    List<User> getAssistanceToEvent(int eventId) throws UniteException;
+    Map<String, String> getAssistanceToEvent(int eventId) throws UniteException;
 
     void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
 
@@ -71,4 +72,6 @@ public interface UniteServices {
     void takeChargeItemChecklist(int eventId, Item item) throws UniteException;
 
     void changeDescription(int eventId, String newDescription) throws UniteException;
+
+    void deleteEvent(int eventId) throws UniteException;
 }

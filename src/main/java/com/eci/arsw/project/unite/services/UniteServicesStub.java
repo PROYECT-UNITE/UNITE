@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sergio
@@ -98,7 +99,7 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public List<User> getAssistanceToEvent(int eventId) throws UniteException {
+    public Map<String, String> getAssistanceToEvent(int eventId) throws UniteException {
         return persistence.getAssistanceToEvent(eventId);
     }
 
@@ -181,6 +182,11 @@ public class UniteServicesStub implements UniteServices {
     @Override
     public void changeDescription(int eventId, String newDescription) throws UniteException {
         persistence.changeDescription(eventId, newDescription);
+    }
+
+    @Override
+    public void deleteEvent(int eventId) throws UniteException {
+        persistence.deleteEvent(eventId);
     }
 
 }

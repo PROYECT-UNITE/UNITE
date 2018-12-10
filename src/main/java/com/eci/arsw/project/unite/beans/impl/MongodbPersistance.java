@@ -10,10 +10,7 @@ import com.eci.arsw.project.unite.services.UniteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -202,8 +199,8 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public List<User> getAssistanceToEvent(int eventId) throws UniteException {
-        return getEvent(eventId).getAssistants();
+    public Map<String,String> getAssistanceToEvent(int eventId) throws UniteException {
+        return getEvent(eventId).getAssistantsState();
     }
 
     @Override
@@ -326,6 +323,14 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = getEvent(eventId);
         event.setDescription(newDescription);
         eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteEvent(int eventId) throws UniteException {
+        if(eventRepository.findById(eventId).isPresent()){
+            eventRepository.deleteById(eventId);
+        }else throw new UniteException("Event no exist");
+
     }
 
     private int getCounter() {
