@@ -15,17 +15,18 @@ var controller = (function () {
             });
     };
     var loadDashboardContent = function () {
-
+        getEvent(showEventInformation);
     };
     var getEvent = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
+        var event
+        axios.get("http://localhost:8080/unite/event/" + localStorage.getItem("id"))
             .then(function (response) {
-                events = response.data;
+                event = response.data;
             })
             .catch(function (error) {
             })
             .then(function () {
-                callback(events);
+                callback(event);
             });
     };
     var getIdCurrentEvent = function () {
@@ -39,7 +40,8 @@ var controller = (function () {
     return {
         getIdCurrentEvent: getIdCurrentEvent,
         setIdCurrentEvent: setIdCurrentEvent,
-        getEvents: getEvents
+        getEvents: getEvents,
+        loadDashboardContent: loadDashboardContent
 
     };
 })();
@@ -66,8 +68,35 @@ function showEvents(evts) {
     }
 }
 
-function showEventInformation(event){
+function showEventInformation(event) {
+    document.getElementById("eventName").innerHTML = event["name"];
+    document.getElementById("eventLocation").innerHTML = event["location"];
+    document.getElementById("eventBudget").innerHTML = '<i></i>' + event["budget"] + ' USD';
+    var invitedUsersTable = document.getElementById("invitedUsersTable");
+    var numberOfAssistants=0;
+    for (var user in event["assistantsState"]) {
+        if (user !== localStorage['UserLoggedIn']) {
+            var tr = document.createElement("tr");
+            invitedUsersTable.appendChild(tr);
+            var html =
+                '<tr>'
+                + '<td class="text-truncate">' + user + '</td>'
+                + '<td class="text-truncate">';
+            if (event["assistantsState"][user] === "pending") {
+                html = html + '<span class="badge badge-default badge-warning">Pending</span>';
+            } else if (event["assistantsState"][user] === "declined") {
+                html = html + '<span class="badge badge-default badge-danger">Declined</span>';
+            } else {
+                numberOfAssistants++;
+                html = html + '<span class="badge badge-default badge-success">Assistant</span>';
+            }
+            html = html + '</td>'
+                + '</tr>';
+            tr.innerHTML=html;
 
+        }
+    }
+    document.getElementById("confirmedAssistants").innerHTML = "<i></i>"+numberOfAssistants;
 }
 
 

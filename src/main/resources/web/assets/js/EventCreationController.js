@@ -34,15 +34,17 @@ var newEvent = (function () {
             });
     };
     var inviteUsers = function (eventId) {
-        axios.post("http://localhost:8080/unite/" + eventId + "/invite", users)
+        axios.post("http://localhost:8080/unite/" + eventId + "/invite", eventGuests)
             .then(function (response) {
-                console.log("invito a "+user)
+                console.log("invito a " + eventGuests)
             })
             .catch(function (error) {
                 console.log(error)
-            });
-        location.reload(true);
-        alert("Event Created");
+            }).then(function () {
+            location.reload(true);
+            alert("Event Created");
+        });
+
     };
 
     var getAllUsers = function (callback) {

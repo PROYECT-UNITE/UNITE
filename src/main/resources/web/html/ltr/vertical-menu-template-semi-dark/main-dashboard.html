@@ -39,8 +39,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="description"
+          content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords"
+          content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
     <title>Unite - Main Dashboard</title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
@@ -70,7 +72,7 @@
 
 </head>
 <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
-      data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="Login.isLogin()">
+      data-open="click" data-menu="vertical-menu" data-col="2-columns" onload="Login.isLogin();controller.loadDashboardContent()">
 <!-- fixed-top-->
 <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
     <div class="navbar-wrapper">
@@ -279,7 +281,7 @@
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="pt-1 mb-0">This event is about:</h6>
-                                                <h2 class="text-bold-500 pt-1 mb-0">Linda's Birthday</h2>
+                                                <h2 class="text-bold-500 pt-1 mb-0" id="eventName"></h2>
                                                 <div class="heading-elements">
                                                     <ul class="list-inline mb-0">
                                                         <li><a data-action="reload"><i class="ft-edit-2"></i></a></li>
@@ -290,7 +292,7 @@
                                     </div>
                                     <div class="col-xl-3 col-lg-6 col-md-12 border-right-blue-grey border-right-lighten-5 clearfix">
                                         <h6 class="pt-1 mb-0">This event will be held at:</h6>
-                                        <h2 class="text-bold-500 pt-1 mb-0">Roy's House</h2>
+                                        <h2 class="text-bold-500 pt-1 mb-0" id="eventLocation"></h2>
                                         <div class="heading-elements">
                                             <ul class="list-inline mb-0">
                                                 <li><a data-action="reload"><i class="ft-edit-2"></i></a></li>
@@ -304,7 +306,7 @@
                                             </div>
                                             <div class="p-2 bg-gradient-x-danger white media-body">
                                                 <h5>Confirmed</h5>
-                                                <h5 class="text-bold-400 mb-0"><i></i>6</h5>
+                                                <h5 class="text-bold-400 mb-0" id="confirmedAssistants"></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -315,7 +317,7 @@
                                             </div>
                                             <div class="p-2 bg-gradient-x-success white media-body">
                                                 <h5>Funds</h5>
-                                                <h5 class="text-bold-400 mb-0"><i></i> 200 USD</h5>
+                                                <h5 class="text-bold-400 mb-0" id="eventBudget"></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -529,50 +531,20 @@
                             </div>
                         </div>
                         <div class="card-content px-1">
-                            <div id="recent-buyers" class="media-list height-300 position-relative">
-                                <a href="#" class="media border-0">
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Kristopher Candy
-                                        </h6>
-                                    </div>
-                                </a>
-                                <a href="#" class="media border-0">
+                            <div id="daily-activity" class="table-responsive height-400">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="invitedUsersTable">
 
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Lawrence Fowler
-                                        </h6>
-                                    </div>
-                                </a>
-                                <a href="#" class="media border-0">
-
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Linda Olson
-                                        </h6>
-                                    </div>
-                                </a>
-                                <a href="#" class="media border-0">
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Roy Clark
-                                        </h6>
-                                        <p class="list-group-item-text mb-0">
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="media border-0">
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Drake Nixon
-                                        </h6>
-                                        <p class="list-group-item-text mb-0">
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="media border-0">
-                                    <div class="media-body w-100">
-                                        <h6 class="list-group-item-heading">Ben Joseh
-                                        </h6>
-                                    </div>
-                                </a>
+                                    </tbody>
+                                </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -706,7 +678,6 @@
                 </div>
             </div>
             <!--/Recent Orders & Monthly Salse -->
-
 
 
         </div>
