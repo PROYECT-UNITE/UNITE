@@ -49,8 +49,9 @@ public class MongodbPersistance implements UnitePersitence {
     public int createEvent(Event event) throws UniteException {
         eventCounter = getCounter();
         event.setId(eventCounter++);
-        eventRepository.save(event);
         String owner = event.getOwner();
+        event.getAssistantsState().put(owner,User.ASSISTANT);
+        eventRepository.save(event);
         Optional<EventsByUser> events = eventsByUserRepository.findById(owner);
         if (events.isPresent()) {
             EventsByUser eventsByUser = events.get();
