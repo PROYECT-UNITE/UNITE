@@ -169,7 +169,7 @@ var controller = (function () {
 
         };
     var getEvent = function (callback) {
-        var event
+        var event;
         axios.get("/unite/event/" + localStorage.getItem("id"))
             .then(function (response) {
                 event = response.data;
@@ -266,7 +266,8 @@ function showEventInformation(event) {
         }
     }
     document.getElementById("confirmedAssistants").innerHTML = "<i></i>" + numberOfAssistants;
-    showChatHistory(event.chat.record)
+    showChatHistory(event.chat.record);
+    showLinkHistory(event.linkChat.record);
 }
 function showChatHistory(history){
     for(var i=0;i<history.length;i++){
@@ -274,6 +275,15 @@ function showChatHistory(history){
             showMessage(history[i]["text"],true);
         }else{
             showMessage(history[i]["text"],false);
+        }
+    }
+}
+function showLinkHistory(history){
+    for(var i=0;i<history.length;i++){
+        if(history[i]["author"]!==localStorage['UserLoggedIn']){
+            showNewLink(history[i]["text"]);
+        }else{
+            showNewLink(history[i]["text"]);
         }
     }
 }

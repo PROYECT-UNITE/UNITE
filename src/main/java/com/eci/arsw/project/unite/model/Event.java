@@ -49,6 +49,9 @@ public class Event {
         assistantsState = new ConcurrentHashMap<>();
         chat = new Chat();
         gather = new ItemSet();
+        checklist = new ItemSet();
+        linkChat = new Chat();
+        poll = new Poll();
     }
 
     public void addMember(String username,String state) {

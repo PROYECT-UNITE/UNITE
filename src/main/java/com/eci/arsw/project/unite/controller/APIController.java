@@ -195,6 +195,16 @@ public class APIController {
         }
     }
 
+    @GetMapping("/{eventId}/checklist")
+    public ResponseEntity<?> getChecklistOfEventHandler(@PathVariable("eventId") int eventId) {
+        try {
+            return new ResponseEntity<>(service.getChecklistOfEvent(eventId), HttpStatus.ACCEPTED);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/{eventId}/location")
     public ResponseEntity<?> postEventLocation(@PathVariable("eventId") int eventId, @RequestParam String longitude, @RequestParam String latitude) {
         try {

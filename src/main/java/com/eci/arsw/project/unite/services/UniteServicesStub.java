@@ -194,4 +194,9 @@ public class UniteServicesStub implements UniteServices {
         persistence.updateWall(id,wall);
     }
 
+    @Override
+    public ItemSet getChecklistOfEvent(int eventId) throws UniteException{
+        return persistence.getChecklistOfEvent(eventId);
+    }
+
 }

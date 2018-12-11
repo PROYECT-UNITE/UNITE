@@ -175,7 +175,7 @@ public class MongodbPersistance implements UnitePersitence {
     @Override
     public void saveLink(int eventId, Message message) throws UniteException {
         Event event = getEvent(eventId);
-        event.getChat().saveMessage(message);
+        event.getLinkChat().saveMessage(message);
         eventRepository.save(event);
     }
 
@@ -368,6 +368,12 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = getEvent(eventId);
         event.setWall(wall);
         eventRepository.save(event);
+    }
+
+    @Override
+    public ItemSet getChecklistOfEvent(int eventId) throws UniteException {
+        Event event = getEvent(eventId);
+        return event.getChecklist();
     }
 
 

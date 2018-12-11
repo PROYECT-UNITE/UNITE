@@ -459,7 +459,7 @@
                         </div>
                         <div class="card-content">
                             <div id="daily-activity" class="table-responsive height-350">
-                                <table class="table table-hover mb-0">
+                                <table class="table table-hover mb-0" id = "tablechecklist">
                                     <thead>
                                     <tr>
                                         <th>
@@ -479,14 +479,6 @@
                                             <span class="badge badge-default badge-success">Done</span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-truncate">
-                                            <input type="checkbox" id="icheck-input-2" class="icheck-activity" checked>
-                                        </td>
-                                        <td class="text-truncate">Morning Exercise</td>
-                                        <td class="text-truncate">
-                                            <span class="badge badge-default badge-success">Done</span>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="text-truncate">
@@ -499,45 +491,9 @@
                                     </tr>
                                     <tr>
                                         <td class="text-truncate">
-                                            <input type="checkbox" id="icheck-input-4" class="icheck-activity" checked>
-                                        </td>
-                                        <td class="text-truncate">Gym</td>
-                                        <td class="text-truncate">
-                                            <span class="badge badge-default badge-success">Done</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate">
-                                            <input type="checkbox" id="icheck-input-5" class="icheck-activity" checked>
-                                        </td>
-                                        <td class="text-truncate">Steam Bath</td>
-                                        <td class="text-truncate">
-                                            <span class="badge badge-default badge-success">Done</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate">
-                                            <input type="checkbox" id="icheck-input-6" class="icheck-activity">
-                                        </td>
-                                        <td class="text-truncate">Meditation</td>
-                                        <td class="text-truncate">
-                                            <span class="badge badge-default badge-danger">Missed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate">
                                             <input type="checkbox" id="icheck-input-7" class="icheck-activity">
                                         </td>
                                         <td class="text-truncate">Bricks Walking</td>
-                                        <td class="text-truncate">
-                                            <span class="badge badge-default badge-warning">Delayed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate">
-                                            <input type="checkbox" id="icheck-input-8" class="icheck-activity">
-                                        </td>
-                                        <td class="text-truncate">Exercise</td>
                                         <td class="text-truncate">
                                             <span class="badge badge-default badge-warning">Delayed</span>
                                         </td>
@@ -582,6 +538,7 @@
     <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js" type="text/javascript"/>
     <script src="../../../assets/js/LoginController.js" type="text/javascript"></script>
     <script src="../../../assets/js/MainController.js" type="text/javascript"></script>
+    <script src="../../../assets/js/ChecklistController.js" type="text/javascript"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="../../../assets/js/stomp.min.js" type="text/javascript"></script>
     <script src="../../../assets/js/sockjs.min.js" type="text/javascript"></script>

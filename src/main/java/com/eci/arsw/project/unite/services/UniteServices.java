@@ -75,5 +75,7 @@ public interface UniteServices {
 
     void deleteEvent(int eventId) throws UniteException;
 
-    public void updateWall(int id, String wall) throws UniteException;
+    void updateWall(int id, String wall) throws UniteException;
+
+    ItemSet getChecklistOfEvent(int eventId) throws UniteException;
 }
