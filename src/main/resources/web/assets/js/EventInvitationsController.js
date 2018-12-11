@@ -4,8 +4,6 @@ var InvitationsController = (function () {
 
     var stompClient;
 
-    var TOPIC_ASSISTANCE = "/topic/assistance";
-
     var getEventInvitations = function (callback) {
         connectStomp();
         axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
@@ -26,8 +24,6 @@ var InvitationsController = (function () {
 
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
-            // subscribe to /topic/assistance.{eventId} when connections succeed
-
         });
 
     };
