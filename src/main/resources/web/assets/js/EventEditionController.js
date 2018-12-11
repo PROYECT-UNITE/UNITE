@@ -27,28 +27,30 @@ var eventEditionController = (function () {
     var deleteEvent=function(id){
         axios.delete("http://localhost:8080/unite/"+createdEvts[id].id)
             .then(function (response) {
-
             })
             .catch(function (error) {
 
             })
             .then(function () {
-
+                location.reload(true);
+                alert("Event deleted succesfully");
             });
 
     };
     var saveEditedEvent=function(pos){
         axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
             .then(function (response) {
-                location.reload(true);
-                alert("Event details changed");
+
             })
             .catch(function (error) {
                 console.log(error);
             })
             .then(function () {
-
+                saveDescription(pos);
             });
+
+    };
+    var saveDescription=function(pos){
         axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description,
             {headers: {"Content-Type": "text/plain"}})
             .then(function (response) {
