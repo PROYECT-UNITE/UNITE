@@ -25,7 +25,7 @@ var controller = (function () {
     var TOPIC_TAKE_TO_CHECKLIST = "/topic/takechargeitemchecklist";
 
     var getEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
+        axios.get("/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 events = response.data;
             })
@@ -38,7 +38,6 @@ var controller = (function () {
     var loadDashboardContent = function () {
         connectStomp();
         getEvent(showEventInformation);
-        theWall.connectAndSubscribe();
 
     };
 
@@ -53,10 +52,13 @@ var controller = (function () {
             stompClient.subscribe(TOPIC_ASSISTANCE + '.' + getIdCurrentEvent(), function (eventbody) {
                 var body = JSON.parse(eventbody.body)
                 showChangeAssistenceOfEvent(body.username, body.state);
-
-
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
+            // subscribe to /topic/theWallAt.{eventId} when connections succeed
+            stompClient.subscribe('/topic/theWallAt'+"."+controller.getIdCurrentEvent() , function (eventbody) {
+                var text = JSON.parse(eventbody.body);
+                document.getElementById("theWallTextArea").value = text;
+            },{'Authorization':localStorage['AUTH_TOKEN']});
 
             stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
                 var body = JSON.parse(eventbody.body)
@@ -168,7 +170,7 @@ var controller = (function () {
         };
     var getEvent = function (callback) {
         var event
-        axios.get("http://localhost:8080/unite/event/" + localStorage.getItem("id"))
+        axios.get("/unite/event/" + localStorage.getItem("id"))
             .then(function (response) {
                 event = response.data;
             })
@@ -192,6 +194,11 @@ var controller = (function () {
             currentLink = link;
         };
 
+    var saveInfoTheWall = function () {
+        var wall = document.getElementById("theWallTextArea").value;
+        stompClient.send("/app/theWallAt"+"."+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(wall));
+    };
+
 
     return {
         getIdCurrentEvent: getIdCurrentEvent,
@@ -201,7 +208,8 @@ var controller = (function () {
         setCurrentChatMessage: setCurrentChatMessage,
         setCurrentLink: setCurrentLink,
         sendLink: sendLink,
-        loadDashboardContent: loadDashboardContent
+        loadDashboardContent: loadDashboardContent,
+        saveInfoTheWall:saveInfoTheWall
 
     };
 })();

@@ -381,7 +381,7 @@ public class APIController {
         service.takeChargeItemChecklist(eventId, item);
     }
 
-    @MessageMapping("theWallAt.{eventId}")
+    @MessageMapping("/theWallAt.{eventId}")
     public void putUpdateWall(String wall ,@DestinationVariable("eventId") int eventId) {
         try {
             service.updateWall(eventId,wall);
