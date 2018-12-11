@@ -47,12 +47,7 @@ public class MongodbPersistance implements UnitePersitence {
 
     @Override
     public int createEvent(Event event) throws UniteException {
-        if (eventCounter == null) {
-            eventCounter = getCounter();
-        }
-        if (eventRepository.findById(eventCounter).isPresent()) {
-            throw new UniteException("Error creating a new event.");
-        }
+        eventCounter = getCounter();
         event.setId(eventCounter++);
         eventRepository.save(event);
         String owner = event.getOwner();
@@ -350,15 +345,12 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     private int getCounter() {
-        List<Event> events = eventRepository.findAll();
         Event event = eventRepository.findTopByOrderByIdDesc();
-        System.out.println(event);
         int counter = 0;
-        for (Event e : events
-        ) {
-            counter = java.lang.Math.max(counter, e.getId());
+        if(event != null){
+            counter = event.getId() + 1;
         }
-        return counter + 1;
+        return counter;
     }
 
 
