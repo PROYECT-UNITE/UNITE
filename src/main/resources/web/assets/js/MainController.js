@@ -2,6 +2,7 @@ var controller = (function () {
 
     var currentChatMessage;
     var currentLink;
+    var currentCkeckname;
     var events;
 
     var stompClient;
@@ -129,7 +130,8 @@ var controller = (function () {
             // subscribe to /topic/additemchecklist.{eventId} when connections succeed to add items in checklist
             stompClient.subscribe(TOPIC_ADD_TO_CHECKLIST + '.' + getIdCurrentEvent(), function (eventbody) {
                 console.log(eventbody);
-                //Todo
+                var body = JSON.parse(eventbody.body)
+                showNewCkeckbox(body);
 
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
@@ -168,6 +170,18 @@ var controller = (function () {
             showNewLink(currentLink);
 
         };
+
+    var sendItemCheck = function () {
+        var item = {
+            "name": currentCkeckname
+        };
+        stompClient.send("/app/additemchecklist." + getIdCurrentEvent(), {'Authorization': localStorage['AUTH_TOKEN']}, JSON.stringify(item));
+        // showNewCkeckbox(item);
+    };
+
+    var changecheck = function () {
+        var
+    }
     var getEvent = function (callback) {
         var event;
         axios.get("/unite/event/" + localStorage.getItem("id"))
@@ -194,6 +208,9 @@ var controller = (function () {
             currentLink = link;
         };
 
+    var setCurrentCheckname = function (name) {
+        currentCkeckname = name;
+    }
     var saveInfoTheWall = function () {
         var wall = document.getElementById("theWallTextArea").value;
         stompClient.send("/app/theWallAt"+"."+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(wall));
@@ -209,7 +226,10 @@ var controller = (function () {
         setCurrentLink: setCurrentLink,
         sendLink: sendLink,
         loadDashboardContent: loadDashboardContent,
-        saveInfoTheWall:saveInfoTheWall
+        saveInfoTheWall:saveInfoTheWall,
+        sendItemCheck: sendItemCheck,
+        setCurrentCheckname:setCurrentCheckname,
+        changecheck:changecheck
 
     };
 })();
@@ -322,15 +342,34 @@ function showMessage(msg,recived) {
         + '<p>'+msg+'</p>'
         + '</div>'
         + '</div>'
-        + '</div>'
+        + '</div>';
 }
 
-function showNewLink(link){
-        var list = document.getElementById("informationOfInterest");
-        var item = document.createElement("li");
-        item.setAttribute("class", "list-group-item");
+function showNewLink(link) {
+    var list = document.getElementById("informationOfInterest");
+    var item = document.createElement("li");
+    item.setAttribute("class", "list-group-item");
 
-        list.appendChild(item);
-        item.innerHTML = '<a href="#" class="card-link">'+link+'</a>'
-
+    list.appendChild(item);
+    item.innerHTML = '<a href="#" class="card-link">' + link + '</a>'
+}
+function showNewCkeckbox(item) {
+    var list = document.getElementById("tablechecklist");
+    var itemshow = document.createElement("tr");
+    list.appendChild(itemshow);
+    var html =
+        '<td class="text-truncate">\n';
+    if(item.onCharge === null || typeof item.onCharge === "undefined") {
+        html = html + '<input type="checkbox" class="icheck-activity">\n';
+    }else
+        html = html + '<input type="checkbox" class="icheck-activity" checked>\n';
+    html = html + '</td>\n' +
+        '<td class="text-truncate">'+item.name+'</td>\n' +
+        '<td class="text-truncate">\n';
+    if(item.onCharge === null || typeof item.onCharge === "undefined") {
+        html = html + '<span class="badge badge-default badge-danger">Pending</span>\n' +
+            '</td>';
+    }else
+        html = html + '<span class="badge badge-default badge-success">Done</span>\n' + '</td>';
+    itemshow.innerHTML = html;
 }
