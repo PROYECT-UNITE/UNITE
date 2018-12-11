@@ -34,8 +34,8 @@ var InvitationsController = (function () {
         }
         stompClient.send("/app/assistance."+eventId, {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(state));
         document.getElementById(eventId).remove();
-
     };
+
     var declineEventInvitation = function (eventId) {
         answerInvitation(eventId,"declined")
     };
