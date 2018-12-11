@@ -27,10 +27,7 @@ var InvitationsController = (function () {
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
             // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe(TOPIC_ASSISTANCE + '.' + 12, function (eventbody) { // 12 is an id for test
-                console.log(eventbody);
-                alert("Me llegó :D");
-            },{'Authorization':localStorage['AUTH_TOKEN']});
+
         });
 
     };
@@ -40,6 +37,7 @@ var InvitationsController = (function () {
             "state": answer
         }
         stompClient.send("/app/assistance."+eventId, {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(state));
+        document.getElementById(eventId).remove();
 
     };
     var declineEventInvitation = function (eventId) {
@@ -58,12 +56,12 @@ var InvitationsController = (function () {
 })();
 
 function showInvitedEvents(events) {
-    console.log(events)
     var body = document.getElementById("eventsInvitations");
     for (var i = 0; i < events.length; i++) {
         if (events[i]["owner"] != localStorage['UserLoggedIn'] && events[i]["assistantsState"][localStorage['UserLoggedIn']] == "pending") {
             var tab = document.createElement("div");
             tab.setAttribute("class", "card");
+            tab.setAttribute("id",events[i]["id"] );
             body.appendChild(tab);
             tab.innerHTML =
                 '<div class="card-header card-head-inverse bg-primary">'
