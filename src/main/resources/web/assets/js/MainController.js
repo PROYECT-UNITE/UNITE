@@ -36,6 +36,7 @@ var controller = (function () {
     var loadDashboardContent = function () {
         connectStomp();
         getEvent(showEventInformation);
+        theWall.connectAndSubscribe();
 
     };
 
@@ -202,6 +203,7 @@ function showEventInformation(event) {
     document.getElementById("eventName").innerHTML = event["name"];
     document.getElementById("eventLocation").innerHTML = event["location"];
     document.getElementById("eventBudget").innerHTML = '<i></i>' + event["budget"] + ' USD';
+    document.getElementById("theWallTextArea").value = event["wall"];
     var invitedUsersTable = document.getElementById("invitedUsersTable");
      numberOfAssistants=0;
     for (var user in event["assistantsState"]) {
@@ -242,46 +244,42 @@ function showChangeAssistenceOfEvent(user,status){
 
 var theWall = (function () {
     
+    var stompClient = null;
+    
+    var loadInfo = function () {
+        
+    };
+    var saveInfo = function () {
 
-    var getEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + user)
+        axios.put("http://localhost:8080/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}}) 
             .then(function (response) {
-                events = response.data;
+                stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
             })
             .catch(function (error) {
-            })
-            .then(function () {
-                callback(events);
             });
+       
     };
-    var getUser = function () {
-        return user;
-    };
-    var getIdCurrentEvent = function () {
-        return localStorage.getItem("id");
-    };
-    var setIdCurrentEvent = function (ev) {
-        localStorage.setItem("id", ev);
-    };
+    
+    var connectAndSubscribe = function (){
+        console.info('Connecting to WS...');
+        var socket = new SockJS('/stompendpoint');
+        stompClient = Stomp.over(socket);
 
-    var saveEditedEvent = function (pos) {
-        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
-            .then(function (response) {
-                location.reload(true);
-                alert("Event name changed");
-            })
-            .catch(function (error) {
-
-            })
-            .then(function () {
-            });
-    }
+        stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
+            console.log('Connected: ' + frame);
+            // subscribe to /topic/assistance.{eventId} when connections succeed
+            stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent() , function (eventbody) {
+                var text = JSON.parse(eventbody.body);
+                document.getElementById("theWallTextArea").value = text;
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+        });
+    };
+    
+    
     return {
-        getUser: getUser,
-        getIdCurrentEvent: getIdCurrentEvent,
-        setIdCurrentEvent: setIdCurrentEvent,
-        getEvents: getEvents
-
+        loadInfo: loadInfo,
+        saveInfo: saveInfo,
+        connectAndSubscribe: connectAndSubscribe
     };
 })();
 
