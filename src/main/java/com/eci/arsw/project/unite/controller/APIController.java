@@ -380,5 +380,14 @@ public class APIController {
         msgt.convertAndSend("/topic/takechargeitemchecklist." + eventId, item);
         service.takeChargeItemChecklist(eventId, item);
     }
+    
+    @PutMapping("/event/{id}/updateWall")
+    public void putUpdateWall(@PathVariable("id") int id, @RequestBody String wall ) {
+        try {
+            service.updateWall(id,wall);
+        } catch (UniteException ex) {
+            Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

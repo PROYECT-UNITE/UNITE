@@ -189,4 +189,9 @@ public class UniteServicesStub implements UniteServices {
         persistence.deleteEvent(eventId);
     }
 
+    @Override
+    public void updateWall(int id, String wall) throws UniteException {
+        persistence.updateWall(id,wall);
+    }
+
 }

@@ -30,6 +30,7 @@ public class Event {
     private String location;
     private String date;
     private String description;
+    private String theWall;
 
     public Event(String owner, String name, String type, int budget) {
         this.owner = owner;
@@ -204,6 +205,15 @@ public class Event {
                 ", location='" + location + '\'' +
                 ", date=" + date +
                 ", description='" + description + '\'' +
+                ", wall='" + theWall + '\'' +
                 '}';
+    }
+
+    public void setWall(String wall) {
+        theWall = wall;
+    }
+    
+    public String getWall(){
+        return theWall;
     }
 }

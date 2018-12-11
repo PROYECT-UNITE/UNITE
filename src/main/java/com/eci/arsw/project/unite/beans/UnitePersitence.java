@@ -81,4 +81,6 @@ public interface UnitePersitence {
     void changeDescription(int eventId, String newDescription) throws UniteException;
 
     void deleteEvent(int eventId) throws UniteException;
+
+    public void updateWall(int eventId, String wall) throws UniteException;
 }

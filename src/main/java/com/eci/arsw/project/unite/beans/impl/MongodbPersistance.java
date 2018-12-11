@@ -362,6 +362,13 @@ public class MongodbPersistance implements UnitePersitence {
         }
         return counter;
     }
+    
+     @Override
+    public void updateWall(int eventId, String wall) throws UniteException {
+        Event event = getEvent(eventId);
+        event.setWall(wall);
+        eventRepository.save(event);
+    }
 
 
 }

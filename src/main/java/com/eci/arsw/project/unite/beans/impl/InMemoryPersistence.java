@@ -275,5 +275,9 @@ public class InMemoryPersistence implements UnitePersitence {
     public void deleteEvent(int eventId) throws UniteException {
 
     }
-
+    
+    @Override
+    public void updateWall(int eventId, String wall) throws UniteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
