@@ -59,9 +59,7 @@ var controller = (function () {
             // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
             stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
                 var body = JSON.parse(eventbody.body)
-                if (body.author !== localStorage['UserLoggedIn']) {
-                    showMessage(body.text, true);
-                }
+                showChangeAssistenceOfEvent(body.username,body.state);
             }, {'Authorization': localStorage['AUTH_TOKEN']});
             stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
                 var body = JSON.parse(eventbody.body)
@@ -76,7 +74,8 @@ var controller = (function () {
             // subscribe to /topic/newlink.{eventId} when connections succeed for the wall messages
             stompClient.subscribe(TOPIC_LINKS + '.' + getIdCurrentEvent(), function (eventbody) {
                 console.log(eventbody);
-                //Todo edit links dynamically
+
+
 
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
