@@ -120,8 +120,8 @@ public class UniteServicesStub implements UniteServices {
     }
 
     @Override
-    public void inviteToEvent(int eventId, String username) throws UniteException {
-        persistence.inviteToEvent(eventId, username);
+    public void inviteToEvent(int eventId, List<String> usernames) throws UniteException {
+        persistence.inviteToEvent(eventId, usernames);
     }
 
     @Override

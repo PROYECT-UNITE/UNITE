@@ -10,7 +10,7 @@ var eventEditionController = (function () {
 
             })
             .catch(function (error) {
-
+                console.log(error);
             })
             .then(function () {
                 callback(createdEvts);

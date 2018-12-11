@@ -52,7 +52,7 @@ public interface UnitePersitence {
 
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
-    void inviteToEvent(int eventId, String username) throws UniteException;
+    void inviteToEvent(int eventId, List<String> usernames) throws UniteException;
 
     ItemSet getGatherOfEvent(int eventId) throws UniteException;
 

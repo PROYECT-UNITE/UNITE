@@ -50,8 +50,8 @@ public class Event {
         gather = new ItemSet();
     }
 
-    public void addMember(User member,String state) {
-        assistantsState.put(member.getUsername(), state);
+    public void addMember(String username,String state) {
+        assistantsState.put(username , state);
     }
 
     public void removeMember(User memeber) {

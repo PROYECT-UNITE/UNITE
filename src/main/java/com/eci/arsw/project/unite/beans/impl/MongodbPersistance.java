@@ -225,11 +225,13 @@ public class MongodbPersistance implements UnitePersitence {
     }
 
     @Override
-    public void inviteToEvent(int eventId, String username) throws UniteException {
+    public void inviteToEvent(int eventId, List<String> usernames) throws UniteException {
         Event event = getEvent(eventId);
-        event.addMember(this.getUser(username), User.PENDING);
+        for(String username : usernames) {
+            event.addMember(username, User.PENDING);
+        }
         eventRepository.save(event);
-        Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
+        Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(usernames);
         if (events.isPresent()) {
             EventsInvitedByUser eventsInvitedByUser = events.get();
             eventsInvitedByUser.getEvents().add(eventId);
@@ -239,7 +241,7 @@ public class MongodbPersistance implements UnitePersitence {
             List<Integer> eventList;
             eventList = new CopyOnWriteArrayList<>();
             eventList.add(eventId);
-            eventsInvitedByUserRepository.save(new EventsInvitedByUser(username, eventList));
+            eventsInvitedByUserRepository.save(new EventsInvitedByUser(usernames, eventList));
         }
 
     }
@@ -327,14 +329,29 @@ public class MongodbPersistance implements UnitePersitence {
 
     @Override
     public void deleteEvent(int eventId) throws UniteException {
-        if(eventRepository.findById(eventId).isPresent()){
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if(eventOptional.isPresent()){
+            Event event = eventOptional.get();
             eventRepository.deleteById(eventId);
+
+            EventsByUser eventsByUser = eventsByUserRepository.findById(event.getOwner()).get();
+            eventsByUser.getEvents().remove((Integer) eventId);
+            eventsByUserRepository.save(eventsByUser);
+
+            List<EventsInvitedByUser> eventsInvitedByUsers = eventsInvitedByUserRepository.findByEvents(eventId);
+            for(int i = 0; i < eventsInvitedByUsers.size();i++){
+                eventsInvitedByUsers.get(i).getEvents().remove((Integer) eventId);
+            }
+            eventsInvitedByUserRepository.saveAll(eventsInvitedByUsers);
+
         }else throw new UniteException("Event no exist");
 
     }
 
     private int getCounter() {
         List<Event> events = eventRepository.findAll();
+        Event event = eventRepository.findTopByOrderByIdDesc();
+        System.out.println(event);
         int counter = 0;
         for (Event e : events
         ) {

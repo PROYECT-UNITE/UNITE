@@ -202,7 +202,7 @@ public class InMemoryPersistence implements UnitePersitence {
     }
 
     @Override
-    public void inviteToEvent(int eventId, String username) throws UniteException {
+    public void inviteToEvent(int eventId, List<String> usernames) throws UniteException {
 
     }
 
