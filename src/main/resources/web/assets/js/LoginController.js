@@ -71,10 +71,11 @@ var Login = (function () {
         if(localStorage['AUTH_TOKEN'].startsWith("Bearer")) {
             document.getElementById("user-name-header").innerHTML = localStorage['UserLoggedIn'];
             axios.defaults.headers.common['Authorization'] = localStorage['AUTH_TOKEN'];
+            controller.getFunctionsReady();
         }else {
             window.location.href = "/login.html";
         }
-
+        controller.getFunctionsReady();
 
     }
 

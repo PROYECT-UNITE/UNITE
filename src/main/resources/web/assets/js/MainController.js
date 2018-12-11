@@ -35,14 +35,18 @@ var controller = (function () {
     var setIdCurrentEvent = function (ev) {
         localStorage.setItem("id", ev);
     };
+    
+    var getFunctionsReady = function (){
+        theWall.connectAndSubscribe();
+    };
 
 
     return {
         getIdCurrentEvent: getIdCurrentEvent,
         setIdCurrentEvent: setIdCurrentEvent,
         getEvents: getEvents,
-        loadDashboardContent: loadDashboardContent
-
+        loadDashboardContent: loadDashboardContent,
+        getFunctionsReady: getFunctionsReady
     };
 })();
 
@@ -101,46 +105,35 @@ function showEventInformation(event) {
 
 var theWall = (function () {
     
-
-    var getEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + user)
-            .then(function (response) {
-                events = response.data;
-            })
-            .catch(function (error) {
-            })
-            .then(function () {
-                callback(events);
+    var stompClient = null;
+    
+    var loadInfo = function () {
+        
+    };
+    var saveInfo = function () {
+       alert(document.getElementById("theWallTextArea").value);
+       stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {}, JSON.stringify(document.getElementById("theWallTextArea").value));
+    };
+    
+    var connectAndSubscribe = function (){
+        console.info('Connecting to WS...');
+        var socket = new SockJS('/stompendpoint');
+        stompClient = Stomp.over(socket);
+        
+        //subscribe to /topic/TOPICXX when connections succeed
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent(), function (eventBody) {
+                 alert(document.getElementById("theWallTextArea").value);               
             });
+        });
     };
-    var getUser = function () {
-        return user;
-    };
-    var getIdCurrentEvent = function () {
-        return localStorage.getItem("id");
-    };
-    var setIdCurrentEvent = function (ev) {
-        localStorage.setItem("id", ev);
-    };
-
-    var saveEditedEvent = function (pos) {
-        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
-            .then(function (response) {
-                location.reload(true);
-                alert("Event name changed");
-            })
-            .catch(function (error) {
-
-            })
-            .then(function () {
-            });
-    }
+    
+    
     return {
-        getUser: getUser,
-        getIdCurrentEvent: getIdCurrentEvent,
-        setIdCurrentEvent: setIdCurrentEvent,
-        getEvents: getEvents
-
+        loadInfo: loadInfo,
+        saveInfo: saveInfo,
+        connectAndSubscribe: connectAndSubscribe
     };
 })();
 
