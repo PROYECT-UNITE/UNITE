@@ -6,6 +6,22 @@ var controller = (function () {
 
     var TOPIC_ASSISTANCE = "/topic/assistance";
 
+    var TOPIC_MESSAGES = "/topic/newmessage";
+
+    var TOPIC_LINKS = "/topic/newlink";
+
+    var TOPIC_ADD_TO_GATHER = "/topic/additem";
+    var TOPIC_REMOVE_TO_GATHER = "/topic/removeitem";
+    var TOPIC_TAKE_TO_GATHER = "/topic/takechargeitem";
+
+    var TOPIC_ADD_TO_POLL = "/topic/addtopic";
+    var TOPIC_REMOVE_TO_POLL = "/topic/removetopic";
+    var TOPIC_VOTE_TO_POLL = "/topic/votetopic";
+
+    var TOPIC_ADD_TO_CHECKLIST = "/topic/additemchecklist";
+    var TOPIC_REMOVE_TO_CHECKLIST = "/topic/removeitemchecklist";
+    var TOPIC_TAKE_TO_CHECKLIST = "/topic/takechargeitemchecklist";
+
     var getEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
@@ -30,11 +46,94 @@ var controller = (function () {
 
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
+
             // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
+            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) {
                 console.log(eventbody);
+                //Todo edit state dynamically
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
+            stompClient.subscribe(TOPIC_MESSAGES + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo edit chat dynamically
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/newlink.{eventId} when connections succeed for the wall messages
+            stompClient.subscribe(TOPIC_LINKS + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo edit links dynamically
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+
+            // subscribe to /topic/additem.{eventId} when connections succeed to add items in gather
+            stompClient.subscribe(TOPIC_ADD_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/removeitem.{eventId} when connections succeed to remove items in gather
+            stompClient.subscribe(TOPIC_REMOVE_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/takechargeitem.{eventId} when connections succeed to take charge items in gather
+            stompClient.subscribe(TOPIC_TAKE_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+
+            // subscribe to /topic/addtopic.{eventId} when connections succeed to add items in poll
+            stompClient.subscribe(TOPIC_ADD_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/removetopic.{eventId} when connections succeed to remove items in poll
+            stompClient.subscribe(TOPIC_REMOVE_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/votetopic.{eventId} when connections succeed to vote items in poll
+            stompClient.subscribe(TOPIC_VOTE_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+
+            // subscribe to /topic/additemchecklist.{eventId} when connections succeed to add items in checklist
+            stompClient.subscribe(TOPIC_ADD_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/removeitemchecklist.{eventId} when connections succeed to remove items in checklist
+            stompClient.subscribe(TOPIC_REMOVE_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
+            // subscribe to /topic/takechargeitemchecklist.{eventId} when connections to take charge items in checklist
+            stompClient.subscribe(TOPIC_TAKE_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
+                console.log(eventbody);
+                //Todo
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
         });
 
     };
