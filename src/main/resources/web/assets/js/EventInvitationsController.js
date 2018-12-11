@@ -24,18 +24,22 @@ var InvitationsController = (function () {
         var socket = new SockJS('/stompendpoint');
         stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, function (frame) {
+        stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
-            //subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe(TOPIC_ASSISTANCE + '.' + 1, function (eventbody) { // 1 for test
+            // subscribe to /topic/assistance.{eventId} when connections succeed
+            stompClient.subscribe(TOPIC_ASSISTANCE + '.' + 12, function (eventbody) { // 12 is an id for test
                 console.log(eventbody);
-            });
+                alert("Me llegó :D");
+            },{'Authorization':localStorage['AUTH_TOKEN']});
         });
 
     };
     var answerInvitation = function (eventId,answer) {
-
-        stompClient.send("/assistance/"+eventId, {}, 'JSON{"username":"'+localStorage['UserLoggedIn']+'","state":"'+answer+'"}');
+        var state = {
+            "username": localStorage['UserLoggedIn'],
+            "state": answer
+        }
+        stompClient.send("/app/assistance."+eventId, {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(state));
 
     };
     var declineEventInvitation = function (eventId) {
