@@ -23,7 +23,7 @@ var controller = (function () {
     var TOPIC_TAKE_TO_CHECKLIST = "/topic/takechargeitemchecklist";
 
     var getEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
+        axios.get("/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 events = response.data;
             })
@@ -149,7 +149,7 @@ var controller = (function () {
     };
     var getEvent = function (callback) {
         var event
-        axios.get("http://localhost:8080/unite/event/" + localStorage.getItem("id"))
+        axios.get("/unite/event/" + localStorage.getItem("id"))
             .then(function (response) {
                 event = response.data;
             })
@@ -245,21 +245,21 @@ function showChangeAssistenceOfEvent(user,status){
 var theWall = (function () {
     
     var stompClient = null;
-    
+
     var loadInfo = function () {
-        
+
     };
     var saveInfo = function () {
 
-        axios.put("http://localhost:8080/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}}) 
+        axios.put("/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}})
             .then(function (response) {
                 stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
             })
             .catch(function (error) {
             });
-       
+
     };
-    
+
     var connectAndSubscribe = function (){
         console.info('Connecting to WS...');
         var socket = new SockJS('/stompendpoint');
@@ -274,8 +274,8 @@ var theWall = (function () {
             },{'Authorization':localStorage['AUTH_TOKEN']});
         });
     };
-    
-    
+
+
     return {
         loadInfo: loadInfo,
         saveInfo: saveInfo,

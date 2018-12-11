@@ -17,7 +17,7 @@ var newEvent = (function () {
     };
     var createEvent = function () {
         eventCreator.owner = localStorage['UserLoggedIn'];
-        axios.post("http://localhost:8080/unite/newEvent", eventCreator)
+        axios.post("/unite/newEvent", eventCreator)
             .then(function (response) {
                 eventCreator = {
                     "owner": "",
@@ -34,7 +34,7 @@ var newEvent = (function () {
             });
     };
     var inviteUsers = function (eventId) {
-        axios.post("http://localhost:8080/unite/" + eventId + "/invite", eventGuests)
+        axios.post("/unite/" + eventId + "/invite", eventGuests)
             .then(function (response) {
                 console.log("invito a " + eventGuests)
             })
@@ -48,7 +48,7 @@ var newEvent = (function () {
     };
 
     var getAllUsers = function (callback) {
-        axios.get("http://localhost:8080/unite/AllUsers")
+        axios.get("/unite/AllUsers")
             .then(function (response) {
                 users = response.data;
             })

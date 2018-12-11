@@ -4,7 +4,7 @@ var eventEditionController = (function () {
     var createdEvts;
 
     var getCreatedEvents = function (callback) {
-        axios.get("http://localhost:8080/unite/events/" + localStorage['UserLoggedIn'])
+        axios.get("/unite/events/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 createdEvts = response.data;
 
@@ -25,7 +25,7 @@ var eventEditionController = (function () {
         createdEvts[i]["description"]=value;
     };
     var deleteEvent=function(id){
-        axios.delete("http://localhost:8080/unite/"+createdEvts[id].id)
+        axios.delete("/unite/"+createdEvts[id].id)
             .then(function (response) {
             })
             .catch(function (error) {
@@ -38,7 +38,7 @@ var eventEditionController = (function () {
 
     };
     var saveEditedEvent=function(pos){
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
+        axios.put("/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
             .then(function (response) {
 
             })
@@ -51,7 +51,7 @@ var eventEditionController = (function () {
 
     };
     var saveDescription=function(pos){
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description,
+        axios.put("/unite/"+createdEvts[pos].id+"/description",createdEvts[pos].description,
             {headers: {"Content-Type": "text/plain"}})
             .then(function (response) {
                 location.reload(true);

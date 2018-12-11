@@ -6,7 +6,7 @@ var InvitationsController = (function () {
 
     var getEventInvitations = function (callback) {
         connectStomp();
-        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
+        axios.get("/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
 
                 invitedEvents = response.data;
