@@ -108,7 +108,6 @@ var theWall = (function () {
         
     };
     var saveInfo = function () {
-       alert(document.getElementById("theWallTextArea").value);
        stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {}, JSON.stringify(document.getElementById("theWallTextArea").value));
     };
     
@@ -117,11 +116,13 @@ var theWall = (function () {
         var socket = new SockJS('/stompendpoint');
         stompClient = Stomp.over(socket);
         
+        
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent(), function (eventBody) {
-                 alert(document.getElementById("theWallTextArea").value);               
+                 var text=JSON.parse(eventBody.body);
+                 document.getElementById("theWallTextArea").value = text;               
             });
         });
     };
