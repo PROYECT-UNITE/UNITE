@@ -1,8 +1,5 @@
 var controller = (function () {
-
     var events;
-
-
     var getEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
