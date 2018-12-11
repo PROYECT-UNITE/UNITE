@@ -50,8 +50,8 @@ public class MongodbPersistance implements UnitePersitence {
         eventCounter = getCounter();
         event.setId(eventCounter++);
         String owner = event.getOwner();
-        event.getAssistantsState().put(owner,User.ASSISTANT);
         eventRepository.save(event);
+
         Optional<EventsByUser> events = eventsByUserRepository.findById(owner);
         if (events.isPresent()) {
             EventsByUser eventsByUser = events.get();
@@ -64,6 +64,9 @@ public class MongodbPersistance implements UnitePersitence {
             eventList.add(event.getId());
             eventsByUserRepository.save(new EventsByUser(owner, eventList));
         }
+
+        inviteToEventOne(owner,event.getId());
+
         return event.getId();
     }
 
@@ -225,22 +228,27 @@ public class MongodbPersistance implements UnitePersitence {
         Event event = getEvent(eventId);
         for(String username : usernames) {
             event.addMember(username, User.PENDING);
-            Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
-            if (events.isPresent()) {
-                EventsInvitedByUser eventsInvitedByUser = events.get();
-                eventsInvitedByUser.getEvents().add(eventId);
-                eventsInvitedByUserRepository.save(eventsInvitedByUser);
-
-            } else {
-                List<Integer> eventList;
-                eventList = new CopyOnWriteArrayList<>();
-                eventList.add(eventId);
-                eventsInvitedByUserRepository.save(new EventsInvitedByUser(username, eventList));
-            }
+            inviteToEventOne(username,eventId);
         }
         eventRepository.save(event);
 
 
+    }
+
+    @Override
+    public void inviteToEventOne(String username, int eventId){
+        Optional<EventsInvitedByUser> events = eventsInvitedByUserRepository.findById(username);
+        if (events.isPresent()) {
+            EventsInvitedByUser eventsInvitedByUser = events.get();
+            eventsInvitedByUser.getEvents().add(eventId);
+            eventsInvitedByUserRepository.save(eventsInvitedByUser);
+
+        } else {
+            List<Integer> eventList;
+            eventList = new CopyOnWriteArrayList<>();
+            eventList.add(eventId);
+            eventsInvitedByUserRepository.save(new EventsInvitedByUser(username, eventList));
+        }
     }
 
     @Override
