@@ -6,24 +6,8 @@ var controller = (function () {
 
     var TOPIC_ASSISTANCE = "/topic/assistance";
 
-    var TOPIC_MESSAGES = "/topic/newmessage";
-
-    var TOPIC_LINKS = "/topic/newlink";
-
-    var TOPIC_ADD_TO_GATHER = "/topic/additem";
-    var TOPIC_REMOVE_TO_GATHER = "/topic/removeitem";
-    var TOPIC_TAKE_TO_GATHER = "/topic/takechargeitem";
-
-    var TOPIC_ADD_TO_POLL = "/topic/addtopic";
-    var TOPIC_REMOVE_TO_POLL = "/topic/removetopic";
-    var TOPIC_VOTE_TO_POLL = "/topic/votetopic";
-
-    var TOPIC_ADD_TO_CHECKLIST = "/topic/additemchecklist";
-    var TOPIC_REMOVE_TO_CHECKLIST = "/topic/removeitemchecklist";
-    var TOPIC_TAKE_TO_CHECKLIST = "/topic/takechargeitemchecklist";
-
     var getEvents = function (callback) {
-        axios.get("/unite/events/invited/" + localStorage['UserLoggedIn'])
+        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
                 events = response.data;
             })
@@ -36,7 +20,6 @@ var controller = (function () {
     var loadDashboardContent = function () {
         connectStomp();
         getEvent(showEventInformation);
-        theWall.connectAndSubscribe();
 
     };
 
@@ -48,91 +31,16 @@ var controller = (function () {
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
             // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) {
-                var body=JSON.parse(eventbody.body)
-                showChangeAssistenceOfEvent(body.username,body.state);
-
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
-            stompClient.subscribe(TOPIC_MESSAGES + '.' +getIdCurrentEvent() , function (eventbody) {
+            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
                 var body=JSON.parse(eventbody.body)
                 showChangeAssistenceOfEvent(body.username,body.state);
                 console.log(body)
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/newlink.{eventId} when connections succeed for the wall messages
-            stompClient.subscribe(TOPIC_LINKS + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo edit links dynamically
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-
-            // subscribe to /topic/additem.{eventId} when connections succeed to add items in gather
-            stompClient.subscribe(TOPIC_ADD_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/removeitem.{eventId} when connections succeed to remove items in gather
-            stompClient.subscribe(TOPIC_REMOVE_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/takechargeitem.{eventId} when connections succeed to take charge items in gather
-            stompClient.subscribe(TOPIC_TAKE_TO_GATHER + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-
-            // subscribe to /topic/addtopic.{eventId} when connections succeed to add items in poll
-            stompClient.subscribe(TOPIC_ADD_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/removetopic.{eventId} when connections succeed to remove items in poll
-            stompClient.subscribe(TOPIC_REMOVE_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/votetopic.{eventId} when connections succeed to vote items in poll
-            stompClient.subscribe(TOPIC_VOTE_TO_POLL + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-
-            // subscribe to /topic/additemchecklist.{eventId} when connections succeed to add items in checklist
-            stompClient.subscribe(TOPIC_ADD_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/removeitemchecklist.{eventId} when connections succeed to remove items in checklist
-            stompClient.subscribe(TOPIC_REMOVE_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
-
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-
-            // subscribe to /topic/takechargeitemchecklist.{eventId} when connections to take charge items in checklist
-            stompClient.subscribe(TOPIC_TAKE_TO_CHECKLIST + '.' +getIdCurrentEvent() , function (eventbody) {
-                console.log(eventbody);
-                //Todo
+            stompClient.subscribe("topic/newmessage." +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
+                var body=JSON.parse(eventbody.body)
+                showChangeAssistenceOfEvent(body.username,body.state);
+                console.log(body)
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
         });
@@ -149,7 +57,7 @@ var controller = (function () {
     };
     var getEvent = function (callback) {
         var event
-        axios.get("/unite/event/" + localStorage.getItem("id"))
+        axios.get("http://localhost:8080/unite/event/" + localStorage.getItem("id"))
             .then(function (response) {
                 event = response.data;
             })
@@ -203,7 +111,6 @@ function showEventInformation(event) {
     document.getElementById("eventName").innerHTML = event["name"];
     document.getElementById("eventLocation").innerHTML = event["location"];
     document.getElementById("eventBudget").innerHTML = '<i></i>' + event["budget"] + ' USD';
-    document.getElementById("theWallTextArea").value = event["wall"];
     var invitedUsersTable = document.getElementById("invitedUsersTable");
      numberOfAssistants=0;
     for (var user in event["assistantsState"]) {
@@ -244,42 +151,46 @@ function showChangeAssistenceOfEvent(user,status){
 
 var theWall = (function () {
     
-    var stompClient = null;
 
-    var loadInfo = function () {
-
-    };
-    var saveInfo = function () {
-
-        axios.put("/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}})
+    var getEvents = function (callback) {
+        axios.get("http://localhost:8080/unite/events/invited/" + user)
             .then(function (response) {
-                stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
+                events = response.data;
             })
             .catch(function (error) {
+            })
+            .then(function () {
+                callback(events);
             });
-
+    };
+    var getUser = function () {
+        return user;
+    };
+    var getIdCurrentEvent = function () {
+        return localStorage.getItem("id");
+    };
+    var setIdCurrentEvent = function (ev) {
+        localStorage.setItem("id", ev);
     };
 
-    var connectAndSubscribe = function (){
-        console.info('Connecting to WS...');
-        var socket = new SockJS('/stompendpoint');
-        stompClient = Stomp.over(socket);
+    var saveEditedEvent = function (pos) {
+        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
+            .then(function (response) {
+                location.reload(true);
+                alert("Event name changed");
+            })
+            .catch(function (error) {
 
-        stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
-            console.log('Connected: ' + frame);
-            // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent() , function (eventbody) {
-                var text = JSON.parse(eventbody.body);
-                document.getElementById("theWallTextArea").value = text;
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-        });
-    };
-
-
+            })
+            .then(function () {
+            });
+    }
     return {
-        loadInfo: loadInfo,
-        saveInfo: saveInfo,
-        connectAndSubscribe: connectAndSubscribe
+        getUser: getUser,
+        getIdCurrentEvent: getIdCurrentEvent,
+        setIdCurrentEvent: setIdCurrentEvent,
+        getEvents: getEvents
+
     };
 })();
 
