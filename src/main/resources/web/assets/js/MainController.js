@@ -3,6 +3,8 @@ var controller = (function () {
     var currentChatMessage;
     var currentLink;
     var events;
+    var newItem;
+    var newItemDescription;
 
     var stompClient;
 
@@ -57,7 +59,7 @@ var controller = (function () {
             // subscribe to /topic/theWallAt.{eventId} when connections succeed
             stompClient.subscribe('/topic/theWallAt'+"."+controller.getIdCurrentEvent() , function (eventbody) {
                 var text = JSON.parse(eventbody.body);
-                document.getElementById("theWallTextArea").value = text;
+
             },{'Authorization':localStorage['AUTH_TOKEN']});
 
             stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
@@ -65,9 +67,7 @@ var controller = (function () {
                 if (body.author !== localStorage['UserLoggedIn']) {
                     showMessage(body.text, true);
                 }
-
                 console.log(body)
-
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
             // subscribe to /topic/newlink.{eventId} when connections succeed for the wall messages
@@ -76,16 +76,13 @@ var controller = (function () {
                 if (body.author !== localStorage['UserLoggedIn']) {
                        showNewLink(body.text);
                  }
-
-
-
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
 
             // subscribe to /topic/additem.{eventId} when connections succeed to add items in gather
             stompClient.subscribe(TOPIC_ADD_TO_GATHER + '.' + getIdCurrentEvent(), function (eventbody) {
-                console.log(eventbody);
-                //Todo
+                var body = JSON.parse(eventbody.body)
+                showNewItemOnGather(body);
 
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
@@ -98,8 +95,8 @@ var controller = (function () {
 
             // subscribe to /topic/takechargeitem.{eventId} when connections succeed to take charge items in gather
             stompClient.subscribe(TOPIC_TAKE_TO_GATHER + '.' + getIdCurrentEvent(), function (eventbody) {
-                console.log(eventbody);
-                //Todo
+                var body = JSON.parse(eventbody.body)
+                changeUserOnChargeGather(body);
 
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
@@ -168,6 +165,23 @@ var controller = (function () {
             showNewLink(currentLink);
 
         };
+
+    var takeOnChargeItem=function(){
+        var state = {
+            "oncharge": localStorage['UserLoggedIn'],
+            "name": newItem,
+            "description":newItemDescription
+        }
+        stompClient.send("/app/takechargeitem." + getIdCurrentEvent(), {'Authorization': localStorage['AUTH_TOKEN']}, JSON.stringify(state));
+    };
+    var addItem=function(){
+            var state = {
+                "oncharge": localStorage['UserLoggedIn'],
+                "name": newItem,
+                "description":newItemDescription
+            }
+            stompClient.send("/app/additem." + getIdCurrentEvent(), {'Authorization': localStorage['AUTH_TOKEN']}, JSON.stringify(state));
+        };
     var getEvent = function (callback) {
         var event;
         axios.get("/unite/event/" + localStorage.getItem("id"))
@@ -190,6 +204,12 @@ var controller = (function () {
     var setCurrentChatMessage = function (msg) {
         currentChatMessage = msg;
     };
+    var setNewEvent = function (evt) {
+            newEvent = evt;
+        };
+    var setNewEventDescription = function (des) {
+            newEventDescription = des;
+      };
     var setCurrentLink = function (link) {
             currentLink = link;
         };
@@ -208,6 +228,9 @@ var controller = (function () {
         setCurrentChatMessage: setCurrentChatMessage,
         setCurrentLink: setCurrentLink,
         sendLink: sendLink,
+        addItem: addItem,
+        setNewEvent: setNewEvent,
+        setNewEventDescription: setNewEventDescription,
         loadDashboardContent: loadDashboardContent,
         saveInfoTheWall:saveInfoTheWall
 
@@ -235,7 +258,32 @@ function showEvents(evts) {
         }
     }
 }
+function showNewItemOnGather(item){
+    var table = document.getElementById("gather");
+            var row = document.createElement("tr");
+            table.insertBefore(row);
+            var html=
+            '<tr>'
+            +'<td class="text-truncate">'
+            +'beers'
+            +'</td>'
+            +'<td class="text-truncate">5 beers</td>'
+            +'<td class="text-truncate" id="'+item.name+'">';
+            if(item.oncharge!=null){
+                html=html+' <span class="badge badge-default badge-success">'+item.oncharge+'</span>'
+            }else{
+                html=html+'<button type="submit" class="btn mr-1 mb-1 btn-success btn-sm" onclick="controller.takeOnChargeItem()">'
+            }
+            html=html+'<i class="fa fa-thumb-tack"></i> Take it'
+            +'</button>'
+            +'</td>'
+            +'</tr>'
+            item.innerHTML=html;
+}
 
+function changeUserOnChargeGather(item){
+    var table = document.getElementById(item.name).innerHTML=' <span class="badge badge-default badge-success">'+item.oncharge+'</span>';
+}
 function showEventInformation(event) {
     document.getElementById("eventName").innerHTML = event["name"];
     document.getElementById("eventLocation").innerHTML = event["location"];
