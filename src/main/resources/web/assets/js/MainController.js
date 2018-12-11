@@ -31,11 +31,28 @@ var controller = (function () {
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
             // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe("/topic/assistance" + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
-                console.log(eventbody);
+            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
+                var body=JSON.parse(eventbody.body)
+                showChangeAssistenceOfEvent(body.username,body.state);
+                console.log(body)
+
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+            stompClient.subscribe("topic/newmessage." +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
+                var body=JSON.parse(eventbody.body)
+                showChangeAssistenceOfEvent(body.username,body.state);
+                console.log(body)
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
         });
+
+    };
+    var sendMessage = function (msg) {
+        var state = {
+            "username": localStorage['UserLoggedIn'],
+            "state": msg
+        }
+        stompClient.send("/app/newmessage."+getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(state));
+        document.getElementById(eventId).remove();
 
     };
     var getEvent = function (callback) {
@@ -105,12 +122,12 @@ function showEventInformation(event) {
                 + '<td class="text-truncate">' + user + '</td>'
                 + '<td class="text-truncate">';
             if (event["assistantsState"][user] === "pending") {
-                html = html + '<span id='+event["assistantsState"][user]+'  class="badge badge-default badge-warning">Pending</span>';
+                html = html + '<span id='+user+'  class="badge badge-default badge-warning">Pending</span>';
             } else if (event["assistantsState"][user] === "declined") {
-                html = html + '<span id='+event["assistantsState"][user]+' class="badge badge-default badge-danger">Declined</span>';
+                html = html + '<span id='+user+' class="badge badge-default badge-danger">Declined</span>';
             } else {
                 numberOfAssistants++;
-                html = html + '<span id='+event["assistantsState"][user]+' class="badge badge-default badge-success">Assistant</span>';
+                html = html + '<span id='+user+' class="badge badge-default badge-success">Assistant</span>';
             }
             html = html + '</td>'
                 + '</tr>';
@@ -121,11 +138,12 @@ function showEventInformation(event) {
     document.getElementById("confirmedAssistants").innerHTML = "<i></i>"+numberOfAssistants;
 }
 function showChangeAssistenceOfEvent(user,status){
-    var state=document.getElementById("user");
+    console.log(user,status);
+    var state=document.getElementById(user);
     if (status === "declined") {
-        state.innerHTML= '<span id='+user+' class="badge badge-default badge-danger">Declined</span>';
+        state.outerHTML= '<span id='+user+' class="badge badge-default badge-danger">Declined</span>';
     } else {
-        state.innerHTML= '<span id='+user+' class="badge badge-default badge-success">Assistant</span>';
+        state.outerHTML= '<span id='+user+' class="badge badge-default badge-success">Assistant</span>';
         numberOfAssistants++;
         document.getElementById("confirmedAssistants").innerHTML ="<i></i>"+numberOfAssistants;
     }
