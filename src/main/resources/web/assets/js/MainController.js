@@ -194,7 +194,6 @@ var controller = (function () {
     };
 
     var changecheck = function () {
-        var
     }
     var getEvent = function (callback) {
         var event;
