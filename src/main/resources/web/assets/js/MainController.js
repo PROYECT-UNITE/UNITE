@@ -1,6 +1,11 @@
 var controller = (function () {
+
     var events;
+
     var stompClient;
+
+    var TOPIC_ASSISTANCE = "/topic/assistance";
+
     var getEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
             .then(function (response) {
