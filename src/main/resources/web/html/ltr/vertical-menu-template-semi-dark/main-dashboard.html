@@ -519,6 +519,72 @@
                     </div>
                 </div>
             </div>
+            <div class="row match-height">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0-bottom">
+                            <h4 class="card-title">Gather</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="daily-activity" class="table-responsive height-350">
+
+                                <table class="table table-hover mb-0" id = "tablechecklist">
+                                    <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Item Description</th>
+                                        <th>Responsable user</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="gather">
+                                    <tr>
+                                        <td class="text-truncate">
+                                            beers
+                                        </td>
+                                        <td class="text-truncate">5 beers</td>
+                                        <td class="text-truncate">
+                                            <button type="submit" class="btn mr-1 mb-1 btn-success btn-sm" onclick="controller.sendLink()">
+                                                <i class="fa fa-thumb-tack"></i> Take it
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-truncate">
+                                            <fieldset class="form-group">
+                                                <label for="item">Item</label>
+                                                <input type="text" onchange="controller.setNewEvent(this.value)" class="form-control" id="item">
+                                            </fieldset>
+                                        </td>
+                                        <td class="text-truncate">
+                                            <fieldset class="form-group">
+                                                <label for="itemDesc">Item Description</label>
+                                                <input type="text" onchange="controller.setNewEventDescription(this.value)" class="form-control" id="itemDesc">
+                                            </fieldset>
+                                        </td>
+                                        <td class="text-truncate">
+                                                <br/>
+                                                <button type="submit" class="btn mr-1 mb-1 btn-primary " onclick="controller.addItem()">
+                                                    Add item to Gather
+                                                </button>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--/Recent Orders & Monthly Salse -->
 
 
