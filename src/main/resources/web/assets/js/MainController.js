@@ -26,7 +26,7 @@ var controller = (function () {
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
             // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe(TOPIC_ASSISTANCE + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
+            stompClient.subscribe("/topic/assistance" + '.' +getIdCurrentEvent() , function (eventbody) { // 12 is an id for test
                 console.log(eventbody);
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
