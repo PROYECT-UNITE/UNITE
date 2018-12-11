@@ -14,8 +14,19 @@ var controller = (function () {
                 callback(events);
             });
     };
-    var getUser = function () {
-        return user;
+    var loadDashboardContent = function () {
+
+    };
+    var getEvent = function (callback) {
+        axios.get("http://localhost:8080/unite/events/invited/" + localStorage['UserLoggedIn'])
+            .then(function (response) {
+                events = response.data;
+            })
+            .catch(function (error) {
+            })
+            .then(function () {
+                callback(events);
+            });
     };
     var getIdCurrentEvent = function () {
         return localStorage.getItem("id");
@@ -55,6 +66,8 @@ function showEvents(evts) {
     }
 }
 
-function showEventDashboard()
+function showEventInformation(event){
+
+}
 
 

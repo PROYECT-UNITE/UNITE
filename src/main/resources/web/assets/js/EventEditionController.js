@@ -3,20 +3,6 @@ var eventEditionController = (function () {
 
     var createdEvts;
 
-    var getEventName = function () {
-        return eventCreator.name;
-    };
-    var updateEvent = function () {
-        axios.post("http://localhost:8080/unite/newEvent", eventCreator)
-            .then(function (response) {
-                location.reload(true);
-                alert("Event Created");
-            })
-            .catch(function (error) {
-
-            });
-    };
-
     var getCreatedEvents = function (callback) {
         axios.get("http://localhost:8080/unite/events/" + localStorage['UserLoggedIn'])
             .then(function (response) {
@@ -38,14 +24,27 @@ var eventEditionController = (function () {
     var editEventDescription=function(i,value){
         createdEvts[i]["description"]=value;
     };
-
-    var saveEditedEvent=function(pos){
-        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
+    var deleteEvent=function(id){
+        axios.delete("http://localhost:8080/unite/"+createdEvts[id].id)
             .then(function (response) {
 
             })
             .catch(function (error) {
 
+            })
+            .then(function () {
+
+            });
+
+    };
+    var saveEditedEvent=function(pos){
+        axios.put("http://localhost:8080/unite/"+createdEvts[pos].id+"/rename/"+createdEvts[pos].name)
+            .then(function (response) {
+                location.reload(true);
+                alert("Event details changed");
+            })
+            .catch(function (error) {
+                console.log(error);
             })
             .then(function () {
 
@@ -67,6 +66,7 @@ var eventEditionController = (function () {
         getCreatedEvents: getCreatedEvents,
         saveEditedEvent: saveEditedEvent,
         editEventDescription: editEventDescription,
+        deleteEvent: deleteEvent,
         editEventName: editEventName
 
     };
@@ -100,11 +100,12 @@ function showCreatedEvts(events) {
             + '<label for="eventDescriptionTextarea'+events[i].id+'">Description :</label>'
             + '<textarea class="form-control" id="eventDescriptionTextarea'+events[i].id+'"  oninput="eventEditionController.editEventDescription('+i+', this.value)" rows="3">'+events[i].description+'</textarea>'
             + '</fieldset>'
+            + '</div>'
+            + '</div>'
             + '<div class="row">'
-            + '<div class="col-md-5 offset-md-5">'
-            + '<button type="button" onclick="eventEditionController.saveEditedEvent('+i+')" class="btn btn-success btn-block">Save</button>'
-            + '</div>'
-            + '</div>'
+            + '<div class="col-md-12 offset-md-12 ">'
+            + '<button type="button" onclick="eventEditionController.saveEditedEvent('+i+')" class="btn btn-success btn-max-width mr-1 mb-1 ">Save</button>'
+            + '<button type="button" onclick="eventEditionController.deleteEvent('+i+')" class="btn btn-danger btn-max-width mr-1 mb-1 ">delete</button>'
             + '</div>'
             + '</div>'
             + '</div>'
