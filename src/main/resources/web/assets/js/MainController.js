@@ -1,6 +1,7 @@
 var controller = (function () {
 
     var currentChatMessage;
+    var currentLink;
     var events;
 
     var stompClient;
@@ -56,11 +57,7 @@ var controller = (function () {
 
             }, {'Authorization': localStorage['AUTH_TOKEN']});
 
-            // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
-            stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
-                var body = JSON.parse(eventbody.body)
-                showChangeAssistenceOfEvent(body.username,body.state);
-            }, {'Authorization': localStorage['AUTH_TOKEN']});
+
             stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
                 var body = JSON.parse(eventbody.body)
                 if (body.author !== localStorage['UserLoggedIn']) {
@@ -73,7 +70,10 @@ var controller = (function () {
 
             // subscribe to /topic/newlink.{eventId} when connections succeed for the wall messages
             stompClient.subscribe(TOPIC_LINKS + '.' + getIdCurrentEvent(), function (eventbody) {
-                console.log(eventbody);
+                var body = JSON.parse(eventbody.body)
+                if (body.author !== localStorage['UserLoggedIn']) {
+                       showNewLink(body.text);
+                 }
 
 
 
@@ -157,6 +157,15 @@ var controller = (function () {
         showMessage(currentChatMessage,false);
 
     };
+    var sendLink = function () {
+            var state = {
+                "author": localStorage['UserLoggedIn'],
+                "text": currentLink
+            }
+            stompClient.send("/app/newlink." + getIdCurrentEvent(), {'Authorization': localStorage['AUTH_TOKEN']}, JSON.stringify(state));
+            showNewLink(currentLink);
+
+        };
     var getEvent = function (callback) {
         var event
         axios.get("http://localhost:8080/unite/event/" + localStorage.getItem("id"))
@@ -179,6 +188,9 @@ var controller = (function () {
     var setCurrentChatMessage = function (msg) {
         currentChatMessage = msg;
     };
+    var setCurrentLink = function (link) {
+            currentLink = link;
+        };
 
 
     return {
@@ -187,6 +199,8 @@ var controller = (function () {
         getEvents: getEvents,
         sendMessage: sendMessage,
         setCurrentChatMessage: setCurrentChatMessage,
+        setCurrentLink: setCurrentLink,
+        sendLink: sendLink,
         loadDashboardContent: loadDashboardContent
 
     };
@@ -293,45 +307,12 @@ function showMessage(msg,recived) {
         + '</div>'
 }
 
-var theWall = (function () {
+function showNewLink(link){
+        var list = document.getElementById("informationOfInterest");
+        var item = document.createElement("li");
+        item.setAttribute("class", "list-group-item");
 
-    var stompClient = null;
+        list.appendChild(item);
+        item.innerHTML = '<a href="#" class="card-link">'+link+'</a>'
 
-    var loadInfo = function () {
-
-    };
-    var saveInfo = function () {
-
-        axios.put("http://localhost:8080/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}})
-            .then(function (response) {
-                stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
-            })
-            .catch(function (error) {
-            });
-
-    };
-
-    var connectAndSubscribe = function (){
-        console.info('Connecting to WS...');
-        var socket = new SockJS('/stompendpoint');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
-            console.log('Connected: ' + frame);
-            // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent() , function (eventbody) {
-                var text = JSON.parse(eventbody.body);
-                document.getElementById("theWallTextArea").value = text;
-            },{'Authorization':localStorage['AUTH_TOKEN']});
-        });
-    };
-    
-    
-    return {
-        loadInfo: loadInfo,
-        saveInfo: saveInfo,
-        connectAndSubscribe: connectAndSubscribe
-    };
-})();
-
-
+}
