@@ -99,4 +99,49 @@ function showEventInformation(event) {
     document.getElementById("confirmedAssistants").innerHTML = "<i></i>"+numberOfAssistants;
 }
 
+var theWall = (function () {
+    
+
+    var getEvents = function (callback) {
+        axios.get("http://localhost:8080/unite/events/invited/" + user)
+            .then(function (response) {
+                events = response.data;
+            })
+            .catch(function (error) {
+            })
+            .then(function () {
+                callback(events);
+            });
+    };
+    var getUser = function () {
+        return user;
+    };
+    var getIdCurrentEvent = function () {
+        return localStorage.getItem("id");
+    };
+    var setIdCurrentEvent = function (ev) {
+        localStorage.setItem("id", ev);
+    };
+
+    var saveEditedEvent = function (pos) {
+        axios.put("http://localhost:8080/unite/" + createdEvts[pos].id + "/rename/" + createdEvts[pos].name)
+            .then(function (response) {
+                location.reload(true);
+                alert("Event name changed");
+            })
+            .catch(function (error) {
+
+            })
+            .then(function () {
+            });
+    }
+    return {
+        getUser: getUser,
+        getIdCurrentEvent: getIdCurrentEvent,
+        setIdCurrentEvent: setIdCurrentEvent,
+        getEvents: getEvents
+
+    };
+})();
+
 
