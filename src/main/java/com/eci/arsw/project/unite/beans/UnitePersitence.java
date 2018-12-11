@@ -44,7 +44,7 @@ public interface UnitePersitence {
 
     List<Event> getEventsInvitedByUser(String username) throws UniteException;
 
-    Map<String,String> getAssistanceToEvent(int eventId) throws UniteException;
+    Map<String, String> getAssistanceToEvent(int eventId) throws UniteException;
 
     void changeStateOfAssitance(int eventId, String username, String state) throws UniteException;
 
@@ -53,6 +53,8 @@ public interface UnitePersitence {
     void saveEventLocation(int eventId, String longitude, String latitude) throws UniteException;
 
     void inviteToEvent(int eventId, List<String> usernames) throws UniteException;
+
+    void inviteToEventOne(String username, int eventId);
 
     ItemSet getGatherOfEvent(int eventId) throws UniteException;
 
