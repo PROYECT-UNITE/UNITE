@@ -1,5 +1,6 @@
 var controller = (function () {
 
+    var currentChatMessage;
     var events;
 
     var stompClient;
@@ -56,9 +57,12 @@ var controller = (function () {
             },{'Authorization':localStorage['AUTH_TOKEN']});
 
             // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
-            stompClient.subscribe(TOPIC_MESSAGES + '.' +getIdCurrentEvent() , function (eventbody) {
-                var body=JSON.parse(eventbody.body)
-                showChangeAssistenceOfEvent(body.username,body.state);
+            stompClient.subscribe(TOPIC_MESSAGES + '.' + getIdCurrentEvent(), function (eventbody) {
+                var body = JSON.parse(eventbody.body)
+                if(body.author!==localStorage['UserLoggedIn']){
+                    showMessage(body.text,true);
+                }
+
                 console.log(body)
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
@@ -165,13 +169,17 @@ var controller = (function () {
     var setIdCurrentEvent = function (ev) {
         localStorage.setItem("id", ev);
     };
-
+    var setCurrentChatMessage = function (msg) {
+        currentChatMessage = msg;
+    };
 
 
     return {
         getIdCurrentEvent: getIdCurrentEvent,
         setIdCurrentEvent: setIdCurrentEvent,
         getEvents: getEvents,
+        sendMessage: sendMessage,
+        setCurrentChatMessage: setCurrentChatMessage,
         loadDashboardContent: loadDashboardContent
 
     };
@@ -228,7 +236,17 @@ function showEventInformation(event) {
 
         }
     }
-    document.getElementById("confirmedAssistants").innerHTML = "<i></i>"+numberOfAssistants;
+    document.getElementById("confirmedAssistants").innerHTML = "<i></i>" + numberOfAssistants;
+    showChatHistory(event.chat.record)
+}
+function showChatHistory(history){
+    for(var i=0;i<history.length;i++){
+        if(history[i]["author"]!==localStorage['UserLoggedIn']){
+            showMessage(history[i]["text"],true);
+        }else{
+            showMessage(history[i]["text"],false);
+        }
+    }
 }
 function showChangeAssistenceOfEvent(user,status){
     console.log(user,status);
@@ -242,24 +260,50 @@ function showChangeAssistenceOfEvent(user,status){
     }
 }
 
+function showMessage(msg,recived) {
+    var chat = document.getElementById("chat");
+    var message = document.createElement("div");
+    message.setAttribute("class", "chat");
+    if(recived){
+        message.setAttribute("class", "chat-left");
+    }
+    chat.appendChild(message);
+    message.innerHTML =
+        '<div class="chat">'
+        + '<div class="chat-avatar">'
+        + '<a class="avatar" data-toggle="tooltip" href="#"'
+        + 'data-placement="right" title=""'
+        + 'data-original-title="">'
+        + '<img src="../../../app-assets/images/portrait/small/avatar-s-1.png"'
+        + 'alt="avatar" />'
+        + '</a>'
+        + '</div>'
+        + '<div class="chat-body">'
+        + '<div class="chat-content">'
+        + '<p>'+msg+'</p>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+}
+
 var theWall = (function () {
-    
+
     var stompClient = null;
-    
+
     var loadInfo = function () {
-        
+
     };
     var saveInfo = function () {
 
-        axios.put("http://localhost:8080/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}}) 
+        axios.put("http://localhost:8080/unite/event/" + localStorage.getItem("id") + "/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}})
             .then(function (response) {
-                stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
+                stompClient.send("/topic/theWallAt" + controller.getIdCurrentEvent(), {'Authorization': localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
             })
             .catch(function (error) {
             });
-       
+
     };
-    
+
     var connectAndSubscribe = function (){
         console.info('Connecting to WS...');
         var socket = new SockJS('/stompendpoint');
@@ -274,8 +318,8 @@ var theWall = (function () {
             },{'Authorization':localStorage['AUTH_TOKEN']});
         });
     };
-    
-    
+
+
     return {
         loadInfo: loadInfo,
         saveInfo: saveInfo,
