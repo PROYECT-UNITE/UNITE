@@ -55,6 +55,12 @@ var controller = (function () {
 
             },{'Authorization':localStorage['AUTH_TOKEN']});
 
+            // subscribe to /topic/theWallAt.{eventId} when connections succeed
+            stompClient.subscribe('/topic/theWallAt'+"."+controller.getIdCurrentEvent() , function (eventbody) {
+                var text = JSON.parse(eventbody.body);
+                document.getElementById("theWallTextArea").value = text;
+            },{'Authorization':localStorage['AUTH_TOKEN']});
+
             // subscribe to /topic/newmessage.{eventId} when connections succeed for chat messages
             stompClient.subscribe(TOPIC_MESSAGES + '.' +getIdCurrentEvent() , function (eventbody) {
                 var body=JSON.parse(eventbody.body)
@@ -250,13 +256,8 @@ var theWall = (function () {
 
     };
     var saveInfo = function () {
-
-        axios.put("/unite/event/" + localStorage.getItem("id") +"/updateWall", document.getElementById("theWallTextArea").value, {headers: {"Content-Type": "text/plain"}})
-            .then(function (response) {
-                stompClient.send("/topic/theWallAt"+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(document.getElementById("theWallTextArea").value));
-            })
-            .catch(function (error) {
-            });
+        var wall = document.getElementById("theWallTextArea").value;
+        stompClient.send("/app/theWallAt"+"."+controller.getIdCurrentEvent(), {'Authorization':localStorage['AUTH_TOKEN']}, JSON.stringify(wall));
 
     };
 
@@ -267,11 +268,7 @@ var theWall = (function () {
 
         stompClient.connect({'Authorization':localStorage['AUTH_TOKEN']}, function (frame) {
             console.log('Connected: ' + frame);
-            // subscribe to /topic/assistance.{eventId} when connections succeed
-            stompClient.subscribe('/topic/theWallAt'+controller.getIdCurrentEvent() , function (eventbody) {
-                var text = JSON.parse(eventbody.body);
-                document.getElementById("theWallTextArea").value = text;
-            },{'Authorization':localStorage['AUTH_TOKEN']});
+
         });
     };
 

@@ -380,11 +380,12 @@ public class APIController {
         msgt.convertAndSend("/topic/takechargeitemchecklist." + eventId, item);
         service.takeChargeItemChecklist(eventId, item);
     }
-    
-    @PutMapping("/event/{id}/updateWall")
-    public void putUpdateWall(@PathVariable("id") int id, @RequestBody String wall ) {
+
+    @MessageMapping("theWallAt.{eventId}")
+    public void putUpdateWall(String wall ,@DestinationVariable("eventId") int eventId) {
         try {
-            service.updateWall(id,wall);
+            service.updateWall(eventId,wall);
+            msgt.convertAndSend("/topic/theWallAt." + eventId, wall);
         } catch (UniteException ex) {
             Logger.getLogger(UniteException.class.getName()).log(Level.SEVERE, null, ex);
         }
